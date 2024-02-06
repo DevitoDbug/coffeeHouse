@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
     paddingTop: 13,
     paddingBottom: 12,
     fontSize: 10,
+    fontFamily: "Poppins-semiBold",
     backgroundColor: colors.primary_bg_dark_pale,
     gap: 19,
   },

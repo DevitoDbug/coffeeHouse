@@ -7,6 +7,7 @@ export enum colors {
   light_faded = "rgba(255, 255, 255, 0.18)",
   dark_blue = "#21262E",
   grey_pale = "#52555A",
+  orange = "#D17842",
 }
 
 export const fonts = {
