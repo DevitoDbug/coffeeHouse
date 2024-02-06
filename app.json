@@ -4,15 +4,12 @@
     "slug": "coffeeHouse",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#0C0F14",
-      "statusBar": {
-        "style": "light"
-      }
+      "backgroundColor": "#0C0F14"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -20,12 +17,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#0C0F14"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.ico"
+      "favicon": "./assets/images/favicon.ico"
     }
   }
 }

@@ -5,7 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import * as ExpoSplashScreen from "expo-splash-screen";
 import { Navigation } from "./navigation/Navigation";
-import { container } from "./assets/constants";
+import { container } from "./assets/images/constants";
 
 ExpoSplashScreen.preventAutoHideAsync();
 
@@ -28,7 +28,6 @@ export default function App() {
   const onLayoutRootView = useCallback(async () => {
     if (appIsReady) {
       await ExpoSplashScreen.hideAsync();
-      //make the color of the text in the status bar white
     }
   }, [appIsReady]);
 
