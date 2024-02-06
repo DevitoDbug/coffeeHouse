@@ -6,11 +6,17 @@ import { StatusBar } from "expo-status-bar";
 import * as ExpoSplashScreen from "expo-splash-screen";
 import { Navigation } from "./navigation/Navigation";
 import { container } from "./assets/images/constants";
+import { useFonts } from "expo-font";
 
 ExpoSplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
+
+  const [fontsLoaded] = useFonts({
+    "poppins-semiBold": require("./assets/fonts/Poppins-SemiBold.ttf"),
+    "poppins-medium": require("./assets/fonts/Poppins-Medium.ttf"),
+  });
 
   useEffect(() => {
     async function prepare() {
@@ -26,13 +32,13 @@ export default function App() {
   }, []);
 
   const onLayoutRootView = useCallback(async () => {
-    if (appIsReady) {
+    if (fontsLoaded) {
       await ExpoSplashScreen.hideAsync();
     }
-  }, [appIsReady]);
+  }, [fontsLoaded]);
 
-  if (!appIsReady) {
-    return null;
+  if (!fontsLoaded) {
+    return <></>;
   }
 
   return (
