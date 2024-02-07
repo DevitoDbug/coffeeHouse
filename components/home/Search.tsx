@@ -1,6 +1,6 @@
 import { StyleSheet, TextInput, View } from "react-native";
 import React from "react";
-import { SCREENWIDTH, colors } from "../../assets/images/constants";
+import { SCREENWIDTH, colors, fonts } from "../../assets/images/constants";
 import { SearchIcon } from "../../assets/icons/svgIcons";
 
 export const Search = (): JSX.Element => {
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     paddingTop: 13,
     paddingBottom: 12,
     fontSize: 10,
-    fontFamily: "Poppins-semiBold",
+    fontFamily: fonts.poppins_semiBold,
     backgroundColor: colors.primary_bg_dark_pale,
     gap: 19,
   },

@@ -14,7 +14,7 @@ export const AppIconWithGradient = ({
     <LinearGradient
       colors={["rgba(255, 255, 255, 0.18)", "#0C0F14"]}
       start={{ x: 0, y: 0 }}
-      end={{ x: 0.4, y: 0.8 }}
+      end={{ x: 1, y: 1 }}
       style={styles.appIcon}
     >
       {children}

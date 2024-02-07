@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
-import { colors } from "../../assets/images/constants";
+import { colors, fonts } from "../../assets/images/constants";
 
 export interface NavOption {
   title: string;
@@ -101,7 +101,10 @@ export const Navbar = (): JSX.Element => {
         keyExtractor={(_item, index) => index.toString()}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.contentContainerStyle}
+        contentContainerStyle={[
+          styles.contentContainerStyle,
+          { paddingRight: renderItem.length * 330 },
+        ]}
       />
     </View>
   );
@@ -109,6 +112,7 @@ export const Navbar = (): JSX.Element => {
 
 const styles = StyleSheet.create({
   navContainer: {
+    height: 44,
     display: "flex",
     flexDirection: "row",
     gap: 20,
@@ -123,7 +127,7 @@ const styles = StyleSheet.create({
   optionText: {
     color: colors.text_white,
     fontSize: 14,
-    fontFamily: "Poppins-semiBold",
+    fontFamily: fonts.poppins_semiBold,
   },
   optionTextSelected: {
     color: colors.orange,
@@ -137,7 +141,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 20,
-    paddingRight: 200,
   },
   roundSelector: {
     width: 8,
