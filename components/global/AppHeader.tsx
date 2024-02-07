@@ -1,7 +1,6 @@
 import React from "react";
 import { StyleSheet, Image, View, TouchableOpacity } from "react-native";
 import { AppIconWithGradient } from "./AppIconGradient";
-import { AppIcon } from "../../assets/icons/svgIcons";
 import { colors } from "../../assets/images/constants";
 
 const profilePic = require("../../assets/dummyImages/Intersect.png");
@@ -10,15 +9,7 @@ export default function AppHeader() {
   return (
     <View style={styles.container}>
       <TouchableOpacity>
-        <View style={styles.appIcon}>
-          <AppIconWithGradient>
-            <AppIcon
-              iconHeight={14}
-              iconWidth={14}
-              color={colors.light_faded}
-            />
-          </AppIconWithGradient>
-        </View>
+        <AppIconWithGradient />
       </TouchableOpacity>
       <TouchableOpacity>
         <Image
@@ -38,15 +29,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-  },
-  appIcon: {
-    width: 30,
-    height: 30,
-    alignItems: "center",
-    justifyContent: "center",
-    borderColor: colors.dark_blue,
-    borderWidth: 1,
-    borderRadius: 10,
   },
   profilePic: {
     width: 30,

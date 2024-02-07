@@ -20,14 +20,6 @@ export const boldTitles = {
   color: colors.text_white,
 };
 
-export const container = {
-  flex: 1,
-  paddingTop: 19.9,
-  paddingBottom: 9,
-  paddingHorizontal: 30,
-  backgroundColor: colors.primary_bg_dark,
-};
-
 // we need screen width and height to make the app responsive
 export const { width: SCREENWIDTH, height: SCREENHEIGHT } =
   Dimensions.get("window");
@@ -163,4 +155,12 @@ export const BORDERRADIUS: BorderRadius = {
   radius_15: 15,
   radius_20: 20,
   radius_25: 25,
+};
+
+export const container = {
+  flex: 1,
+  paddingTop: 19.9,
+  paddingBottom: 9,
+  paddingHorizontal: 30,
+  backgroundColor: COLORS.primaryBlackHex,
 };

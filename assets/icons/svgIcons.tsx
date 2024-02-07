@@ -10,7 +10,7 @@ export const AppIcon = ({ color, iconWidth, iconHeight }: IconProps) => {
   return (
     <Svg
       width={iconWidth ?? 12}
-      height={iconWidth ?? 12}
+      height={iconHeight ?? 12}
       viewBox="0 0 12 12"
       fill="none"
     >

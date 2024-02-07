@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, StyleSheet, View, Image } from "react-native";
+import { Text, StyleSheet, View, Image, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { boldTitles, colors, container } from "../assets/images/constants";
 import AppHeader from "../components/global/AppHeader";
@@ -56,19 +56,24 @@ export const HomeScreen = (): JSX.Element => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.topSection}>
-        <AppHeader />
-      </View>
-      <View style={styles.middleSection}>
-        <Text style={styles.boldTitle}>Find the best coffee for you</Text>
-        <Search />
-      </View>
-      <View style={styles.bottomSection}>
-        <Navbar />
-        <View style={styles.topFlatlist}>
-          <CoffeeTypesFlatList coffeeData={coffeeData} />
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        style={styles.scrollView}
+      >
+        <View style={styles.topSection}>
+          <AppHeader />
         </View>
-      </View>
+        <View style={styles.middleSection}>
+          <Text style={styles.boldTitle}>Find the best coffee for you</Text>
+          <Search />
+        </View>
+        <View style={styles.bottomSection}>
+          <Navbar />
+          <View style={styles.topFlatlist}>
+            <CoffeeTypesFlatList coffeeData={coffeeData} />
+          </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -79,6 +84,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     paddingHorizontal: 0,
+  },
+  scrollView: {
+    flexGrow: 1,
   },
   topSection: { paddingHorizontal: 30 },
   middleSection: {
