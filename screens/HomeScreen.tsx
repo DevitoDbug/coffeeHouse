@@ -13,6 +13,10 @@ import {
   CoffeeType,
   CoffeeTypesFlatList,
 } from "../components/home/CoffeeTypesFlatList";
+import {
+  CoffeeBeanType,
+  CoffeeBeansFlatList,
+} from "../components/home/CoffeeBeansFlatList";
 
 export const HomeScreen = (): JSX.Element => {
   const coffeeData: CoffeeType[] = [
@@ -63,26 +67,81 @@ export const HomeScreen = (): JSX.Element => {
     },
   ];
 
+  const coffeeBean: CoffeeBeanType[] = [
+    {
+      id: 1,
+      name: "Robusta Beans",
+      description: "Medium Roasted",
+      cost: 3.5,
+      image:
+        "https://www.foodrepublic.com/img/gallery/12-rare-types-of-coffee-you-have-to-try-at-least-once/intro-1687812481.jpg",
+
+      ratting: "4.5",
+    },
+    {
+      id: 2,
+      name: "Arabica Beans",
+      description: "Light Roasted",
+      cost: 3.5,
+      image:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Roasted_coffee_beans.jpg/1200px-Roasted_coffee_beans.jpg",
+      ratting: "4.5",
+    },
+    {
+      id: 3,
+      name: "Liberica Beans",
+      description: "Dark Roasted",
+      cost: 3.5,
+      image:
+        "https://espressocoffeeguide.com/wp-content/uploads/2010/05/kenyaaa-coffee-beans.jpg",
+      ratting: "4.5",
+    },
+    {
+      id: 4,
+      name: "Excelsa Beans",
+      description: "Medium Roasted",
+      cost: 3.5,
+      image:
+        "https://majestycoffee.com/cdn/shop/articles/coffee_beans_4.jpg?v=1683532226",
+      ratting: "4.5",
+    },
+    {
+      id: 5,
+      name: "Catimor Beans",
+      description: "Light Roasted",
+      cost: 3.5,
+      image:
+        "https://marias.com.au/cdn/shop/products/coffee_2_grande.jpg?v=1687852833",
+      ratting: "4.5",
+    },
+  ];
+
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.topSection}>
+        <AppHeader />
+      </View>
+      <View style={styles.middleSection}>
+        <Text style={styles.boldTitle}>Find the best coffee for you</Text>
+        <Search />
+        <Navbar />
+      </View>
+      <View></View>
       <ScrollView
         showsHorizontalScrollIndicator={false}
         style={styles.scrollView}
       >
-        <View style={styles.topSection}>
-          <AppHeader />
-        </View>
-        <View style={styles.middleSection}>
-          <Text style={styles.boldTitle}>Find the best coffee for you</Text>
-          <Search />
-        </View>
         <View style={styles.bottomSection}>
-          <Navbar />
           <View style={styles.topFlatlist}>
             <CoffeeTypesFlatList coffeeData={coffeeData} />
           </View>
           <View style={styles.coffeeBeanFlatlist}>
-            <Text style={textlight_medium}>Popular</Text>
+            <Text
+              style={{ ...textlight_medium, fontSize: 16, marginBottom: 19 }}
+            >
+              Coffee beans
+            </Text>
+            <CoffeeBeansFlatList coffeeBean={coffeeBean} />
           </View>
         </View>
       </ScrollView>
@@ -99,8 +158,12 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flexGrow: 1,
+    marginBottom: 47,
+    paddingBottom: 8,
   },
-  topSection: { paddingHorizontal: 30 },
+  topSection: {
+    paddingHorizontal: 30,
+  },
   middleSection: {
     display: "flex",
     paddingHorizontal: 30,
@@ -117,14 +180,14 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: 20,
     paddingLeft: 30,
-    marginTop: 30,
     gap: 22,
-    backgroundColor: "red",
   },
-  topFlatlist: {},
+  topFlatlist: {
+    height: 245,
+  },
   coffeeBeanFlatlist: {
-    backgroundColor: "red",
+    height: 300,
+    marginBottom: 8,
   },
 });
