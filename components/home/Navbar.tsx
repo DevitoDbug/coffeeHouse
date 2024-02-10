@@ -6,7 +6,11 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
-import { colors } from "../../assets/images/constants";
+import {
+  colors,
+  textLight,
+  textLightfaint,
+} from "../../assets/images/constants";
 
 export interface NavOption {
   title: string;
@@ -125,16 +129,15 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   optionText: {
-    color: colors.text_white,
     fontSize: 14,
   },
   optionTextSelected: {
     color: colors.orange,
   },
   optionTextNotSelected: {
-    color: colors.text_white,
+    ...textLightfaint,
+    fontSize: 14,
   },
-
   contentContainerStyle: {
     display: "flex",
     alignItems: "center",

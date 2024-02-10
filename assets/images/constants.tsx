@@ -96,6 +96,7 @@ export const COLORS: Color = {
   primaryLightGreyHex: "#52555A",
   secondaryLightGreyHex: "#AEAEAE",
   primaryWhiteHex: "#FFFFFF",
+
   primaryBlackRGBA: "rgba(12,15,20,0.5)",
   secondaryBlackRGBA: "rgba(0,0,0,0.7)",
 };
@@ -128,4 +129,15 @@ export const screenContainer = {
   paddingBottom: 9,
   paddingHorizontal: 30,
   backgroundColor: COLORS.primaryBlackHex,
+};
+
+export const textLight = {
+  fontSize: FONTSIZE.size_10,
+  fontFamily: "poppins-semibold",
+  color: COLORS.primaryWhiteHex,
+};
+
+export const textLightfaint = {
+  ...textLight,
+  color: COLORS.primaryLightGreyHex,
 };
