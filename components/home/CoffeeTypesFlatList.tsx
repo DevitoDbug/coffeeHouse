@@ -1,13 +1,14 @@
 import React from "react";
-import { FlatList, StyleSheet, Text, View, Image } from "react-native";
-import { FlatlistItemGradient } from "../global/FlatListItemGradient";
+import { FlatList, StyleSheet } from "react-native";
+import { CoffeeCard } from "./CoffeeCard";
 
 export interface CoffeeType {
   id: number;
   name: string;
   description: string;
   cost: number;
-  image?: string;
+  image: string;
+  ratting: string;
 }
 
 export interface CoffeeTypesFlatListProps {
@@ -19,19 +20,14 @@ export const CoffeeTypesFlatList = ({
 }: CoffeeTypesFlatListProps): JSX.Element => {
   const renderItem = ({ item }: { item: CoffeeType }) => {
     return (
-      <View style={styles.coffeeContainer}>
-        <FlatlistItemGradient>
-          <Image
-            source={{
-              uri: item.image,
-            }}
-            style={styles.itemImage}
-          />
-          <Text>{item.name}</Text>
-          <Text>{item.description}</Text>
-          <Text>{item.cost}</Text>
-        </FlatlistItemGradient>
-      </View>
+      <CoffeeCard
+        id={item.id}
+        cost={item.cost}
+        description={item.description}
+        name={item.name}
+        image={item.image}
+        ratting={item.ratting}
+      />
     );
   };
 
@@ -53,16 +49,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     justifyContent: "space-between",
     gap: 22,
-  },
-  coffeeContainer: {
-    height: 246,
-    width: 149,
-    borderRadius: 23,
-    display: "flex",
-  },
-  itemImage: {
-    width: 126,
-    height: 126,
-    borderRadius: 11,
+    backgroundColor: "green",
   },
 });

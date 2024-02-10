@@ -131,19 +131,29 @@ export const screenContainer = {
   backgroundColor: COLORS.primaryBlackHex,
 };
 
-export const textLight = {
+export const textlight_medium = {
   fontSize: FONTSIZE.size_10,
-  fontFamily: "poppins-semibold",
+  fontFamily: "poppins-medium",
   color: COLORS.primaryWhiteHex,
 };
 
+export const textlight_regular = {
+  ...textlight_medium,
+  fontFamily: "poppins-regular",
+};
+
+export const textlight_semibold = {
+  ...textlight_medium,
+  fontFamily: "poppins-semibold",
+};
+
 export const textLightfaint = {
-  ...textLight,
+  ...textlight_semibold,
   color: COLORS.primaryLightGreyHex,
 };
 
 export const textbold = {
-  ...textLight,
+  ...textlight_semibold,
   fontFamily: "poppins-bold",
   fontSize: FONTSIZE.size_20,
 };

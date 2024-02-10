@@ -5,7 +5,8 @@ import {
   COLORS,
   SCREENWIDTH,
   colors,
-  textLight,
+  textlight_semibold,
+  textlight_medium,
 } from "../../assets/images/constants";
 import { SearchIcon } from "../../assets/icons/svgIcons";
 
@@ -28,7 +29,7 @@ export const Search = (): JSX.Element => {
         style={styles.searchInput}
         onFocus={() => toggleSearch(true)}
         onBlur={() => toggleSearch(false)}
-      />
+      ></TextInput>
     </View>
   );
 };
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
     gap: 19,
   },
   searchInput: {
-    ...textLight,
+    ...textlight_medium,
     flex: 1,
   },
 });

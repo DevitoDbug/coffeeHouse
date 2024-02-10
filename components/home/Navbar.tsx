@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import {
   colors,
-  textLight,
+  textlight_semibold,
   textLightfaint,
 } from "../../assets/images/constants";
 
