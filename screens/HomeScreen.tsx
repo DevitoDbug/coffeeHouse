@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, StyleSheet, View, Image, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { screenContainer } from "../assets/images/constants";
+import { screenContainer, textbold } from "../assets/images/constants";
 import AppHeader from "../components/global/AppHeader";
 import { Search } from "../components/home/Search";
 import { Navbar } from "../components/home/Navbar";
@@ -96,6 +96,8 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
   },
   boldTitle: {
+    ...textbold,
+    fontSize: 28,
     width: 195,
     marginTop: 31,
   },

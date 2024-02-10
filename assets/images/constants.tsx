@@ -141,3 +141,9 @@ export const textLightfaint = {
   ...textLight,
   color: COLORS.primaryLightGreyHex,
 };
+
+export const textbold = {
+  ...textLight,
+  fontFamily: "poppins-bold",
+  fontSize: FONTSIZE.size_20,
+};
