@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, StyleSheet, View, Image, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { boldTitles, colors, container } from "../assets/images/constants";
+import { screenContainer } from "../assets/images/constants";
 import AppHeader from "../components/global/AppHeader";
 import { Search } from "../components/home/Search";
 import { Navbar } from "../components/home/Navbar";
@@ -80,7 +80,7 @@ export const HomeScreen = (): JSX.Element => {
 
 const styles = StyleSheet.create({
   container: {
-    ...container,
+    ...screenContainer,
     flex: 1,
     alignItems: "center",
     paddingHorizontal: 0,
@@ -96,7 +96,6 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
   },
   boldTitle: {
-    ...boldTitles,
     width: 195,
     marginTop: 31,
   },

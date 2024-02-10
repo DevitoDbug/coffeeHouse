@@ -1,30 +1,18 @@
 import { Dimensions } from "react-native";
 
-export enum colors {
-  text_white = "#FFFFFF",
-  primary_bg_dark = "#0C0F14",
-  primary_bg_dark_pale = "#141921",
-  light_faded = "rgba(255, 255, 255, 0.18)",
-  dark_blue = "#21262E",
-  grey_pale = "#52555A",
-  orange = "#D17842",
+interface FontSize {
+  size_8: number;
+  size_10: number;
+  size_12: number;
+  size_14: number;
+  size_16: number;
+  size_18: number;
+  size_20: number;
+  size_24: number;
+  size_28: number;
+  size_30: number;
 }
 
-export const fonts = {
-  poppins_semiBold: "poppins-semiBold",
-};
-
-export const boldTitles = {
-  fontSize: 24,
-  fontFamily: fonts.poppins_semiBold,
-  color: colors.text_white,
-};
-
-// we need screen width and height to make the app responsive
-export const { width: SCREENWIDTH, height: SCREENHEIGHT } =
-  Dimensions.get("window");
-
-////////////////////////////////////////////////////////
 interface Spacing {
   space_2: number;
   space_4: number;
@@ -42,6 +30,44 @@ interface Spacing {
   space_36: number;
 }
 
+interface Color {
+  primaryRedHex: string;
+  primaryOrangeHex: string;
+  primaryBlackHex: string;
+  primaryDarkGreyHex: string;
+  secondaryDarkGreyHex: string;
+  primaryGreyHex: string;
+  secondaryGreyHex: string;
+  primaryLightGreyHex: string;
+  secondaryLightGreyHex: string;
+  primaryWhiteHex: string;
+  primaryBlackRGBA: string;
+  secondaryBlackRGBA: string;
+}
+
+interface BorderRadius {
+  radius_4: number;
+  radius_8: number;
+  radius_10: number;
+  radius_15: number;
+  radius_20: number;
+  radius_25: number;
+}
+
+export enum colors {
+  text_white = "#FFFFFF",
+  primary_bg_dark = "#0C0F14",
+  primary_bg_dark_pale = "#141921",
+  light_faded = "rgba(255, 255, 255, 0.18)",
+  dark_blue = "#21262E",
+  grey_pale = "#52555A",
+  orange = "#D17842",
+}
+
+export const { width: SCREENWIDTH, height: SCREENHEIGHT } =
+  Dimensions.get("window");
+
+////////////////////////////////////////////////////////
 export const SPACING: Spacing = {
   space_2: 2,
   space_4: 4,
@@ -59,21 +85,6 @@ export const SPACING: Spacing = {
   space_36: 36,
 };
 
-interface Color {
-  primaryRedHex: string;
-  primaryOrangeHex: string;
-  primaryBlackHex: string;
-  primaryDarkGreyHex: string;
-  secondaryDarkGreyHex: string;
-  primaryGreyHex: string;
-  secondaryGreyHex: string;
-  primaryLightGreyHex: string;
-  secondaryLightGreyHex: string;
-  primaryWhiteHex: string;
-  primaryBlackRGBA: string;
-  secondaryBlackRGBA: string;
-}
-
 export const COLORS: Color = {
   primaryRedHex: "#DC3535",
   primaryOrangeHex: "#D17842",
@@ -89,43 +100,6 @@ export const COLORS: Color = {
   secondaryBlackRGBA: "rgba(0,0,0,0.7)",
 };
 
-interface FontFamily {
-  poppins_black: string;
-  poppins_bold: string;
-  poppins_extrabold: string;
-  poppins_extralight: string;
-  poppins_light: string;
-  poppins_medium: string;
-  poppins_regular: string;
-  poppins_semibold: string;
-  poppins_thin: string;
-}
-
-export const FONTFAMILY: FontFamily = {
-  poppins_black: "Poppins-Black",
-  poppins_bold: "Poppins-Bold",
-  poppins_extrabold: "Poppins-ExtraBold",
-  poppins_extralight: "Poppins-ExtraLight",
-  poppins_light: "Poppins-Light",
-  poppins_medium: "Poppins-Medium",
-  poppins_regular: "Poppins-Regular",
-  poppins_semibold: "Poppins-SemiBold",
-  poppins_thin: "Poppins-Thin",
-};
-
-interface FontSize {
-  size_8: number;
-  size_10: number;
-  size_12: number;
-  size_14: number;
-  size_16: number;
-  size_18: number;
-  size_20: number;
-  size_24: number;
-  size_28: number;
-  size_30: number;
-}
-
 export const FONTSIZE: FontSize = {
   size_8: 8,
   size_10: 10,
@@ -139,15 +113,6 @@ export const FONTSIZE: FontSize = {
   size_30: 30,
 };
 
-interface BorderRadius {
-  radius_4: number;
-  radius_8: number;
-  radius_10: number;
-  radius_15: number;
-  radius_20: number;
-  radius_25: number;
-}
-
 export const BORDERRADIUS: BorderRadius = {
   radius_4: 4,
   radius_8: 8,
@@ -157,7 +122,7 @@ export const BORDERRADIUS: BorderRadius = {
   radius_25: 25,
 };
 
-export const container = {
+export const screenContainer = {
   flex: 1,
   paddingTop: 19.9,
   paddingBottom: 9,

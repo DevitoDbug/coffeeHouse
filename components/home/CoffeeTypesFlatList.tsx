@@ -49,20 +49,20 @@ export const CoffeeTypesFlatList = ({
 const styles = StyleSheet.create({
   flatListContainer: {
     display: "flex",
-    height: 200,
+    height: 246,
     paddingHorizontal: 10,
     justifyContent: "space-between",
     gap: 22,
   },
   coffeeContainer: {
-    height: 200,
+    height: 246,
     width: 149,
     borderRadius: 23,
     display: "flex",
   },
   itemImage: {
     width: 126,
-    height: 102,
+    height: 126,
     borderRadius: 11,
   },
 });

@@ -5,7 +5,7 @@ import {
   BORDERRADIUS,
   COLORS,
   FONTSIZE,
-  container,
+  screenContainer,
 } from "../../assets/images/constants";
 import { AppIcon } from "../../assets/icons/svgIcons";
 

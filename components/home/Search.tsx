@@ -5,7 +5,6 @@ import {
   COLORS,
   SCREENWIDTH,
   colors,
-  fonts,
 } from "../../assets/images/constants";
 import { SearchIcon } from "../../assets/icons/svgIcons";
 
@@ -34,7 +33,6 @@ const styles = StyleSheet.create({
     paddingTop: 13,
     paddingBottom: 12,
     fontSize: 10,
-    fontFamily: fonts.poppins_semiBold,
     backgroundColor: COLORS.primaryDarkGreyHex,
     gap: 19,
   },
