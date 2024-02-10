@@ -1,6 +1,6 @@
 import React from "react";
 import { FlatList, StyleSheet } from "react-native";
-import { CoffeeCard } from "./CoffeeCard";
+import { ItemCard } from "./ItemCard";
 
 export interface CoffeeType {
   id: number;
@@ -20,7 +20,7 @@ export const CoffeeTypesFlatList = ({
 }: CoffeeTypesFlatListProps): JSX.Element => {
   const renderItem = ({ item }: { item: CoffeeType }) => {
     return (
-      <CoffeeCard
+      <ItemCard
         id={item.id}
         cost={item.cost}
         description={item.description}

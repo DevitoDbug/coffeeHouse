@@ -1,25 +1,35 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { FlatlistItemGradient } from "../global/FlatListItemGradient";
 import { CoffeeType } from "./CoffeeTypesFlatList";
+import { RootStackParamList } from "../../navigation/Navigation";
 import {
   COLORS,
   textlight_semibold,
   textlight_regular,
 } from "../../assets/images/constants";
 import { PlusIcon, StarIcon } from "../../assets/icons/svgIcons";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-export interface CoffeeCardProps {
+export interface ItemCardProps {
   coffee: CoffeeType;
 }
 
-export const CoffeeCard = ({
+export const ItemCard = ({
   image,
   name,
   description,
   cost,
   ratting,
 }: CoffeeType) => {
+  const navigation: NativeStackNavigationProp<RootStackParamList> =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  const handleNavigateToDetails = () => {
+    navigation.navigate("ProductDetailsScreen");
+  };
+
   return (
     <View style={styles.coffeeContainer}>
       <FlatlistItemGradient>
@@ -57,7 +67,10 @@ export const CoffeeCard = ({
               <Text style={{ color: COLORS.primaryOrangeHex }}>$ </Text>
               {cost}
             </Text>
-            <TouchableOpacity style={styles.plusButton}>
+            <TouchableOpacity
+              onPress={handleNavigateToDetails}
+              style={styles.plusButton}
+            >
               <PlusIcon iconWidth={8} iconHeight={8} />
             </TouchableOpacity>
           </View>

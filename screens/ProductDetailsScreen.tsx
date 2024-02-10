@@ -1,14 +1,12 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-const CoffeeDetailScreen = () => {
+export const ProductDetailsScreen = (): JSX.Element => {
   return (
     <View>
-      <Text>CoffeeDetailScreen</Text>
+      <Text>ProductDetailsScreen</Text>
     </View>
   );
 };
-
-export default CoffeeDetailScreen;
 
 const styles = StyleSheet.create({});
