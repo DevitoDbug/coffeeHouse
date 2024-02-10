@@ -2,6 +2,7 @@ import React from "react";
 import { Text, StyleSheet, View, Image, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
+  SCREENWIDTH,
   screenContainer,
   textbold,
   textlight_medium,
@@ -17,6 +18,7 @@ import {
   CoffeeBeanType,
   CoffeeBeansFlatList,
 } from "../components/home/CoffeeBeansFlatList";
+import { ScreensNavBar } from "../components/global/ScreensNavBar";
 
 export const HomeScreen = (): JSX.Element => {
   const coffeeData: CoffeeType[] = [
@@ -124,7 +126,9 @@ export const HomeScreen = (): JSX.Element => {
       <View style={styles.middleSection}>
         <Text style={styles.boldTitle}>Find the best coffee for you</Text>
         <Search />
-        <Navbar />
+        <View style={{ width: SCREENWIDTH - 30 }}>
+          <Navbar />
+        </View>
       </View>
       <View></View>
       <ScrollView
@@ -145,6 +149,7 @@ export const HomeScreen = (): JSX.Element => {
           </View>
         </View>
       </ScrollView>
+      <ScreensNavBar pageName="Home" />
     </SafeAreaView>
   );
 };
@@ -158,7 +163,6 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flexGrow: 1,
-    marginBottom: 47,
     paddingBottom: 8,
   },
   topSection: {
