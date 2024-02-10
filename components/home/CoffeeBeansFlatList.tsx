@@ -1,7 +1,6 @@
 import React from "react";
 import { FlatList, StyleSheet } from "react-native";
 import { ItemCard } from "./ItemCard";
-import { useNavigation } from "@react-navigation/native";
 
 export interface CoffeeBeanType {
   id: number;
@@ -20,11 +19,6 @@ export const CoffeeBeansFlatList = ({
   coffeeBean,
 }: CoffeeTypesFlatListProps): JSX.Element => {
   const renderItem = ({ item }: { item: CoffeeBeanType }) => {
-    const navigator = useNavigation();
-
-    const handleNavigateToDetails = () => {
-      console.log("Navigate to details");
-    };
     return (
       <ItemCard
         id={item.id}
@@ -44,6 +38,7 @@ export const CoffeeBeansFlatList = ({
       keyExtractor={(item) => item.id.toString()}
       horizontal={true}
       contentContainerStyle={styles.flatListContainer}
+      showsHorizontalScrollIndicator={false}
     />
   );
 };

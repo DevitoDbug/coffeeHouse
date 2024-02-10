@@ -139,9 +139,18 @@ export const textlight_medium = {
   color: COLORS.primaryWhiteHex,
 };
 
+export const textlightfaint_medium = {
+  ...textlight_medium,
+  color: COLORS.primaryLightGreyHex,
+};
+
 export const textlight_regular = {
   ...textlight_medium,
   fontFamily: "poppins-regular",
+};
+export const textlightfaint_regular = {
+  ...textlight_regular,
+  color: COLORS.primaryLightGreyHex,
 };
 
 export const textlight_semibold = {
