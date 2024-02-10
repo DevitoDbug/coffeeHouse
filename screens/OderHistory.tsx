@@ -1,11 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { ScreensNavBar } from "../components/global/ScreensNavBar";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const OderHistory = () => {
   return (
-    <View>
+    <SafeAreaView>
       <Text>OderHistory</Text>
-    </View>
+      <ScreensNavBar pageName={"NotificationsScreen"} />
+    </SafeAreaView>
   );
 };
 

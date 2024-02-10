@@ -7,8 +7,15 @@ import {
   HeartIcon,
   HomeIcon,
 } from "../../assets/icons/svgIcons";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../navigation/Navigation";
+import { useNavigation } from "@react-navigation/native";
 
-export type PageNames = "Home" | "Cart" | "Liked" | "Notifications";
+export type PageNames =
+  | "HomeScreen"
+  | "CartScreen"
+  | "FavouritesScreen"
+  | "NotificationsScreen";
 
 export interface ScreensNavBarProps {
   pageName: PageNames;
@@ -17,52 +24,102 @@ export interface ScreensNavBarProps {
 export const ScreensNavBar = ({
   pageName,
 }: ScreensNavBarProps): JSX.Element => {
+  const navigation: NativeStackNavigationProp<RootStackParamList> =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  const handleNavigation = (pageName: PageNames) => {
+    switch (pageName) {
+      case "HomeScreen":
+        navigation.navigate("HomeScreen");
+        break;
+      case "CartScreen":
+        navigation.navigate("CartScreen");
+        break;
+      case "FavouritesScreen":
+        navigation.navigate("FavouritesScreen");
+        break;
+      case "NotificationsScreen":
+        navigation.navigate("OrderHistoryScreen");
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-          style={pageName === "Home" ? styles.glowButton : styles.doNotGlow}
+          onPress={() => {
+            handleNavigation("HomeScreen");
+          }}
+          style={
+            pageName === "HomeScreen" ? styles.glowButton : styles.doNotGlow
+          }
         >
           <HomeIcon
             iconWidth={24}
             iconHeight={24}
             color={
-              pageName === "Home"
-                ? COLORS.primaryOrangeHex
-                : COLORS.primaryWhiteHex
-            }
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={pageName === "Cart" ? styles.glowButton : {}}>
-          <CartIcon
-            iconWidth={24}
-            iconHeight={24}
-            color={
-              pageName === "Cart"
-                ? COLORS.primaryOrangeHex
-                : COLORS.primaryWhiteHex
-            }
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={pageName === "Liked" ? styles.glowButton : {}}>
-          <HeartIcon
-            iconWidth={24}
-            iconHeight={24}
-            color={
-              pageName === "Liked"
+              pageName === "HomeScreen"
                 ? COLORS.primaryOrangeHex
                 : COLORS.primaryWhiteHex
             }
           />
         </TouchableOpacity>
         <TouchableOpacity
-          style={pageName === "Notifications" ? styles.glowButton : {}}
+          onPress={() => {
+            handleNavigation("CartScreen");
+          }}
+          style={
+            pageName === "CartScreen" ? styles.glowButton : styles.doNotGlow
+          }
+        >
+          <CartIcon
+            iconWidth={24}
+            iconHeight={24}
+            color={
+              pageName === "CartScreen"
+                ? COLORS.primaryOrangeHex
+                : COLORS.primaryWhiteHex
+            }
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            handleNavigation("FavouritesScreen");
+          }}
+          style={
+            pageName === "FavouritesScreen"
+              ? styles.glowButton
+              : styles.doNotGlow
+          }
+        >
+          <HeartIcon
+            iconWidth={24}
+            iconHeight={24}
+            color={
+              pageName === "FavouritesScreen"
+                ? COLORS.primaryOrangeHex
+                : COLORS.primaryWhiteHex
+            }
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            handleNavigation("NotificationsScreen");
+          }}
+          style={
+            pageName === "NotificationsScreen"
+              ? styles.glowButton
+              : styles.doNotGlow
+          }
         >
           <BellIcon
             iconWidth={24}
             iconHeight={24}
             color={
-              pageName === "Notifications"
+              pageName === "NotificationsScreen"
                 ? COLORS.primaryOrangeHex
                 : COLORS.primaryWhiteHex
             }
@@ -92,13 +149,13 @@ const styles = StyleSheet.create({
   glowButton: {
     backgroundColor: COLORS.lightOrange,
     borderRadius: 100,
-    width: 15,
-    height: 15,
+    width: 20,
+    height: 20,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     shadowColor: COLORS.primaryBlackRGBA,
-    elevation: 100,
+    elevation: 10,
     ...Platform.select({
       ios: {
         shadowOpacity: 0.8,
