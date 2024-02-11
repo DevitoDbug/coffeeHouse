@@ -1,5 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import {
   BORDERRADIUS,
   COLORS,
@@ -8,8 +10,15 @@ import {
   textlight_semibold,
   textlightfaint_medium,
 } from "../../assets/images/constants";
+import { RootStackParamList } from "../../navigation/Navigation";
 
 export const InformationContainer = (): JSX.Element => {
+  const navigation: NativeStackNavigationProp<RootStackParamList> =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  const handleNavigateToCart = () => {
+    navigation.navigate("CartScreen");
+  };
   return (
     <View style={styles.bottomContainer}>
       <Text
@@ -90,15 +99,8 @@ export const InformationContainer = (): JSX.Element => {
           </View>
         </View>
         <TouchableOpacity
-          style={{
-            backgroundColor: COLORS.primaryOrangeHex,
-            width: 240,
-            height: 60,
-            borderRadius: 20,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
+          style={styles.addToCartButton}
+          onPress={handleNavigateToCart}
         >
           <Text
             style={{
@@ -145,6 +147,15 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
+  },
+  addToCartButton: {
+    backgroundColor: COLORS.primaryOrangeHex,
+    width: 240,
+    height: 60,
+    borderRadius: 20,
+    display: "flex",
+    justifyContent: "center",
     alignItems: "center",
   },
 });
