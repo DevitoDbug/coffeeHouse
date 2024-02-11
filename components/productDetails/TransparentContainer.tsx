@@ -4,8 +4,6 @@ import { BlurView } from "expo-blur";
 import { BeanIcon, LocationIcon, StarIcon } from "../../assets/icons/svgIcons";
 import {
   COLORS,
-  SCREENHEIGHT,
-  SCREENWIDTH,
   textlight_medium,
   textlight_semibold,
   textlightfaint_regular,
@@ -13,7 +11,7 @@ import {
 
 export const TransparentContainer = (): JSX.Element => {
   return (
-    <BlurView intensity={50} tint="dark" style={styles.imageOverViewContainer}>
+    <BlurView intensity={50} tint="dark" style={styles.container}>
       <View style={{ display: "flex", gap: 26 }}>
         <View style={{ display: "flex", gap: 2 }}>
           <Text style={{ ...textlight_semibold, fontSize: 20 }}>
@@ -127,11 +125,8 @@ export const TransparentContainer = (): JSX.Element => {
 };
 
 const styles = StyleSheet.create({
-  imageOverViewContainer: {
-    position: "absolute",
-    top: SCREENHEIGHT * 0.584 - 148,
-    height: 148,
-    width: SCREENWIDTH,
+  container: {
+    flex: 1,
     paddingTop: 31,
     paddingBottom: 16,
     paddingHorizontal: 20,

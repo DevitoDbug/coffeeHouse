@@ -13,8 +13,13 @@ export const ProductDetailsScreen = (): JSX.Element => {
         }}
         style={styles.image}
       />
-      <TransparentContainer />
-      <InformationContainer />
+
+      <View style={styles.imageOverViewContainer}>
+        <TransparentContainer />
+      </View>
+      <View>
+        <InformationContainer />
+      </View>
     </View>
   );
 };
@@ -27,6 +32,12 @@ const styles = StyleSheet.create({
   image: {
     position: "relative",
     height: SCREENHEIGHT * 0.584,
+    width: SCREENWIDTH,
+  },
+  imageOverViewContainer: {
+    position: "absolute",
+    top: SCREENHEIGHT * 0.584 - 148,
+    height: 148,
     width: SCREENWIDTH,
   },
 });
