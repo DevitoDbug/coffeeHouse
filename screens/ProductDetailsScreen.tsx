@@ -3,6 +3,8 @@ import { StyleSheet, View, Image } from "react-native";
 import { COLORS, SCREENHEIGHT, SCREENWIDTH } from "../assets/images/constants";
 import { TransparentContainer } from "../components/productDetails/TransparentContainer";
 import { InformationContainer } from "../components/productDetails/InformationContainer";
+import { NavBar } from "../components/productDetails/NavBar";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export const ProductDetailsScreen = (): JSX.Element => {
   return (
@@ -13,7 +15,9 @@ export const ProductDetailsScreen = (): JSX.Element => {
         }}
         style={styles.image}
       />
-
+      <SafeAreaView style={styles.navBar}>
+        <NavBar />
+      </SafeAreaView>
       <View style={styles.imageOverViewContainer}>
         <TransparentContainer />
       </View>
@@ -32,6 +36,11 @@ const styles = StyleSheet.create({
   image: {
     position: "relative",
     height: SCREENHEIGHT * 0.584,
+    width: SCREENWIDTH,
+  },
+  navBar: {
+    position: "absolute",
+    top: 0,
     width: SCREENWIDTH,
   },
   imageOverViewContainer: {
