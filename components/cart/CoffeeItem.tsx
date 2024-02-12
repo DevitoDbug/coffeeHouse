@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
-import { CoffeeBeanItemType } from "../../screens/CartScreen";
+import { CoffeeBeanItemType, CoffeeItemType } from "../../screens/CartScreen";
 import { BORDERRADIUS, COLORS } from "../../assets/images/constants";
 import {
   textlight_regular,
@@ -9,47 +9,47 @@ import {
 import { GradientBox } from "../global/GradientBox";
 import { QuantityPicker } from "./QuantityPicker";
 
-interface BeanItemProps {
-  beanItem: CoffeeBeanItemType;
+interface CoffeeItemProps {
+  coffeeItem: CoffeeItemType;
 }
 
-export const BeanItem = ({ beanItem }: BeanItemProps): JSX.Element => {
+export const CoffeeItem = ({ coffeeItem }: CoffeeItemProps): JSX.Element => {
   return (
     <GradientBox xStyles={styles.container}>
       <View style={styles.topSection}>
         <Image
-          source={{ uri: beanItem.imageURL }}
+          source={{ uri: coffeeItem.imageURL }}
           style={styles.imageContainer}
         />
         <View style={styles.descriptionArea}>
           <Text
             style={{ ...textlight_regular, fontSize: 16, marginBottom: 10 }}
           >
-            {beanItem.name}
+            {coffeeItem.name}
           </Text>
-          <Text style={styles.beanDescription}>{beanItem.description}</Text>
+          <Text style={styles.coffeeDescription}>{coffeeItem.description}</Text>
         </View>
       </View>
       <View style={styles.bottomSection}>
-        {beanItem.quantity_250gm && (
+        {coffeeItem.small && (
           <QuantityPicker
-            initialQuantity={beanItem.quantity_250gm.quantity}
-            letterRef="250gm"
-            price={beanItem.quantity_250gm.price}
+            initialQuantity={coffeeItem.small.quantity}
+            letterRef="S"
+            price={coffeeItem.small.price}
           />
         )}
-        {beanItem.quantity_500gm && (
+        {coffeeItem.medium && (
           <QuantityPicker
-            initialQuantity={beanItem.quantity_500gm.quantity}
-            letterRef="500gm"
-            price={beanItem.quantity_500gm.price}
+            initialQuantity={coffeeItem.medium.quantity}
+            letterRef="M"
+            price={coffeeItem.medium.price}
           />
         )}
-        {beanItem.quantity_1000kg && (
+        {coffeeItem.large && (
           <QuantityPicker
-            initialQuantity={beanItem.quantity_1000kg.quantity}
-            letterRef="1000kg"
-            price={beanItem.quantity_1000kg.price}
+            initialQuantity={coffeeItem.large.quantity}
+            letterRef="L"
+            price={coffeeItem.large.price}
           />
         )}
       </View>
@@ -78,13 +78,9 @@ const styles = StyleSheet.create({
   descriptionArea: {
     display: "flex",
   },
-  beanDescription: {
+  coffeeDescription: {
     ...textlightfaint_medium,
-    paddingHorizontal: 16,
-    paddingVertical: 10,
     textAlign: "center",
-    borderRadius: BORDERRADIUS.radius_10,
-    backgroundColor: COLORS.primaryDarkGreyHex,
   },
   bottomSection: {
     paddingHorizontal: 17,

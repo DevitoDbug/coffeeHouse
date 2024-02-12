@@ -4,8 +4,9 @@ import { ScreensNavBar } from "../components/global/ScreensNavBar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { screenContainer } from "../assets/images/constants";
 import { BeanItem } from "../components/cart/BeanItem";
+import { CoffeeItem } from "../components/cart/CoffeeItem";
 
-export interface CoffeeBeanItem {
+export interface CoffeeBeanItemType {
   imageURL: string;
   name: string;
   description: string;
@@ -23,8 +24,9 @@ export interface CoffeeBeanItem {
   };
 }
 
-export interface CoffeeItem {
+export interface CoffeeItemType {
   name: string;
+  imageURL: string;
   description: string;
   small: {
     price: number;
@@ -40,7 +42,7 @@ export interface CoffeeItem {
   };
 }
 
-const coffeeBeans: CoffeeBeanItem[] = [
+const coffeeBeans: CoffeeBeanItemType[] = [
   {
     imageURL:
       "https://media.istockphoto.com/id/523168994/photo/cappuccino-with-coffee-beans.jpg?s=612x612&w=0&k=20&c=qhRFxaeTppFykANecfXx8B17JSJYNJgW2KExDrUWKCk=",
@@ -61,7 +63,28 @@ const coffeeBeans: CoffeeBeanItem[] = [
   },
 ];
 
-export interface CartItem {
+const coffeeItems: CoffeeItemType[] = [
+  {
+    name: "Cappuccino",
+    imageURL:
+      "https://www.acouplecooks.com/wp-content/uploads/2021/05/Latte-Art-066.jpg",
+    description: "With milk and sugar",
+    small: {
+      price: 10,
+      quantity: 3,
+    },
+    medium: {
+      price: 20,
+      quantity: 0,
+    },
+    large: {
+      price: 30,
+      quantity: 10,
+    },
+  },
+];
+
+export interface CartItemType {
   id: number;
   name: string;
   price: number;
@@ -72,11 +95,18 @@ export interface CartItem {
 const CartScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scrollView}>
+      <ScrollView contentContainerStyle={styles.scrollView}>
         {coffeeBeans.map((beanItem, index) => {
           return (
             <View key={index} style={styles.itemContainer}>
               <BeanItem beanItem={beanItem} />
+            </View>
+          );
+        })}
+        {coffeeItems.map((coffeeItem, index) => {
+          return (
+            <View key={index} style={styles.itemContainer}>
+              <CoffeeItem coffeeItem={coffeeItem} />
             </View>
           );
         })}
@@ -94,9 +124,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
   },
   scrollView: {
-    flex: 1,
+    flexGrow: 1,
     paddingHorizontal: 30,
     display: "flex",
+    gap: 16,
   },
   itemContainer: {
     width: "100%",
