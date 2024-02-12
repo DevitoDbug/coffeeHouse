@@ -5,6 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { screenContainer } from "../assets/images/constants";
 import { BeanItem } from "../components/cart/BeanItem";
 import { CoffeeItem } from "../components/cart/CoffeeItem";
+import { PayContainer } from "../components/cart/PayContainer";
 
 export interface CoffeeBeanItemType {
   imageURL: string;
@@ -111,6 +112,9 @@ const CartScreen = () => {
           );
         })}
       </ScrollView>
+      <View style={styles.payContainer}>
+        <PayContainer totalValue={48.987} />
+      </View>
       <ScreensNavBar pageName={"CartScreen"} />
     </SafeAreaView>
   );
@@ -131,5 +135,11 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     width: "100%",
+  },
+  payContainer: {
+    height: 76,
+    paddingHorizontal: 20,
+    display: "flex",
+    justifyContent: "center",
   },
 });
