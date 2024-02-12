@@ -219,3 +219,19 @@ export const ChevronLeftIcon = ({
     </Svg>
   );
 };
+
+export const MinusIcon = ({ color, iconWidth, iconHeight }: IconProps) => {
+  return (
+    <Svg
+      width={iconWidth ?? 20}
+      height={iconHeight ?? 4}
+      viewBox="0 0 20 4"
+      fill="none"
+    >
+      <Path
+        d="M18.4062 0H1.59375C0.713542 0 0 0.744792 0 1.66667C0 2.58854 0.713542 3.33333 1.59375 3.33333H18.4062C19.2865 3.33333 20 2.58854 20 1.66667C20 0.744792 19.2865 0 18.4062 0Z"
+        fill={color ?? "white"}
+      />
+    </Svg>
+  );
+};
