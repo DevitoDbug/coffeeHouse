@@ -6,6 +6,7 @@ import { screenContainer } from "../assets/images/constants";
 import { BeanItem } from "../components/cart/BeanItem";
 import { CoffeeItem } from "../components/cart/CoffeeItem";
 import { PayContainer } from "../components/cart/PayContainer";
+import { BackToPreviousScreenNav } from "../components/cart/NavBar";
 
 export interface CoffeeBeanItemType {
   imageURL: string;
@@ -96,6 +97,9 @@ export interface CartItemType {
 const CartScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.topNavbar}>
+        <BackToPreviousScreenNav title="Cart" />
+      </View>
       <ScrollView contentContainerStyle={styles.scrollView}>
         {coffeeBeans.map((beanItem, index) => {
           return (
@@ -126,6 +130,11 @@ const styles = StyleSheet.create({
   container: {
     ...screenContainer,
     paddingHorizontal: 0,
+    paddingVertical: 0,
+  },
+  topNavbar: {
+    height: 33,
+    marginBottom: 11,
   },
   scrollView: {
     flexGrow: 1,
