@@ -1,8 +1,5 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../navigation/Navigation";
-import { useNavigation } from "@react-navigation/native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import {
   BORDERRADIUS,
   COLORS,
@@ -13,15 +10,15 @@ import {
 
 export interface PayContainerProps {
   totalValue: number;
+  buttonName: string;
+  onPressAction: () => void;
 }
 
-export const PayContainer = ({ totalValue }: PayContainerProps) => {
-  const navigation: NativeStackNavigationProp<RootStackParamList> =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-
-  const handlePayment = () => {
-    navigation.navigate("PaymentScreen");
-  };
+export const PayButtonContainer = ({
+  totalValue,
+  buttonName,
+  onPressAction,
+}: PayContainerProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.totalValueBox}>
@@ -33,8 +30,8 @@ export const PayContainer = ({ totalValue }: PayContainerProps) => {
           {totalValue.toFixed(2)}
         </Text>
       </View>
-      <TouchableOpacity style={styles.payButton} onPress={handlePayment}>
-        <Text style={{ ...textlight_medium, fontSize: 16 }}>Pay</Text>
+      <TouchableOpacity style={styles.payButton} onPress={onPressAction}>
+        <Text style={{ ...textlight_medium, fontSize: 16 }}>{buttonName}</Text>
       </TouchableOpacity>
     </View>
   );

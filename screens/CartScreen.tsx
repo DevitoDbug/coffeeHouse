@@ -1,12 +1,15 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { ScreensNavBar } from "../components/global/ScreensNavBar";
+import { ScrollView, StyleSheet, View } from "react-native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../navigation/Navigation";
+import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { screenContainer } from "../assets/constants";
+import { ScreensNavBar } from "../components/global/ScreensNavBar";
 import { BeanItem } from "../components/cart/BeanItem";
 import { CoffeeItem } from "../components/cart/CoffeeItem";
-import { PayContainer } from "../components/cart/PayContainer";
-import { BackWithProfileNavBar } from "../components/global/BackNavBarWithProfile";
+import { PayButtonContainer } from "../components/global/PayButtonContainer";
+import { BackNavBarWithProfile } from "../components/global/BackNavBarWithProfile";
+import { screenContainer } from "../assets/constants";
 
 export interface CoffeeBeanItemType {
   imageURL: string;
@@ -95,10 +98,17 @@ export interface CartItemType {
 }
 
 const CartScreen = () => {
+  const navigation: NativeStackNavigationProp<RootStackParamList> =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  const handleNavigationToPayment = () => {
+    navigation.navigate("PaymentScreen");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topNavbar}>
-        <BackWithProfileNavBar title="Cart" />
+        <BackNavBarWithProfile title="Cart" />
       </View>
       <ScrollView contentContainerStyle={styles.scrollView}>
         {coffeeBeans.map((beanItem, index) => {
@@ -117,7 +127,11 @@ const CartScreen = () => {
         })}
       </ScrollView>
       <View style={styles.payContainer}>
-        <PayContainer totalValue={48.987} />
+        <PayButtonContainer
+          totalValue={48.987}
+          buttonName="Pay"
+          onPressAction={handleNavigationToPayment}
+        />
       </View>
       <ScreensNavBar pageName={"CartScreen"} />
     </SafeAreaView>

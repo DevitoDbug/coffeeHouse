@@ -17,7 +17,7 @@ export const InformationContainer = (): JSX.Element => {
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const handleNavigateToCart = () => {
-    navigation.navigate("CartScreen");
+    navigation.navigate("HomeScreen");
   };
   return (
     <View style={styles.bottomContainer}>

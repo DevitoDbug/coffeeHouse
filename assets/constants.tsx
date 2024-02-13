@@ -43,7 +43,7 @@ interface Color {
   primaryWhiteHex: string;
   primaryBlackRGBA: string;
   secondaryBlackRGBA: string;
-  lightOrange: string;
+  lightOrangeRGBA: string;
 }
 
 interface BorderRadius {
@@ -100,7 +100,7 @@ export const COLORS: Color = {
 
   primaryBlackRGBA: "rgba(12,15,20,0.5)",
   secondaryBlackRGBA: "rgba(0,0,0,0.7)",
-  lightOrange: "rgba(209, 120, 66, 0.4)",
+  lightOrangeRGBA: "rgba(209, 120, 66, 0.4)",
 };
 
 export const FONTSIZE: FontSize = {
