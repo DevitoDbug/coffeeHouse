@@ -41,7 +41,9 @@ const PaymentScreen = () => {
         <WalletIcon
           iconHeight={20}
           iconWidth={25}
-          color={COLORS.primaryOrangeHex}
+          color={
+            pickedPayOption === "Wallet" ? COLORS.primaryOrangeHex : "white"
+          }
         />
       ),
       amount: 100.5,
@@ -55,7 +57,15 @@ const PaymentScreen = () => {
       nameOfPayOption: "Google Pay",
     },
     {
-      svgIcon: <AppleIcon iconHeight={20} iconWidth={25} />,
+      svgIcon: (
+        <AppleIcon
+          iconHeight={20}
+          iconWidth={25}
+          color={
+            pickedPayOption === "Apple Pay" ? COLORS.primaryOrangeHex : "white"
+          }
+        />
+      ),
       amount: 100.5,
       onPress: handleSetSelectedPayOption,
       nameOfPayOption: "Apple Pay",
@@ -80,12 +90,8 @@ const PaymentScreen = () => {
         <View style={styles.payOptionsArea}>
           {payOptions.map((option, index) => {
             return (
-              <View style={styles.payOptions}>
-                <PayOption
-                  key={index}
-                  option={option}
-                  selectedOption={pickedPayOption}
-                />
+              <View key={index} style={styles.payOptions}>
+                <PayOption option={option} selectedOption={pickedPayOption} />
               </View>
             );
           })}
