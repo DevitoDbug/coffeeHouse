@@ -14,23 +14,31 @@ import {
   textlight_regular,
   textlight_semibold,
 } from "../../assets/constants";
+import { PickedOptionType } from "../../screens/PaymentScreen";
 
 export interface PayOptionType {
   amount: number;
-  onPress: () => void;
+  onPress: (selectedOption: PickedOptionType) => void;
   svgIcon?: JSX.Element;
   pngIcon?: ImageSourcePropType;
-  nameOfPayOption: string;
+  nameOfPayOption: PickedOptionType;
 }
 
 export interface PayOptionProps {
   option: PayOptionType;
+  selectedOption: PickedOptionType;
 }
 
-export const PayOption = ({ option }: PayOptionProps): JSX.Element => {
+export const PayOption = ({
+  option,
+  selectedOption,
+}: PayOptionProps): JSX.Element => {
   return (
     <GradientBox xStyles={styles.payOption}>
-      <TouchableOpacity onPress={option.onPress} style={styles.buttonContainer}>
+      <TouchableOpacity
+        onPress={() => option.onPress(option.nameOfPayOption)}
+        style={styles.buttonContainer}
+      >
         <View style={styles.payOptionLabel}>
           {option.svgIcon ? (
             option.svgIcon
@@ -41,7 +49,9 @@ export const PayOption = ({ option }: PayOptionProps): JSX.Element => {
             {option.nameOfPayOption}
           </Text>
         </View>
-        <Text style={styles.payAmount}>$ {option.amount}</Text>
+        {selectedOption === option.nameOfPayOption && (
+          <Text style={styles.payAmount}>$ {option.amount}</Text>
+        )}
       </TouchableOpacity>
     </GradientBox>
   );

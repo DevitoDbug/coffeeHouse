@@ -32,6 +32,9 @@ const PaymentScreen = () => {
   const handlePayment = () => {
     navigation.navigate("HomeScreen");
   };
+  const handleSetSelectedPayOption = (selectedOption: PickedOptionType) => {
+    setPickedPayOption(selectedOption);
+  };
   const payOptions: PayOptionType[] = [
     {
       svgIcon: (
@@ -42,25 +45,25 @@ const PaymentScreen = () => {
         />
       ),
       amount: 100.5,
-      onPress: () => console.log("Pay from Credit Card"),
+      onPress: handleSetSelectedPayOption,
       nameOfPayOption: "Wallet",
     },
     {
       pngIcon: GooglePayIcon,
       amount: 100.5,
-      onPress: () => console.log("Pay from google pay"),
+      onPress: handleSetSelectedPayOption,
       nameOfPayOption: "Google Pay",
     },
     {
       svgIcon: <AppleIcon iconHeight={20} iconWidth={25} />,
       amount: 100.5,
-      onPress: () => console.log("Pay from Wallet"),
+      onPress: handleSetSelectedPayOption,
       nameOfPayOption: "Apple Pay",
     },
     {
       pngIcon: AmazonPay,
       amount: 100.5,
-      onPress: () => console.log("Pay from Wallet"),
+      onPress: handleSetSelectedPayOption,
       nameOfPayOption: "Amazon Pay",
     },
   ];
@@ -78,7 +81,11 @@ const PaymentScreen = () => {
           {payOptions.map((option, index) => {
             return (
               <View style={styles.payOptions}>
-                <PayOption key={index} option={option} />
+                <PayOption
+                  key={index}
+                  option={option}
+                  selectedOption={pickedPayOption}
+                />
               </View>
             );
           })}
