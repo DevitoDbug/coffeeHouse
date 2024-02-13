@@ -4,7 +4,7 @@ import {
   BORDERRADIUS,
   COLORS,
   textlight_semibold,
-} from "../../assets/images/constants";
+} from "../../assets/constants";
 import { MinusIcon, PlusIcon } from "../../assets/icons/svgIcons";
 
 export interface QuantityPickerProps {

@@ -6,7 +6,7 @@ import {
   COLORS,
   FONTSIZE,
   screenContainer,
-} from "../../assets/images/constants";
+} from "../../assets/constants";
 import { AppIcon } from "../../assets/icons/svgIcons";
 
 export const AppIconWithGradient = (): JSX.Element => {

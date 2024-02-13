@@ -6,7 +6,7 @@ import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
 import * as ExpoSplashScreen from "expo-splash-screen";
 import { Navigation } from "./navigation/Navigation";
-import { screenContainer } from "./assets/images/constants";
+import { screenContainer } from "./assets/constants";
 
 ExpoSplashScreen.preventAutoHideAsync();
 

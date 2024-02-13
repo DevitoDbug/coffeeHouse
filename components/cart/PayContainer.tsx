@@ -9,7 +9,7 @@ import {
   textlightfaint_medium,
   textlight_medium,
   textlight_semibold,
-} from "../../assets/images/constants";
+} from "../../assets/constants";
 
 export interface PayContainerProps {
   totalValue: number;

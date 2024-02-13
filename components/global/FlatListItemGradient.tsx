@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { COLORS } from "../../assets/images/constants";
+import { COLORS } from "../../assets/constants";
 
 interface AppIconWithGradientProps {
   children: React.ReactNode;

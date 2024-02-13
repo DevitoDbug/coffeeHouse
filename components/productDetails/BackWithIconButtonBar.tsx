@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 import { ChevronLeftIcon, HeartIcon } from "../../assets/icons/svgIcons";
-import { COLORS } from "../../assets/images/constants";
+import { COLORS } from "../../assets/constants";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/Navigation";

@@ -8,7 +8,7 @@ import {
   COLORS,
   textlight_semibold,
   textlight_regular,
-} from "../../assets/images/constants";
+} from "../../assets/constants";
 import { PlusIcon, StarIcon } from "../../assets/icons/svgIcons";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 

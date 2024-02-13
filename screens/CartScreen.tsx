@@ -2,11 +2,11 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { ScreensNavBar } from "../components/global/ScreensNavBar";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { screenContainer } from "../assets/images/constants";
+import { screenContainer } from "../assets/constants";
 import { BeanItem } from "../components/cart/BeanItem";
 import { CoffeeItem } from "../components/cart/CoffeeItem";
 import { PayContainer } from "../components/cart/PayContainer";
-import { BackToPreviousScreenNav } from "../components/cart/NavBar";
+import { BackWithProfileNavBar } from "../components/global/BackNavBarWithProfile";
 
 export interface CoffeeBeanItemType {
   imageURL: string;
@@ -98,7 +98,7 @@ const CartScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topNavbar}>
-        <BackToPreviousScreenNav title="Cart" />
+        <BackWithProfileNavBar title="Cart" />
       </View>
       <ScrollView contentContainerStyle={styles.scrollView}>
         {coffeeBeans.map((beanItem, index) => {

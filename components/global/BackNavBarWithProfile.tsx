@@ -3,13 +3,13 @@ import { StyleSheet, TouchableOpacity, View, Image, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/Navigation";
-import { COLORS, textlight_semibold } from "../../assets/images/constants";
+import { COLORS, textlight_semibold } from "../../assets/constants";
 import { ChevronLeftIcon } from "../../assets/icons/svgIcons";
 
 export interface BackToPreviousScreenNavProps {
   title: string;
 }
-export const BackToPreviousScreenNav = ({
+export const BackWithProfileNavBar = ({
   title,
 }: BackToPreviousScreenNavProps): JSX.Element => {
   const [liked, setLiked] = useState(false);
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 10,
-    borderWidth: 1,
-    borderColor: COLORS.primaryDarkGreyHex,
+    borderWidth: 0.5,
+    borderColor: COLORS.secondaryDarkGreyHex,
   },
 });

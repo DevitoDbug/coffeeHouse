@@ -10,7 +10,7 @@ import {
   colors,
   textlight_semibold,
   textLightfaint,
-} from "../../assets/images/constants";
+} from "../../assets/constants";
 
 export interface NavOption {
   title: string;

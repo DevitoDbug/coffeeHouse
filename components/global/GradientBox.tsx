@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { ReactNode } from "react";
-import { COLORS } from "../../assets/images/constants";
+import { COLORS } from "../../assets/constants";
 import { LinearGradient } from "expo-linear-gradient";
 
 export interface GradientBox {

@@ -1,6 +1,6 @@
 import { StyleSheet, Platform, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
-import { COLORS, SCREENWIDTH } from "../../assets/images/constants";
+import { COLORS, SCREENWIDTH } from "../../assets/constants";
 import {
   BellIcon,
   CartIcon,
@@ -147,10 +147,10 @@ const styles = StyleSheet.create({
     gap: 75,
   },
   glowButton: {
-    backgroundColor: COLORS.lightOrange,
+    backgroundColor: "transparent",
     borderRadius: 100,
-    width: 20,
-    height: 20,
+    width: 30,
+    height: 30,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

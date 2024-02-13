@@ -7,7 +7,7 @@ import {
   colors,
   textlight_semibold,
   textlight_medium,
-} from "../../assets/images/constants";
+} from "../../assets/constants";
 import { SearchIcon } from "../../assets/icons/svgIcons";
 
 export const Search = (): JSX.Element => {

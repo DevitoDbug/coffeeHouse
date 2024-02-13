@@ -18,7 +18,7 @@ import {
   screenContainer,
   textbold,
   textlight_medium,
-} from "../assets/images/constants";
+} from "../assets/constants";
 
 export const HomeScreen = (): JSX.Element => {
   const coffeeData: CoffeeType[] = [

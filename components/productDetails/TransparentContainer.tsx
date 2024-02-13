@@ -7,7 +7,7 @@ import {
   textlight_medium,
   textlight_semibold,
   textlightfaint_regular,
-} from "../../assets/images/constants";
+} from "../../assets/constants";
 
 export const TransparentContainer = (): JSX.Element => {
   return (

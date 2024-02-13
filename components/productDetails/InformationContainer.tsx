@@ -9,7 +9,7 @@ import {
   textlight_regular,
   textlight_semibold,
   textlightfaint_medium,
-} from "../../assets/images/constants";
+} from "../../assets/constants";
 import { RootStackParamList } from "../../navigation/Navigation";
 
 export const InformationContainer = (): JSX.Element => {
