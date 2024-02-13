@@ -14,11 +14,13 @@ import {
 } from "../components/home/CoffeeBeansFlatList";
 import { ScreensNavBar } from "../components/global/ScreensNavBar";
 import {
+  COLORS,
   SCREENWIDTH,
   screenContainer,
   textbold,
   textlight_medium,
 } from "../assets/constants";
+import { BlurView } from "expo-blur";
 
 export const HomeScreen = (): JSX.Element => {
   const coffeeData: CoffeeType[] = [
@@ -149,7 +151,9 @@ export const HomeScreen = (): JSX.Element => {
           </View>
         </View>
       </ScrollView>
-      <ScreensNavBar pageName={"HomeScreen"} />
+      <BlurView intensity={40} tint="dark" style={styles.screenNavBar}>
+        <ScreensNavBar pageName={"HomeScreen"} />
+      </BlurView>
     </SafeAreaView>
   );
 };
@@ -157,6 +161,7 @@ export const HomeScreen = (): JSX.Element => {
 const styles = StyleSheet.create({
   container: {
     ...screenContainer,
+    position: "relative",
     flex: 1,
     alignItems: "center",
     paddingHorizontal: 0,
@@ -186,6 +191,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingLeft: 30,
     gap: 22,
+    marginBottom: 35,
   },
   topFlatlist: {
     height: 245,
@@ -193,5 +199,9 @@ const styles = StyleSheet.create({
   coffeeBeanFlatlist: {
     height: 300,
     marginBottom: 8,
+  },
+  screenNavBar: {
+    position: "absolute",
+    bottom: 0,
   },
 });

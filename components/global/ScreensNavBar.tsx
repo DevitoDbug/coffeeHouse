@@ -135,7 +135,6 @@ const styles = StyleSheet.create({
     width: SCREENWIDTH,
     height: 55,
     paddingHorizontal: 30,
-    backgroundColor: COLORS.primaryBlackRGBA,
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
