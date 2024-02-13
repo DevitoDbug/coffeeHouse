@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Image, View, TouchableOpacity } from "react-native";
 import { AppIconWithGradient } from "./AppIconGradient";
-import { COLORS, colors } from "../../assets/constants";
+import { COLORS } from "../../assets/constants";
 
 const profilePic = require("../../assets/dummyImages/Intersect.png");
 

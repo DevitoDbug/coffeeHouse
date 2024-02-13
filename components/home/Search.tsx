@@ -1,11 +1,9 @@
-import { StyleSheet, TextInput, View } from "react-native";
 import React, { useState } from "react";
+import { StyleSheet, TextInput, View } from "react-native";
 import {
   BORDERRADIUS,
   COLORS,
   SCREENWIDTH,
-  colors,
-  textlight_semibold,
   textlight_medium,
 } from "../../assets/constants";
 import { SearchIcon } from "../../assets/icons/svgIcons";
@@ -25,7 +23,7 @@ export const Search = (): JSX.Element => {
       />
       <TextInput
         placeholder="Find your coffee..."
-        placeholderTextColor={colors.grey_pale}
+        placeholderTextColor={COLORS.primaryLightGreyHex}
         style={styles.searchInput}
         onFocus={() => toggleSearch(true)}
         onBlur={() => toggleSearch(false)}

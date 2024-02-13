@@ -1,12 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import {
-  BORDERRADIUS,
-  COLORS,
-  FONTSIZE,
-  screenContainer,
-} from "../../assets/constants";
+import { COLORS } from "../../assets/constants";
 import { AppIcon } from "../../assets/icons/svgIcons";
 
 export const AppIconWithGradient = (): JSX.Element => {

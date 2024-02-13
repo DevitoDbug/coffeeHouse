@@ -1,13 +1,13 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { CoffeeBeanItemType } from "../../screens/CartScreen";
+import { GradientBox } from "../global/GradientBox";
+import { QuantityPicker } from "./QuantityPicker";
 import { BORDERRADIUS, COLORS } from "../../assets/constants";
 import {
   textlight_regular,
   textlightfaint_medium,
 } from "../../assets/constants";
-import { GradientBox } from "../global/GradientBox";
-import { QuantityPicker } from "./QuantityPicker";
 
 interface BeanItemProps {
   beanItem: CoffeeBeanItemType;

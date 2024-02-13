@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { ScreensNavBar } from "../components/global/ScreensNavBar";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ScreensNavBar } from "../components/global/ScreensNavBar";
 
 const FavouriteScreen = () => {
   return (

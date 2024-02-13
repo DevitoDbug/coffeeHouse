@@ -1,10 +1,10 @@
 import React from "react";
 import { StyleSheet, View, Image } from "react-native";
-import { COLORS, SCREENHEIGHT, SCREENWIDTH } from "../assets/constants";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { TransparentContainer } from "../components/productDetails/TransparentContainer";
 import { InformationContainer } from "../components/productDetails/InformationContainer";
 import { NavBar } from "../components/productDetails/BackWithIconButtonBar";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { COLORS, SCREENHEIGHT, SCREENWIDTH } from "../assets/constants";
 
 export const ProductDetailsScreen = (): JSX.Element => {
   return (

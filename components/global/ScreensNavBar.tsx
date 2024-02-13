@@ -1,5 +1,8 @@
+import React from "react";
 import { StyleSheet, Platform, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../navigation/Navigation";
 import { COLORS, SCREENWIDTH } from "../../assets/constants";
 import {
   BellIcon,
@@ -7,9 +10,6 @@ import {
   HeartIcon,
   HomeIcon,
 } from "../../assets/icons/svgIcons";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../navigation/Navigation";
-import { useNavigation } from "@react-navigation/native";
 
 export type PageNames =
   | "HomeScreen"

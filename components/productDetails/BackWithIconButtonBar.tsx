@@ -1,10 +1,10 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
-import { ChevronLeftIcon, HeartIcon } from "../../assets/icons/svgIcons";
-import { COLORS } from "../../assets/constants";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/Navigation";
+import { ChevronLeftIcon, HeartIcon } from "../../assets/icons/svgIcons";
+import { COLORS } from "../../assets/constants";
 
 export const NavBar = (): JSX.Element => {
   const [liked, setLiked] = useState(false);

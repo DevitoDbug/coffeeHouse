@@ -55,20 +55,9 @@ interface BorderRadius {
   radius_25: number;
 }
 
-export enum colors {
-  text_white = "#FFFFFF",
-  primary_bg_dark = "#0C0F14",
-  primary_bg_dark_pale = "#141921",
-  light_faded = "rgba(255, 255, 255, 0.18)",
-  dark_blue = "#21262E",
-  grey_pale = "#52555A",
-  orange = "#D17842",
-}
-
 export const { width: SCREENWIDTH, height: SCREENHEIGHT } =
   Dimensions.get("window");
 
-////////////////////////////////////////////////////////
 export const SPACING: Spacing = {
   space_2: 2,
   space_4: 4,

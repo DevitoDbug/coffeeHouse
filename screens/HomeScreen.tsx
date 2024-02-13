@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, StyleSheet, View, Image, ScrollView } from "react-native";
+import { Text, StyleSheet, View, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AppHeader from "../components/global/AppHeader";
 import { Search } from "../components/home/Search";
