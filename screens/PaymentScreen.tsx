@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, View } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -8,17 +8,62 @@ import { BackNavBarWithProfile } from "../components/global/BackNavBarWithProfil
 import { PayButtonContainer } from "../components/global/PayButtonContainer";
 import { CreditCard } from "../components/payment/CreditCard";
 import {
+  COLORS,
   SCREENHEIGHT,
   SCREENWIDTH,
   screenContainer,
 } from "../assets/constants";
+import { PayOption, PayOptionType } from "../components/payment/PayOption";
+import { AppleIcon, WalletIcon } from "../assets/icons/svgIcons";
+
+const GooglePayIcon = require("../assets/icons/googlePay.png");
+const AmazonPay = require("../assets/icons/amazonPay.png");
+export type PickedOptionType =
+  | "Wallet"
+  | "Google Pay"
+  | "Apple Pay"
+  | "Amazon Pay";
 
 const PaymentScreen = () => {
   const navigation: NativeStackNavigationProp<RootStackParamList> =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const [pickedPayOption, setPickedPayOption] =
+    useState<PickedOptionType>("Wallet");
   const handlePayment = () => {
     navigation.navigate("HomeScreen");
   };
+  const payOptions: PayOptionType[] = [
+    {
+      svgIcon: (
+        <WalletIcon
+          iconHeight={20}
+          iconWidth={25}
+          color={COLORS.primaryOrangeHex}
+        />
+      ),
+      amount: 100.5,
+      onPress: () => console.log("Pay from Credit Card"),
+      nameOfPayOption: "Wallet",
+    },
+    {
+      pngIcon: GooglePayIcon,
+      amount: 100.5,
+      onPress: () => console.log("Pay from google pay"),
+      nameOfPayOption: "Google Pay",
+    },
+    {
+      svgIcon: <AppleIcon iconHeight={20} iconWidth={25} />,
+      amount: 100.5,
+      onPress: () => console.log("Pay from Wallet"),
+      nameOfPayOption: "Apple Pay",
+    },
+    {
+      pngIcon: AmazonPay,
+      amount: 100.5,
+      onPress: () => console.log("Pay from Wallet"),
+      nameOfPayOption: "Amazon Pay",
+    },
+  ];
   return (
     <SafeAreaView style={styles.screenContainer}>
       <View style={styles.navbar}>
@@ -28,6 +73,15 @@ const PaymentScreen = () => {
       <View style={styles.bodyArea}>
         <View style={styles.creditCard}>
           <CreditCard />
+        </View>
+        <View style={styles.payOptionsArea}>
+          {payOptions.map((option, index) => {
+            return (
+              <View style={styles.payOptions}>
+                <PayOption key={index} option={option} />
+              </View>
+            );
+          })}
         </View>
       </View>
       <View style={styles.payContainer}>
@@ -69,5 +123,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     display: "flex",
     justifyContent: "center",
+  },
+  payOptionsArea: {
+    flex: 1,
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
+  },
+  payOptions: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    height: 50,
+    width: SCREENWIDTH - 40,
   },
 });

@@ -1,4 +1,4 @@
-import { Path, Svg } from "react-native-svg";
+import { Mask, Path, Svg } from "react-native-svg";
 
 export interface IconProps {
   color?: string;
@@ -270,4 +270,46 @@ export const VisaIcon = ({ color, iconWidth, iconHeight }: IconProps) => {
       />
     </Svg>
   );
+};
+
+export const WalletIcon = ({ color, iconWidth, iconHeight }: IconProps) => {
+  return (
+    <Svg
+      width={iconWidth ?? 20}
+      height={iconHeight ?? 16}
+      viewBox="0 0 20 16"
+      fill="none"
+    >
+      <Path
+        d="M19 0H1C0.4 0 0 0.4 0 1V15C0 15.6 0.4 16 1 16H19C19.6 16 20 15.6 20 15V10H13C11.9 10 11 9.1 11 8C11 6.9 11.9 6 13 6H20V1C20 0.4 19.6 0 19 0Z"
+        fill={color ?? "white"}
+      />
+      <Path
+        d="M13 9C13.5523 9 14 8.55228 14 8C14 7.44772 13.5523 7 13 7C12.4477 7 12 7.44772 12 8C12 8.55228 12.4477 9 13 9Z"
+        fill={color ?? "white"}
+      />
+    </Svg>
+  );
+};
+
+export const AppleIcon = ({ color, iconWidth, iconHeight }: IconProps) => {
+  return (
+    <Svg
+      width={iconWidth ?? 21}
+      height={iconHeight ?? 25}
+      viewBox="0 0 21 25"
+      fill="none"
+    >
+      <Path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M17.4046 13.2821C17.3725 10.1173 20.0467 8.59856 20.1661 8.52337C18.6631 6.37534 16.3213 6.08008 15.4869 6.04688C13.4942 5.85033 11.5991 7.19376 10.5867 7.19376C9.57706 7.19376 8.01686 6.07637 6.36458 6.10594C4.19283 6.13731 2.19059 7.34 1.07102 9.24031C-1.18529 13.0648 0.493895 18.7333 2.69307 21.8346C3.76735 23.3533 5.04849 25.0593 6.731 24.9984C8.35069 24.9361 8.96364 23.9733 10.9229 23.9733C12.8817 23.9733 13.4318 24.9985 15.1464 24.9657C16.8898 24.9343 17.9943 23.4174 19.0616 21.8936C20.2964 20.1312 20.8026 18.427 20.8333 18.3394C20.7946 18.3223 17.4338 17.0647 17.3998 13.2835L17.4046 13.2821H17.4046ZM14.1841 3.99201C15.0766 2.93415 15.6796 1.46569 15.5148 0C14.2289 0.0512077 12.6696 0.83733 11.7465 1.89382C10.9177 2.83173 10.1938 4.32648 10.3874 5.76217C11.8235 5.87154 13.2897 5.04941 14.1826 3.99385L14.1841 3.99201Z"
+        fill={color ?? "white"}
+      />
+    </Svg>
+  );
+};
+
+export const GooglePayIcon = ({ color, iconWidth, iconHeight }: IconProps) => {
+  return <></>;
 };
