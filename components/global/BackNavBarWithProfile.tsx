@@ -4,11 +4,13 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/Navigation";
 import {
+  BORDERRADIUS,
   COLORS,
   SCREENWIDTH,
   textlight_semibold,
 } from "../../assets/constants";
 import { ChevronLeftIcon } from "../../assets/icons/svgIcons";
+import { GradientBox } from "./GradientBox";
 
 export interface BackToPreviousScreenNavProps {
   title: string;
@@ -39,11 +41,13 @@ export const BackNavBarWithProfile = ({
         style={styles.buttonContainer}
         onPress={handleNavigateBack}
       >
-        <ChevronLeftIcon
-          iconWidth={8}
-          iconHeight={14}
-          color={COLORS.primaryLightGreyHex}
-        />
+        <GradientBox xStyles={styles.gradientButtonBox}>
+          <ChevronLeftIcon
+            iconWidth={8}
+            iconHeight={14}
+            color={COLORS.primaryLightGreyHex}
+          />
+        </GradientBox>
       </TouchableOpacity>
       <Text style={{ ...textlight_semibold, fontSize: 20 }}>{title}</Text>
       {showProfilePic && (
@@ -73,12 +77,19 @@ const styles = StyleSheet.create({
   buttonContainer: {
     height: 33,
     width: 33,
-    padding: 6.6,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 10,
-    backgroundColor: COLORS.secondaryDarkGreyHex,
+  },
+  gradientButtonBox: {
+    width: 33,
+    height: 33,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: BORDERRADIUS.radius_10,
+    borderColor: COLORS.primaryDarkGreyHex,
+    borderWidth: 1,
   },
   profilePic: {
     width: 30,
