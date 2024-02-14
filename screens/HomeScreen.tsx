@@ -151,7 +151,7 @@ export const HomeScreen = (): JSX.Element => {
           </View>
         </View>
       </ScrollView>
-      <BlurView intensity={40} tint="dark" style={styles.screenNavBar}>
+      <BlurView intensity={80} tint="dark" style={styles.screenNavBar}>
         <ScreensNavBar pageName={"HomeScreen"} />
       </BlurView>
     </SafeAreaView>
