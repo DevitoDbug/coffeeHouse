@@ -5,7 +5,7 @@ import { HomeScreen } from "../screens/HomeScreen";
 import { ProductDetailsScreen } from "../screens/ProductDetailsScreen";
 
 export type HomeRootStackParamList = {
-  HomeScreen: undefined;
+  HomeScreenMain: undefined;
   ProductDetailsScreen: undefined;
 };
 
@@ -20,7 +20,7 @@ export const HomeScreenStackNavigation = (): JSX.Element => {
         animationTypeForReplace: "pop",
       }}
     >
-      <Stack.Screen name="HomeScreen" component={HomeScreen} />
+      <Stack.Screen name="HomeScreenMain" component={HomeScreen} />
       <Stack.Screen
         name="ProductDetailsScreen"
         component={ProductDetailsScreen}

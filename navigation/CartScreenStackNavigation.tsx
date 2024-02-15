@@ -5,8 +5,8 @@ import { PaymentScreen } from "../screens/PaymentScreen";
 import { CartScreen } from "../screens/CartScreen";
 
 export type CartStackParamList = {
+  CartScreenMain: undefined;
   PaymentScreen: undefined;
-  CartScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<CartStackParamList>();
@@ -20,7 +20,7 @@ export const CartScreenStackNavigation = () => {
         animationTypeForReplace: "pop",
       }}
     >
-      <Stack.Screen name="CartScreen" component={CartScreen} />
+      <Stack.Screen name="CartScreenMain" component={CartScreen} />
       <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
     </Stack.Navigator>
   );
