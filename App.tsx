@@ -34,7 +34,6 @@ export default function App() {
         setAppIsReady(true);
       }
     }
-
     prepare();
   }, []);
 

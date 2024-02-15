@@ -3,10 +3,8 @@ import { StyleSheet, Text, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { HomeScreen } from "../screens/HomeScreen";
 import { CartScreen } from "../screens/CartScreen";
-import { PaymentScreen } from "../screens/PaymentScreen";
 import { FavouriteScreen } from "../screens/FavouriteScreen";
 import { OderHistory } from "../screens/OderHistory";
-import { ProductDetailsScreen } from "../screens/ProductDetailsScreen";
 import {
   BellIcon,
   CartIcon,
@@ -15,6 +13,7 @@ import {
 } from "../assets/icons/svgIcons";
 import { COLORS } from "../assets/constants";
 import { BlurView } from "expo-blur";
+import { HomeScreenStackNavigation } from "./HomeScreenStackNavigation";
 
 export type TabNavigationParamList = {
   HomeScreen: undefined;
@@ -94,6 +93,8 @@ export const TabNavigation = (): JSX.Element => {
                 />
               );
               break;
+            default:
+              return;
           }
           return icon;
         },
@@ -101,11 +102,11 @@ export const TabNavigation = (): JSX.Element => {
         tabBarShowLabel: false,
         tabBarStyle: styles.tabBar,
         tabBarBackground: () => (
-          <BlurView tint="dark" intensity={100} style={styles.tabBar} />
+          <BlurView intensity={100} style={{ backgroundColor: "red" }} />
         ),
       })}
     >
-      <Tab.Screen name="HomeScreen" component={HomeScreen} />
+      <Tab.Screen name="HomeScreen" component={HomeScreenStackNavigation} />
       <Tab.Screen name="CartScreen" component={CartScreen} />
       <Tab.Screen name="FavouriteScreen" component={FavouriteScreen} />
       <Tab.Screen name="NotificationScreen" component={OderHistory} />
@@ -115,6 +116,10 @@ export const TabNavigation = (): JSX.Element => {
 
 const styles = StyleSheet.create({
   tabBar: {
+    position: "absolute",
+    shadowColor: "transparent",
+    elevation: 0,
+    borderTopWidth: 0,
     backgroundColor: COLORS.primaryBlackRGBA,
   },
 });

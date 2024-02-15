@@ -143,6 +143,7 @@ const styles = StyleSheet.create({
     ...screenContainer,
     paddingHorizontal: 0,
     paddingVertical: 0,
+    paddingBottom: 50,
   },
   topNavbar: {
     height: 33,

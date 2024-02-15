@@ -21,6 +21,7 @@ import {
   textlight_medium,
 } from "../assets/constants";
 import { BlurView } from "expo-blur";
+import { NavigationContainer } from "@react-navigation/native";
 
 export const HomeScreen = (): JSX.Element => {
   const coffeeData: CoffeeType[] = [
