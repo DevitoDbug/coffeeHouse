@@ -1,7 +1,7 @@
 import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../navigation/Navigation";
+import { RootStackParamList } from "../navigation/StackNavigation";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ScreensNavBar } from "../components/global/ScreensNavBar";
@@ -97,7 +97,7 @@ export interface CartItemType {
   image: string;
 }
 
-const CartScreen = () => {
+export const CartScreen = (): JSX.Element => {
   const navigation: NativeStackNavigationProp<RootStackParamList> =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
@@ -133,12 +133,10 @@ const CartScreen = () => {
           onPressAction={handleNavigationToPayment}
         />
       </View>
-      <ScreensNavBar pageName={"CartScreen"} />
+      {/* <ScreensNavBar pageName={"CartScreen"} /> */}
     </SafeAreaView>
   );
 };
-
-export default CartScreen;
 
 const styles = StyleSheet.create({
   container: {

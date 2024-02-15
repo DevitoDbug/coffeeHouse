@@ -2,10 +2,10 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { HomeScreen } from "../screens/HomeScreen";
-import CartScreen from "../screens/CartScreen";
-import PaymentScreen from "../screens/PaymentScreen";
-import FavouriteScreen from "../screens/FavouriteScreen";
-import OderHistory from "../screens/OderHistory";
+import { CartScreen } from "../screens/CartScreen";
+import { PaymentScreen } from "../screens/PaymentScreen";
+import { FavouriteScreen } from "../screens/FavouriteScreen";
+import { OderHistory } from "../screens/OderHistory";
 import { ProductDetailsScreen } from "../screens/ProductDetailsScreen";
 
 export type RootStackParamList = {
@@ -20,7 +20,7 @@ export type RootStackParamList = {
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-export const Navigation = () => {
+export const StackNavigation = () => {
   return (
     <Stack.Navigator
       screenOptions={{

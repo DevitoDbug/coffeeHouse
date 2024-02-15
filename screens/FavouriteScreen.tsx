@@ -3,15 +3,13 @@ import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ScreensNavBar } from "../components/global/ScreensNavBar";
 
-const FavouriteScreen = () => {
+export const FavouriteScreen = (): JSX.Element => {
   return (
     <SafeAreaView>
       <Text>FavouriteScreen</Text>
-      <ScreensNavBar pageName={"FavouritesScreen"} />
+      {/* <ScreensNavBar pageName={"FavouritesScreen"} /> */}
     </SafeAreaView>
   );
 };
-
-export default FavouriteScreen;
 
 const styles = StyleSheet.create({});

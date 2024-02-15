@@ -5,8 +5,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
 import * as ExpoSplashScreen from "expo-splash-screen";
-import { Navigation } from "./navigation/Navigation";
+import { StackNavigation } from "./navigation/StackNavigation";
 import { screenContainer } from "./assets/constants";
+import { TabNavigation } from "./navigation/TabNavigation";
 
 ExpoSplashScreen.preventAutoHideAsync();
 
@@ -50,7 +51,8 @@ export default function App() {
   return (
     <SafeAreaProvider onLayout={onLayoutRootView}>
       <NavigationContainer>
-        <Navigation />
+        {/* <StackNavigation /> */}
+        <TabNavigation />
       </NavigationContainer>
       <StatusBar style="light" animated={true} backgroundColor="transparent" />
     </SafeAreaProvider>

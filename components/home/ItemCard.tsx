@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlatlistItemGradient } from "../global/FlatListItemGradient";
 import { CoffeeType } from "./CoffeeTypesFlatList";
-import { RootStackParamList } from "../../navigation/Navigation";
+import { RootStackParamList } from "../../navigation/StackNavigation";
 import {
   COLORS,
   textlight_semibold,

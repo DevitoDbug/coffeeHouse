@@ -10,7 +10,7 @@ import {
   textlight_semibold,
   textlightfaint_medium,
 } from "../../assets/constants";
-import { RootStackParamList } from "../../navigation/Navigation";
+import { RootStackParamList } from "../../navigation/StackNavigation";
 
 export const InformationContainer = (): JSX.Element => {
   const navigation: NativeStackNavigationProp<RootStackParamList> =
