@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FlatlistItemGradient } from "../global/FlatListItemGradient";
 import { CoffeeType } from "./CoffeeTypesFlatList";
-import { HomeRootStackParamList } from "../../navigation/HomeScreenStackNavigation";
+import { HomeStackParamList } from "../../navigation/HomeScreenStackNavigation";
 import {
   COLORS,
   textlight_semibold,
@@ -23,8 +23,8 @@ export const ItemCard = ({
   cost,
   ratting,
 }: CoffeeType) => {
-  const navigation: NativeStackNavigationProp<HomeRootStackParamList> =
-    useNavigation<NativeStackNavigationProp<HomeRootStackParamList>>();
+  const navigation: NativeStackNavigationProp<HomeStackParamList> =
+    useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
 
   const handleNavigateToDetails = () => {
     navigation.navigate("ProductDetailsScreen");

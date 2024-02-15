@@ -1,8 +1,6 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Platform, StyleSheet, Text } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { HomeScreen } from "../screens/HomeScreen";
-import { CartScreen } from "../screens/CartScreen";
 import { FavouriteScreen } from "../screens/FavouriteScreen";
 import { OderHistory } from "../screens/OderHistory";
 import {
@@ -36,11 +34,13 @@ export const TabNavigation = (): JSX.Element => {
           switch (routeName) {
             case "HomeScreen":
               icon = focused ? (
-                <HomeIcon
-                  iconWidth={24}
-                  iconHeight={24}
-                  color={COLORS.primaryOrangeHex}
-                />
+                <Text style={styles.glowIcon}>
+                  <HomeIcon
+                    iconWidth={24}
+                    iconHeight={24}
+                    color={COLORS.primaryOrangeHex}
+                  />
+                </Text>
               ) : (
                 <HomeIcon
                   iconWidth={24}
@@ -51,11 +51,13 @@ export const TabNavigation = (): JSX.Element => {
               break;
             case "CartScreen":
               icon = focused ? (
-                <CartIcon
-                  iconWidth={24}
-                  iconHeight={24}
-                  color={COLORS.primaryOrangeHex}
-                />
+                <Text style={styles.glowIcon}>
+                  <CartIcon
+                    iconWidth={24}
+                    iconHeight={24}
+                    color={COLORS.primaryOrangeHex}
+                  />
+                </Text>
               ) : (
                 <CartIcon
                   iconWidth={24}
@@ -66,11 +68,13 @@ export const TabNavigation = (): JSX.Element => {
               break;
             case "FavouriteScreen":
               icon = focused ? (
-                <HeartIcon
-                  iconWidth={24}
-                  iconHeight={24}
-                  color={COLORS.primaryOrangeHex}
-                />
+                <Text style={styles.glowIcon}>
+                  <HeartIcon
+                    iconWidth={24}
+                    iconHeight={24}
+                    color={COLORS.primaryOrangeHex}
+                  />
+                </Text>
               ) : (
                 <HeartIcon
                   iconWidth={24}
@@ -81,11 +85,13 @@ export const TabNavigation = (): JSX.Element => {
               break;
             case "NotificationScreen":
               icon = focused ? (
-                <BellIcon
-                  iconWidth={24}
-                  iconHeight={24}
-                  color={COLORS.primaryOrangeHex}
-                />
+                <Text style={styles.glowIcon}>
+                  <BellIcon
+                    iconWidth={24}
+                    iconHeight={24}
+                    color={COLORS.primaryOrangeHex}
+                  />
+                </Text>
               ) : (
                 <BellIcon
                   iconWidth={24}
@@ -122,5 +128,24 @@ const styles = StyleSheet.create({
     elevation: 0,
     borderTopWidth: 0,
     backgroundColor: COLORS.primaryBlackRGBA,
+  },
+  glowIcon: {
+    backgroundColor: "transparent",
+    width: 20,
+    height: 20,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+    shadowColor: COLORS.primaryOrangeHex,
+    ...Platform.select({
+      ios: {
+        shadowOpacity: 0.8,
+        shadowRadius: 6,
+      },
+      android: {
+        elevation: 10,
+      },
+    }),
   },
 });

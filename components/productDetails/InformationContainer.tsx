@@ -10,14 +10,14 @@ import {
   textlight_semibold,
   textlightfaint_medium,
 } from "../../assets/constants";
-import { RootStackParamList } from "../../navigation/StackNavigation";
+import { HomeStackParamList } from "../../navigation/HomeScreenStackNavigation";
 
 export const InformationContainer = (): JSX.Element => {
-  const navigation: NativeStackNavigationProp<RootStackParamList> =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation: NativeStackNavigationProp<HomeStackParamList> =
+    useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
 
-  const handleNavigateToCart = () => {
-    navigation.navigate("HomeScreen");
+  const handleNavigateHome = () => {
+    navigation.navigate("HomeScreenMain");
   };
   return (
     <View style={styles.bottomContainer}>
@@ -100,7 +100,7 @@ export const InformationContainer = (): JSX.Element => {
         </View>
         <TouchableOpacity
           style={styles.addToCartButton}
-          onPress={handleNavigateToCart}
+          onPress={handleNavigateHome}
         >
           <Text
             style={{
