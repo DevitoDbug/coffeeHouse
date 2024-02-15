@@ -33,7 +33,7 @@ export const NavBar = (): JSX.Element => {
         <HeartIcon
           iconWidth={18}
           iconHeight={18}
-          color={liked ? COLORS.primaryRedHex : COLORS.secondaryLightGreyHex}
+          color={liked ? COLORS.primaryRedHex : COLORS.primaryWhiteHex}
         />
       </TouchableOpacity>
     </View>

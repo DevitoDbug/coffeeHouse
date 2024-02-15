@@ -4,12 +4,12 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigation/StackNavigation";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ScreensNavBar } from "../components/global/ScreensNavBar";
 import { BeanItem } from "../components/cart/BeanItem";
 import { CoffeeItem } from "../components/cart/CoffeeItem";
 import { PayButtonContainer } from "../components/global/PayButtonContainer";
 import { BackNavBarWithProfile } from "../components/global/BackNavBarWithProfile";
 import { screenContainer } from "../assets/constants";
+import { CartStackParamList } from "../navigation/CartScreenStackNavigation";
 
 export interface CoffeeBeanItemType {
   imageURL: string;
@@ -98,8 +98,8 @@ export interface CartItemType {
 }
 
 export const CartScreen = (): JSX.Element => {
-  const navigation: NativeStackNavigationProp<RootStackParamList> =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation: NativeStackNavigationProp<CartStackParamList> =
+    useNavigation<NativeStackNavigationProp<CartStackParamList>>();
 
   const handleNavigationToPayment = () => {
     navigation.navigate("PaymentScreen");
@@ -133,7 +133,6 @@ export const CartScreen = (): JSX.Element => {
           onPressAction={handleNavigationToPayment}
         />
       </View>
-      {/* <ScreensNavBar pageName={"CartScreen"} /> */}
     </SafeAreaView>
   );
 };

@@ -14,6 +14,7 @@ import {
 import { COLORS } from "../assets/constants";
 import { BlurView } from "expo-blur";
 import { HomeScreenStackNavigation } from "./HomeScreenStackNavigation";
+import { CartScreenStackNavigation } from "./CartScreenStackNavigation";
 
 export type TabNavigationParamList = {
   HomeScreen: undefined;
@@ -107,7 +108,7 @@ export const TabNavigation = (): JSX.Element => {
       })}
     >
       <Tab.Screen name="HomeScreen" component={HomeScreenStackNavigation} />
-      <Tab.Screen name="CartScreen" component={CartScreen} />
+      <Tab.Screen name="CartScreen" component={CartScreenStackNavigation} />
       <Tab.Screen name="FavouriteScreen" component={FavouriteScreen} />
       <Tab.Screen name="NotificationScreen" component={OderHistory} />
     </Tab.Navigator>

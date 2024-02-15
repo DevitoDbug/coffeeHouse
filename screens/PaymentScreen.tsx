@@ -3,7 +3,6 @@ import { StyleSheet, View } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { RootStackParamList } from "../navigation/StackNavigation";
 import { BackNavBarWithProfile } from "../components/global/BackNavBarWithProfile";
 import { PayButtonContainer } from "../components/global/PayButtonContainer";
 import { CreditCard } from "../components/payment/CreditCard";
@@ -15,6 +14,7 @@ import {
 } from "../assets/constants";
 import { PayOption, PayOptionType } from "../components/payment/PayOption";
 import { AppleIcon, WalletIcon } from "../assets/icons/svgIcons";
+import { TabNavigationParamList } from "../navigation/TabNavigation";
 
 const GooglePayIcon = require("../assets/icons/googlePay.png");
 const AmazonPay = require("../assets/icons/amazonPay.png");
@@ -25,8 +25,8 @@ export type PickedOptionType =
   | "Amazon Pay";
 
 export const PaymentScreen = (): JSX.Element => {
-  const navigation: NativeStackNavigationProp<RootStackParamList> =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation: NativeStackNavigationProp<TabNavigationParamList> =
+    useNavigation<NativeStackNavigationProp<TabNavigationParamList>>();
   const [pickedPayOption, setPickedPayOption] =
     useState<PickedOptionType>("Wallet");
   const handlePayment = () => {
@@ -113,6 +113,7 @@ const styles = StyleSheet.create({
     ...screenContainer,
     flexDirection: "column",
     paddingHorizontal: 0,
+    paddingBottom: 50,
   },
   navbar: {
     width: "100%",
