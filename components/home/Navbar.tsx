@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
-import { COLORS, textLightfaint } from "../../assets/constants";
+import { COLORS, textlightfaint_semibold } from "../../assets/constants";
 
 export interface NavOption {
   title: string;
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     color: COLORS.primaryOrangeHex,
   },
   optionTextNotSelected: {
-    ...textLightfaint,
+    ...textlightfaint_semibold,
     fontSize: 14,
   },
   contentContainerStyle: {

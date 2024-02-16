@@ -1,6 +1,7 @@
 import React from "react";
 import { Platform, StyleSheet, Text } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { BlurView } from "expo-blur";
 import { FavouriteScreen } from "../screens/FavouriteScreen";
 import { OderHistory } from "../screens/OderHistory";
 import {
@@ -10,7 +11,6 @@ import {
   HomeIcon,
 } from "../assets/icons/svgIcons";
 import { COLORS } from "../assets/constants";
-import { BlurView } from "expo-blur";
 import { HomeScreenStackNavigation } from "./HomeScreenStackNavigation";
 import { CartScreenStackNavigation } from "./CartScreenStackNavigation";
 

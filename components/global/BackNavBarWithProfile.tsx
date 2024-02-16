@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { StyleSheet, TouchableOpacity, View, Image, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../navigation/StackNavigation";
 import {
   BORDERRADIUS,
   COLORS,
@@ -11,6 +10,7 @@ import {
 } from "../../assets/constants";
 import { ChevronLeftIcon } from "../../assets/icons/svgIcons";
 import { GradientBox } from "./GradientBox";
+import { TabNavigationParamList } from "../../navigation/TabNavigation";
 
 export interface BackToPreviousScreenNavProps {
   title: string;
@@ -21,8 +21,8 @@ export const BackNavBarWithProfile = ({
   showProfilePic = true,
 }: BackToPreviousScreenNavProps): JSX.Element => {
   const [liked, setLiked] = useState(false);
-  const navigation: NativeStackNavigationProp<RootStackParamList> =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation: NativeStackNavigationProp<TabNavigationParamList> =
+    useNavigation<NativeStackNavigationProp<TabNavigationParamList>>();
 
   const handleNavigateBack = () => {
     navigation.goBack();

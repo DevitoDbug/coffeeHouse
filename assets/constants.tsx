@@ -147,7 +147,7 @@ export const textlight_semibold = {
   fontFamily: "poppins-semibold",
 };
 
-export const textLightfaint = {
+export const textlightfaint_semibold = {
   ...textlight_semibold,
   color: COLORS.primaryLightGreyHex,
 };
