@@ -15,6 +15,7 @@ import {
 import { PayOption, PayOptionType } from "../components/payment/PayOption";
 import { AppleIcon, WalletIcon } from "../assets/icons/svgIcons";
 import { TabNavigationParamList } from "../navigation/TabNavigation";
+import { CartStackParamList } from "../navigation/CartScreenStackNavigation";
 
 const GooglePayIcon = require("../assets/icons/googlePay.png");
 const AmazonPay = require("../assets/icons/amazonPay.png");
@@ -29,7 +30,13 @@ export const PaymentScreen = (): JSX.Element => {
     useNavigation<NativeStackNavigationProp<TabNavigationParamList>>();
   const [pickedPayOption, setPickedPayOption] =
     useState<PickedOptionType>("Wallet");
+  const stackNavitaion: NativeStackNavigationProp<CartStackParamList> =
+    useNavigation<NativeStackNavigationProp<CartStackParamList>>();
   const handlePayment = () => {
+    stackNavitaion.reset({
+      index: 0,
+      routes: [{ name: "CartScreenMain" }],
+    });
     navigation.navigate("HomeScreen");
   };
   const handleSetSelectedPayOption = (selectedOption: PickedOptionType) => {
