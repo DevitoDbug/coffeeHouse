@@ -3,19 +3,19 @@ import { StyleSheet, View } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { CartStackParamList } from "../navigation/CartScreenStackNavigation";
+import { TabNavigationParamList } from "../navigation/TabNavigation";
 import { BackNavBarWithProfile } from "../components/global/BackNavBarWithProfile";
 import { PayButtonContainer } from "../components/global/PayButtonContainer";
 import { CreditCard } from "../components/payment/CreditCard";
+import { PayOption, PayOptionType } from "../components/payment/PayOption";
 import {
   COLORS,
   SCREENHEIGHT,
   SCREENWIDTH,
   screenContainer,
 } from "../assets/constants";
-import { PayOption, PayOptionType } from "../components/payment/PayOption";
 import { AppleIcon, WalletIcon } from "../assets/icons/svgIcons";
-import { TabNavigationParamList } from "../navigation/TabNavigation";
-import { CartStackParamList } from "../navigation/CartScreenStackNavigation";
 
 const GooglePayIcon = require("../assets/icons/googlePay.png");
 const AmazonPay = require("../assets/icons/amazonPay.png");
