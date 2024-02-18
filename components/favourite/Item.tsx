@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   loveIcon: {
+    paddingTop: 1, //to center the heart icon vertically
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
