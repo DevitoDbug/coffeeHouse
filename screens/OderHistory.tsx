@@ -4,11 +4,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import {
   BORDERRADIUS,
   COLORS,
+  SCREENHEIGHT,
   SCREENWIDTH,
   screenContainer,
   textlight_semibold,
 } from "../assets/constants";
 import { BackNavBarWithProfile } from "../components/global/BackNavBarWithProfile";
+import { OrderFlatList } from "../components/orderHistory/OrderFlatList";
 
 export const OderHistory = (): JSX.Element => {
   return (
@@ -17,9 +19,7 @@ export const OderHistory = (): JSX.Element => {
         <BackNavBarWithProfile title="Oder History" />
       </View>
       <View style={styles.flatListArea}>
-        <Text style={{ ...textlight_semibold, fontSize: 16 }}>
-          Oder History
-        </Text>
+        <OrderFlatList />
       </View>
       <TouchableOpacity style={styles.downloadButton}>
         <Text style={{ ...textlight_semibold, fontSize: 16 }}>Download</Text>
@@ -39,11 +39,13 @@ const styles = StyleSheet.create({
   },
   flatListArea: {
     flex: 1,
-    backgroundColor: "red",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   downloadButton: {
     width: SCREENWIDTH - 60,
-    height: 60,
+    height: SCREENHEIGHT * 0.074,
     marginHorizontal: 50,
     marginBottom: 60,
     marginVertical: 20,
