@@ -44,7 +44,7 @@ export const OrderFlatList = (): JSX.Element => {
           totalPrice: 20,
           product: "coffee",
           quantity: {
-            small: 2,
+            small: 0,
             medium: 3,
             large: 4,
           },

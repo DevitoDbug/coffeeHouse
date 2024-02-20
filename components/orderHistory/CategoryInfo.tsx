@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { StyleSheet, Text, View } from "react-native";
 import {
   BORDERRADIUS,
   COLORS,
@@ -7,23 +7,39 @@ import {
   textlight_semibold,
 } from "../../assets/constants";
 
-export const CategoryInfo = (): JSX.Element => {
+export interface CategoryItemType {
+  categoryLabel: string;
+  price: number;
+  quantity: number;
+  totalPrice: number;
+}
+
+export interface CategoryInfoProps {
+  categoryItem: CategoryItemType;
+}
+
+export const CategoryInfo = ({
+  categoryItem,
+}: CategoryInfoProps): JSX.Element => {
   return (
     <View style={styles.container}>
       <View style={styles.categoryAndPriceContainer}>
         <View>
-          <Text style={styles.quantitiyLabel}>S</Text>
+          <Text style={styles.quantitiyLabel}>
+            {categoryItem.categoryLabel}
+          </Text>
         </View>
         <View>
           <Text style={styles.costLabel}>
             <Text style={{ color: COLORS.primaryOrangeHex }}>$ </Text>
-            4.20
+            {categoryItem.price}
           </Text>
         </View>
       </View>
       <View style={styles.quantityContainer}>
         <Text style={{ ...textlight_semibold, fontSize: 16 }}>
-          <Text style={{ color: COLORS.primaryOrangeHex }}>X </Text>3
+          <Text style={{ color: COLORS.primaryOrangeHex }}>X </Text>
+          {categoryItem.quantity}
         </Text>
       </View>
       <View style={styles.priceValue}>
@@ -34,7 +50,7 @@ export const CategoryInfo = (): JSX.Element => {
             color: COLORS.primaryOrangeHex,
           }}
         >
-          8.40
+          {categoryItem.totalPrice}
         </Text>
       </View>
     </View>
@@ -62,7 +78,7 @@ const styles = StyleSheet.create({
     ...textlight_medium,
     fontSize: 16,
     flex: 1,
-    width: (141 * 25) / 100,
+    width: (141 * 35) / 100,
     textAlign: "center",
     textAlignVertical: "center",
   },

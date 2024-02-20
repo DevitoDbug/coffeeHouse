@@ -76,13 +76,69 @@ export const Item = ({ item }: ItemProps): JSX.Element => {
       <View>
         {isCoffeeBeansOrder(item) ? (
           <View style={styles.categoryInfoContainer}>
-            <CategoryInfo />
-            <CategoryInfo />
-            <CategoryInfo />
+            {item.quantity["1kg"] > 0 && (
+              <CategoryInfo
+                categoryItem={{
+                  categoryLabel: "1kg",
+                  price: item["1kgPrice"],
+                  quantity: item.quantity["1kg"],
+                  totalPrice: item["1kgPrice"] * item.quantity["1kg"],
+                }}
+              />
+            )}
+            {item.quantity["500g"] > 0 && (
+              <CategoryInfo
+                categoryItem={{
+                  categoryLabel: "500g",
+                  price: item["500gPrice"],
+                  quantity: item.quantity["500g"],
+                  totalPrice: item["500gPrice"] * item.quantity["500g"],
+                }}
+              />
+            )}
+            {item.quantity["250g"] > 0 && (
+              <CategoryInfo
+                categoryItem={{
+                  categoryLabel: "250g",
+                  price: item["250gPrice"],
+                  quantity: item.quantity["250g"],
+                  totalPrice: item["250gPrice"] * item.quantity["250g"],
+                }}
+              />
+            )}
           </View>
         ) : (
           <View style={styles.categoryInfoContainer}>
-            <CategoryInfo />
+            {item.quantity.small > 0 && (
+              <CategoryInfo
+                categoryItem={{
+                  categoryLabel: "S",
+                  price: item.smallPrice,
+                  quantity: item.quantity.small,
+                  totalPrice: item.smallPrice * item.quantity.small,
+                }}
+              />
+            )}
+            {item.quantity.medium > 0 && (
+              <CategoryInfo
+                categoryItem={{
+                  categoryLabel: "M",
+                  price: item.mediumPrice,
+                  quantity: item.quantity.medium,
+                  totalPrice: item.mediumPrice * item.quantity.medium,
+                }}
+              />
+            )}
+            {item.quantity.large > 0 && (
+              <CategoryInfo
+                categoryItem={{
+                  categoryLabel: "L",
+                  price: item.largePrice,
+                  quantity: item.quantity.large,
+                  totalPrice: item.largePrice * item.quantity.large,
+                }}
+              />
+            )}
           </View>
         )}
       </View>
