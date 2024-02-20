@@ -20,7 +20,7 @@ export const OrderFlatList = (): JSX.Element => {
           imageURL:
             "https://media.istockphoto.com/id/523168994/photo/cappuccino-with-coffee-beans.jpg?s=612x612&w=0&k=20&c=qhRFxaeTppFykANecfXx8B17JSJYNJgW2KExDrUWKCk=",
           title: "Item 1",
-          description: "Description 1",
+          shortDescription: "Description 1",
           price: 10,
           totalPrice: 20,
           product: "coffee",
@@ -35,7 +35,7 @@ export const OrderFlatList = (): JSX.Element => {
           imageURL:
             "https://media.istockphoto.com/id/523168994/photo/cappuccino-with-coffee-beans.jpg?s=612x612&w=0&k=20&c=qhRFxaeTppFykANecfXx8B17JSJYNJgW2KExDrUWKCk=",
           title: "Item 1",
-          description: "Description 1",
+          shortDescription: "Description 1",
           price: 10,
           totalPrice: 20,
           product: "coffee",
@@ -50,7 +50,7 @@ export const OrderFlatList = (): JSX.Element => {
           imageURL:
             "https://media.istockphoto.com/id/523168994/photo/cappuccino-with-coffee-beans.jpg?s=612x612&w=0&k=20&c=qhRFxaeTppFykANecfXx8B17JSJYNJgW2KExDrUWKCk=",
           title: "Item 2",
-          description: "Description 2",
+          shortDescription: "Description 2",
           price: 20,
           totalPrice: 60,
           product: "coffee beans",
@@ -72,7 +72,7 @@ export const OrderFlatList = (): JSX.Element => {
           imageURL:
             "https://media.istockphoto.com/id/523168994/photo/cappuccino-with-coffee-beans.jpg?s=612x612&w=0&k=20&c=qhRFxaeTppFykANecfXx8B17JSJYNJgW2KExDrUWKCk=",
           title: "Item 3",
-          description: "Description 3",
+          shortDescription: "Description 3",
           price: 30,
           totalPrice: 120,
           product: "coffee",
@@ -87,7 +87,7 @@ export const OrderFlatList = (): JSX.Element => {
           imageURL:
             "https://media.istockphoto.com/id/523168994/photo/cappuccino-with-coffee-beans.jpg?s=612x612&w=0&k=20&c=qhRFxaeTppFykANecfXx8B17JSJYNJgW2KExDrUWKCk=",
           title: "Item 4",
-          description: "Description 4",
+          shortDescription: "Description 4",
           price: 40,
           totalPrice: 200,
           product: "coffee beans",
@@ -158,6 +158,7 @@ const styles = StyleSheet.create({
   },
   flatListContainer: {
     marginTop: 25,
+    paddingBottom: 30,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

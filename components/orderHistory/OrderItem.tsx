@@ -22,7 +22,7 @@ export const OrderItem = ({ orderItem }: OrderItemProps): JSX.Element => {
       {orderItem.items.map((item, index) => (
         <View key={index} style={styles.itemContainer}>
           <GradientBox xStyles={styles.gradientBox}>
-            <Text>something</Text>
+            <Item item={item} />
           </GradientBox>
         </View>
       ))}
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   itemContainer: {
     width: "100%",
     marginVertical: 10,
-    borderRadius: BORDERRADIUS.radius_25,
+    borderRadius: BORDERRADIUS.radius_20,
     overflow: "hidden",
   },
   gradientBox: {
