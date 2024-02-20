@@ -12,67 +12,90 @@ export const OrderFlatList = (): JSX.Element => {
   const data: OrderItemType[] = [
     {
       id: "1",
-      imageURL: "https://via.placeholder.com/150",
       date: "2021-08-01",
       totalAmount: 100,
       items: [
         {
           id: "1",
+          imageURL:
+            "https://media.istockphoto.com/id/523168994/photo/cappuccino-with-coffee-beans.jpg?s=612x612&w=0&k=20&c=qhRFxaeTppFykANecfXx8B17JSJYNJgW2KExDrUWKCk=",
           title: "Item 1",
           description: "Description 1",
           price: 10,
-          quantity: 2,
           totalPrice: 20,
-          category: "medium",
           product: "coffee",
+          quantity: {
+            small: 2,
+            medium: 3,
+            large: 4,
+          },
         },
         {
           id: "2",
+          imageURL:
+            "https://media.istockphoto.com/id/523168994/photo/cappuccino-with-coffee-beans.jpg?s=612x612&w=0&k=20&c=qhRFxaeTppFykANecfXx8B17JSJYNJgW2KExDrUWKCk=",
           title: "Item 1",
           description: "Description 1",
           price: 10,
-          quantity: 5,
           totalPrice: 20,
-          category: "large",
           product: "coffee",
+          quantity: {
+            small: 2,
+            medium: 3,
+            large: 4,
+          },
         },
         {
           id: "3",
+          imageURL:
+            "https://media.istockphoto.com/id/523168994/photo/cappuccino-with-coffee-beans.jpg?s=612x612&w=0&k=20&c=qhRFxaeTppFykANecfXx8B17JSJYNJgW2KExDrUWKCk=",
           title: "Item 2",
           description: "Description 2",
           price: 20,
-          quantity: 3,
           totalPrice: 60,
-          category: "500g",
           product: "coffee beans",
+          quantity: {
+            "250g": 2,
+            "500g": 3,
+            "1kg": 4,
+          },
         },
       ],
     },
     {
       id: "2",
-      imageURL: "https://via.placeholder.com/150",
       date: "2021-08-02",
       totalAmount: 200,
       items: [
         {
           id: "3",
+          imageURL:
+            "https://media.istockphoto.com/id/523168994/photo/cappuccino-with-coffee-beans.jpg?s=612x612&w=0&k=20&c=qhRFxaeTppFykANecfXx8B17JSJYNJgW2KExDrUWKCk=",
           title: "Item 3",
           description: "Description 3",
           price: 30,
-          quantity: 4,
           totalPrice: 120,
-          category: "large",
           product: "coffee",
+          quantity: {
+            small: 2,
+            medium: 3,
+            large: 4,
+          },
         },
         {
           id: "4",
+          imageURL:
+            "https://media.istockphoto.com/id/523168994/photo/cappuccino-with-coffee-beans.jpg?s=612x612&w=0&k=20&c=qhRFxaeTppFykANecfXx8B17JSJYNJgW2KExDrUWKCk=",
           title: "Item 4",
           description: "Description 4",
           price: 40,
-          quantity: 5,
           totalPrice: 200,
-          category: "1kg",
           product: "coffee beans",
+          quantity: {
+            "250g": 2,
+            "500g": 3,
+            "1kg": 4,
+          },
         },
       ],
     },
@@ -105,7 +128,7 @@ export const OrderFlatList = (): JSX.Element => {
             </Text>
           </View>
         </View>
-        <OrderItem items={data} />
+        <OrderItem orderItem={item} />
       </View>
     );
   };
