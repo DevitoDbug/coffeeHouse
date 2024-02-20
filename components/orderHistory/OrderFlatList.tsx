@@ -1,7 +1,6 @@
 import React from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { OrderItem, OrderItemType } from "./OrderItem";
-import { GradientBox } from "../global/GradientBox";
 import {
   COLORS,
   SCREENWIDTH,
@@ -25,14 +24,28 @@ export const OrderFlatList = (): JSX.Element => {
           price: 10,
           quantity: 2,
           totalPrice: 20,
+          category: "medium",
+          product: "coffee",
         },
         {
           id: "2",
+          title: "Item 1",
+          description: "Description 1",
+          price: 10,
+          quantity: 5,
+          totalPrice: 20,
+          category: "large",
+          product: "coffee",
+        },
+        {
+          id: "3",
           title: "Item 2",
           description: "Description 2",
           price: 20,
           quantity: 3,
           totalPrice: 60,
+          weight: "500g",
+          product: "coffee beans",
         },
       ],
     },
@@ -49,6 +62,8 @@ export const OrderFlatList = (): JSX.Element => {
           price: 30,
           quantity: 4,
           totalPrice: 120,
+          category: "large",
+          product: "coffee",
         },
         {
           id: "4",
@@ -57,6 +72,8 @@ export const OrderFlatList = (): JSX.Element => {
           price: 40,
           quantity: 5,
           totalPrice: 200,
+          weight: "1kg",
+          product: "coffee beans",
         },
       ],
     },

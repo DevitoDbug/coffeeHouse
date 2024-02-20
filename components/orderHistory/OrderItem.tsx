@@ -1,15 +1,17 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { ItemType } from "./Item";
 import { GradientBox } from "../global/GradientBox";
 import { BORDERRADIUS } from "../../assets/constants";
+import { CoffeeBeansOrder, CoffeeOrder } from "./Item";
+
+export type OrderType = CoffeeOrder | CoffeeBeansOrder;
 
 export interface OrderItemType {
   id: string;
   imageURL: string;
   date: string;
   totalAmount: number;
-  items: ItemType[];
+  items: OrderType[];
 }
 export interface OrderItemProps {
   items: OrderItemType[];
