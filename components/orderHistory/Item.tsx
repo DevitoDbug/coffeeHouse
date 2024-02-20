@@ -1,18 +1,20 @@
 import React from "react";
 import { StyleSheet, Image, View, Text } from "react-native";
+import { CategoryInfo } from "./CategoryInfo";
 import {
   BORDERRADIUS,
   COLORS,
   textlight_regular,
 } from "../../assets/constants";
-import { CategoryInfo } from "./CategoryInfo";
 
 export type CoffeeOrder = {
   id: string;
   imageURL: string;
   title: string;
   shortDescription: string;
-  price: number;
+  smallPrice: number;
+  mediumPrice: number;
+  largePrice: number;
   totalPrice: number;
   product: "coffee";
   quantity: {
@@ -27,7 +29,9 @@ export type CoffeeBeansOrder = {
   imageURL: string;
   title: string;
   shortDescription: string;
-  price: number;
+  "250gPrice": number;
+  "500gPrice": number;
+  "1kgPrice": number;
   totalPrice: number;
   product: "coffee beans";
   quantity: {
