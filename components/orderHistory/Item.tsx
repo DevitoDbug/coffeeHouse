@@ -19,7 +19,7 @@ export type CoffeeBeansOrder = {
   price: number;
   totalPrice: number;
   product: "coffee beans";
-  weight: "500g" | "250g" | "1kg";
+  category: "500g" | "250g" | "1kg";
   quantity: number;
 };
 

@@ -9,7 +9,6 @@ import {
 } from "../../assets/constants";
 
 export const OrderFlatList = (): JSX.Element => {
-  // dummy data
   const data: OrderItemType[] = [
     {
       id: "1",
@@ -44,7 +43,7 @@ export const OrderFlatList = (): JSX.Element => {
           price: 20,
           quantity: 3,
           totalPrice: 60,
-          weight: "500g",
+          category: "500g",
           product: "coffee beans",
         },
       ],
@@ -72,7 +71,7 @@ export const OrderFlatList = (): JSX.Element => {
           price: 40,
           quantity: 5,
           totalPrice: 200,
-          weight: "1kg",
+          category: "1kg",
           product: "coffee beans",
         },
       ],
