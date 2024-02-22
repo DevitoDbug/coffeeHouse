@@ -1,6 +1,7 @@
 import { CoffeeBeanType } from "../components/home/CoffeeBeansFlatList";
 import { CoffeeType } from "../components/home/CoffeeTypesFlatList";
 
+// CoffeeDummyData is from Home Screen 
 export const CoffeeDummyData: CoffeeType[] = [
   {
     id: 1,
@@ -49,6 +50,7 @@ export const CoffeeDummyData: CoffeeType[] = [
   },
 ];
 
+// CoffeeBeanDummyData is from Home Screen 
 export const CoffeeBeanDummyData: CoffeeBeanType[] = [
   {
     id: 1,
