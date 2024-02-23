@@ -1,7 +1,13 @@
+import { FavouriteItem } from "../components/favourite/Item";
 import { CoffeeBeanType } from "../components/home/CoffeeBeansFlatList";
 import { CoffeeType } from "../components/home/CoffeeTypesFlatList";
+import { OrderItemType } from "../components/orderHistory/OrderItem";
+import {
+  CoffeeBeanCartItemType,
+  CoffeeCartItemType,
+} from "../screens/CartScreen";
 
-// CoffeeDummyData is from Home Screen 
+// CoffeeDummyData is from Home Screen
 export const CoffeeDummyData: CoffeeType[] = [
   {
     id: 1,
@@ -50,7 +56,7 @@ export const CoffeeDummyData: CoffeeType[] = [
   },
 ];
 
-// CoffeeBeanDummyData is from Home Screen 
+// CoffeeBeanDummyData is from Home Screen
 export const CoffeeBeanDummyData: CoffeeBeanType[] = [
   {
     id: 1,
@@ -97,5 +103,191 @@ export const CoffeeBeanDummyData: CoffeeBeanType[] = [
     image:
       "https://marias.com.au/cdn/shop/products/coffee_2_grande.jpg?v=1687852833",
     ratting: "4.5",
+  },
+];
+
+// Item for cart screen
+export const CoffeeBeansCartItems: CoffeeBeanCartItemType[] = [
+  {
+    imageURL:
+      "https://media.istockphoto.com/id/523168994/photo/cappuccino-with-coffee-beans.jpg?s=612x612&w=0&k=20&c=qhRFxaeTppFykANecfXx8B17JSJYNJgW2KExDrUWKCk=",
+    name: "Liberica Coffee Beans",
+    description: "Medium Roasted",
+    quantity_250gm: {
+      price: 10,
+      quantity: 3,
+    },
+    quantity_500gm: {
+      price: 20,
+      quantity: 0,
+    },
+    quantity_1000kg: {
+      price: 30,
+      quantity: 10,
+    },
+  },
+];
+
+export const CoffeeCartItems: CoffeeCartItemType[] = [
+  {
+    name: "Cappuccino",
+    imageURL:
+      "https://www.acouplecooks.com/wp-content/uploads/2021/05/Latte-Art-066.jpg",
+    description: "With milk and sugar",
+    small: {
+      price: 10,
+      quantity: 3,
+    },
+    medium: {
+      price: 20,
+      quantity: 0,
+    },
+    large: {
+      price: 30,
+      quantity: 10,
+    },
+  },
+];
+
+// FavouriteItem is from Favourite Screen
+export const FavouriteItemDummyData: FavouriteItem[] = [
+  {
+    id: 1,
+    imageURl:
+      "https://media.istockphoto.com/id/523168994/photo/cappuccino-with-coffee-beans.jpg?s=612x612&w=0&k=20&c=qhRFxaeTppFykANecfXx8B17JSJYNJgW2KExDrUWKCk=",
+    liked: true,
+    name: "Cappuccino",
+    shortDescription: "With milk",
+    ratting: 4.5,
+    numberOfRattings: 100,
+    longDescription:
+      "Cappuccino is a latte made with more foam than steamed milk, often with a sprinkle of cocoa powder or cinnamon on top.",
+  },
+  {
+    id: 2,
+    imageURl:
+      "https://media.istockphoto.com/id/523168994/photo/cappuccino-with-coffee-beans.jpg?s=612x612&w=0&k=20&c=qhRFxaeTppFykANecfXx8B17JSJYNJgW2KExDrUWKCk=",
+    liked: false,
+    name: "Espresso",
+    shortDescription: "Strong coffee",
+    ratting: 4.2,
+    numberOfRattings: 80,
+    longDescription:
+      "Espresso is a concentrated coffee brewed by forcing a small amount of nearly boiling water under pressure through finely-ground coffee beans.",
+  },
+  {
+    id: 3,
+    imageURl:
+      "https://media.istockphoto.com/id/523168994/photo/cappuccino-with-coffee-beans.jpg?s=612x612&w=0&k=20&c=qhRFxaeTppFykANecfXx8B17JSJYNJgW2KExDrUWKCk=",
+    liked: true,
+    name: "Latte",
+    shortDescription: "Creamy coffee",
+    ratting: 4.7,
+    numberOfRattings: 120,
+    longDescription:
+      "Latte is a coffee drink made with espresso and steamed milk. The term comes from the Italian caffè e latte, meaning 'coffee and milk'.",
+  },
+];
+
+// OrderItem is from Order History Screen
+export const OrderItemDummyData: OrderItemType[] = [
+  {
+    id: "1",
+    date: "2021-08-01",
+    totalAmount: 100,
+    items: [
+      {
+        id: "1",
+        imageURL:
+          "https://media.istockphoto.com/id/523168994/photo/cappuccino-with-coffee-beans.jpg?s=612x612&w=0&k=20&c=qhRFxaeTppFykANecfXx8B17JSJYNJgW2KExDrUWKCk=",
+        title: "Item 1",
+        shortDescription: "Description 1",
+        largePrice: 10,
+        mediumPrice: 8,
+        smallPrice: 6,
+        totalPrice: 20,
+        product: "coffee",
+        quantity: {
+          small: 2,
+          medium: 3,
+          large: 4,
+        },
+      },
+      {
+        id: "2",
+        imageURL:
+          "https://media.istockphoto.com/id/523168994/photo/cappuccino-with-coffee-beans.jpg?s=612x612&w=0&k=20&c=qhRFxaeTppFykANecfXx8B17JSJYNJgW2KExDrUWKCk=",
+        title: "Item 1",
+        shortDescription: "Description 1",
+        largePrice: 10,
+        mediumPrice: 8,
+        smallPrice: 6,
+        totalPrice: 20,
+        product: "coffee",
+        quantity: {
+          small: 0,
+          medium: 3,
+          large: 4,
+        },
+      },
+      {
+        id: "3",
+        imageURL:
+          "https://media.istockphoto.com/id/523168994/photo/cappuccino-with-coffee-beans.jpg?s=612x612&w=0&k=20&c=qhRFxaeTppFykANecfXx8B17JSJYNJgW2KExDrUWKCk=",
+        title: "Item 2",
+        shortDescription: "Description 2",
+        "250gPrice": 10,
+        "500gPrice": 20,
+        "1kgPrice": 30,
+        totalPrice: 60,
+        product: "coffee beans",
+        quantity: {
+          "250g": 2,
+          "500g": 3,
+          "1kg": 4,
+        },
+      },
+    ],
+  },
+  {
+    id: "2",
+    date: "2021-08-02",
+    totalAmount: 200,
+    items: [
+      {
+        id: "3",
+        imageURL:
+          "https://media.istockphoto.com/id/523168994/photo/cappuccino-with-coffee-beans.jpg?s=612x612&w=0&k=20&c=qhRFxaeTppFykANecfXx8B17JSJYNJgW2KExDrUWKCk=",
+        title: "Item 3",
+        shortDescription: "Description 3",
+        largePrice: 10,
+        mediumPrice: 8,
+        smallPrice: 6,
+        totalPrice: 120,
+        product: "coffee",
+        quantity: {
+          small: 2,
+          medium: 3,
+          large: 4,
+        },
+      },
+      {
+        id: "4",
+        imageURL:
+          "https://media.istockphoto.com/id/523168994/photo/cappuccino-with-coffee-beans.jpg?s=612x612&w=0&k=20&c=qhRFxaeTppFykANecfXx8B17JSJYNJgW2KExDrUWKCk=",
+        title: "Item 4",
+        shortDescription: "Description 4",
+        "250gPrice": 10,
+        "500gPrice": 20,
+        "1kgPrice": 30,
+        totalPrice: 200,
+        product: "coffee beans",
+        quantity: {
+          "250g": 2,
+          "500g": 3,
+          "1kg": 4,
+        },
+      },
+    ],
   },
 ];

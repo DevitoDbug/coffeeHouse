@@ -3,15 +3,15 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { CartStackParamList } from "../navigation/CartScreenStackNavigation";
+import { CoffeeBeansCartItems, CoffeeCartItems } from "../store/dummyData";
 import { BeanItem } from "../components/cart/BeanItem";
 import { CoffeeItem } from "../components/cart/CoffeeItem";
 import { PayButtonContainer } from "../components/global/PayButtonContainer";
 import { BackNavBarWithProfile } from "../components/global/BackNavBarWithProfile";
 import { screenContainer } from "../assets/constants";
-import { CartStackParamList } from "../navigation/CartScreenStackNavigation";
-import { StatusBar } from "expo-status-bar";
 
-export interface CoffeeBeanItemType {
+export interface CoffeeBeanCartItemType {
   imageURL: string;
   name: string;
   description: string;
@@ -29,7 +29,7 @@ export interface CoffeeBeanItemType {
   };
 }
 
-export interface CoffeeItemType {
+export interface CoffeeCartItemType {
   name: string;
   imageURL: string;
   description: string;
@@ -47,47 +47,9 @@ export interface CoffeeItemType {
   };
 }
 
-const coffeeBeans: CoffeeBeanItemType[] = [
-  {
-    imageURL:
-      "https://media.istockphoto.com/id/523168994/photo/cappuccino-with-coffee-beans.jpg?s=612x612&w=0&k=20&c=qhRFxaeTppFykANecfXx8B17JSJYNJgW2KExDrUWKCk=",
-    name: "Liberica Coffee Beans",
-    description: "Medium Roasted",
-    quantity_250gm: {
-      price: 10,
-      quantity: 3,
-    },
-    quantity_500gm: {
-      price: 20,
-      quantity: 0,
-    },
-    quantity_1000kg: {
-      price: 30,
-      quantity: 10,
-    },
-  },
-];
+const coffeeBeansItems = CoffeeBeansCartItems;
 
-const coffeeItems: CoffeeItemType[] = [
-  {
-    name: "Cappuccino",
-    imageURL:
-      "https://www.acouplecooks.com/wp-content/uploads/2021/05/Latte-Art-066.jpg",
-    description: "With milk and sugar",
-    small: {
-      price: 10,
-      quantity: 3,
-    },
-    medium: {
-      price: 20,
-      quantity: 0,
-    },
-    large: {
-      price: 30,
-      quantity: 10,
-    },
-  },
-];
+const coffeeItems = CoffeeCartItems;
 
 export interface CartItemType {
   id: number;
@@ -111,7 +73,7 @@ export const CartScreen = (): JSX.Element => {
         <BackNavBarWithProfile title="Cart" />
       </View>
       <ScrollView contentContainerStyle={styles.scrollView}>
-        {coffeeBeans.map((beanItem, index) => {
+        {coffeeBeansItems.map((beanItem, index) => {
           return (
             <View key={index} style={styles.itemContainer}>
               <BeanItem beanItem={beanItem} />

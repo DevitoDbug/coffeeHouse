@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
-import { CoffeeBeanItemType } from "../../screens/CartScreen";
+import { CoffeeBeanCartItemType } from "../../screens/CartScreen";
 import { GradientBox } from "../global/GradientBox";
 import { QuantityPicker } from "./QuantityPicker";
 import { BORDERRADIUS, COLORS } from "../../assets/constants";
@@ -10,7 +10,7 @@ import {
 } from "../../assets/constants";
 
 interface BeanItemProps {
-  beanItem: CoffeeBeanItemType;
+  beanItem: CoffeeBeanCartItemType;
 }
 
 export const BeanItem = ({ beanItem }: BeanItemProps): JSX.Element => {
