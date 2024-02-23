@@ -32,6 +32,7 @@ export const PaymentScreen = (): JSX.Element => {
     useState<PickedOptionType>("Wallet");
   const stackNavitaion: NativeStackNavigationProp<CartStackParamList> =
     useNavigation<NativeStackNavigationProp<CartStackParamList>>();
+
   const handlePayment = () => {
     stackNavitaion.reset({
       index: 0,
@@ -39,9 +40,11 @@ export const PaymentScreen = (): JSX.Element => {
     });
     navigation.navigate("HomeScreen");
   };
+
   const handleSetSelectedPayOption = (selectedOption: PickedOptionType) => {
     setPickedPayOption(selectedOption);
   };
+
   const payOptions: PayOptionType[] = [
     {
       svgIcon: (
@@ -84,6 +87,7 @@ export const PaymentScreen = (): JSX.Element => {
       nameOfPayOption: "Amazon Pay",
     },
   ];
+
   return (
     <SafeAreaView style={styles.screenContainer}>
       <View style={styles.navbar}>

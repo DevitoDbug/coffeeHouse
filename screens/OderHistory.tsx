@@ -1,6 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { BackNavBarWithProfile } from "../components/global/BackNavBarWithProfile";
+import { OrderFlatList } from "../components/orderHistory/OrderFlatList";
 import {
   BORDERRADIUS,
   COLORS,
@@ -9,8 +11,6 @@ import {
   screenContainer,
   textlight_semibold,
 } from "../assets/constants";
-import { BackNavBarWithProfile } from "../components/global/BackNavBarWithProfile";
-import { OrderFlatList } from "../components/orderHistory/OrderFlatList";
 
 export const OderHistory = (): JSX.Element => {
   return (

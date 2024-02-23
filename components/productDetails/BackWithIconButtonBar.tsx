@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../navigation/StackNavigation";
 import { ChevronLeftIcon, HeartIcon } from "../../assets/icons/svgIcons";
 import { COLORS } from "../../assets/constants";
 
 export const NavBar = (): JSX.Element => {
   const [liked, setLiked] = useState(false);
-  const navigation: NativeStackNavigationProp<RootStackParamList> =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation();
 
   const handleNavigateBack = () => {
     navigation.goBack();
@@ -17,6 +14,7 @@ export const NavBar = (): JSX.Element => {
   const handleLiked = () => {
     setLiked((prev) => !prev);
   };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
