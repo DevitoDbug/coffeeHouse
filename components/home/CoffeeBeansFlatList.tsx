@@ -8,7 +8,7 @@ export interface CoffeeBeanType {
   description: string;
   cost: number;
   image: string;
-  ratting: string;
+  ratting: number;
 }
 
 export interface CoffeeTypesFlatListProps {
