@@ -19,9 +19,12 @@ export interface ItemCardProps {
 export const ItemCard = ({
   image,
   name,
-  description,
+  shortDescription,
+  longDescription,
   cost,
   ratting,
+  liked,
+  numberOfRattings,
 }: CoffeeType) => {
   const navigation: NativeStackNavigationProp<HomeStackParamList> =
     useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
@@ -52,7 +55,7 @@ export const ItemCard = ({
             {name}
           </Text>
           <Text style={{ ...textlight_regular, fontSize: 9 }}>
-            {description}
+            {shortDescription}
           </Text>
           <View
             style={{

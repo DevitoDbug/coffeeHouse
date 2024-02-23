@@ -5,28 +5,34 @@ import { ItemCard } from "./ItemCard";
 export interface CoffeeBeanType {
   id: number;
   name: string;
-  description: string;
+  shortDescription: string;
+  longDescription: string;
   cost: number;
   image: string;
   ratting: number;
+  liked: boolean;
+  numberOfRattings: number;
 }
 
-export interface CoffeeTypesFlatListProps {
+export interface CoffeeBeansTypesFlatListProps {
   coffeeBean: CoffeeBeanType[];
 }
 
 export const CoffeeBeansFlatList = ({
   coffeeBean,
-}: CoffeeTypesFlatListProps): JSX.Element => {
+}: CoffeeBeansTypesFlatListProps): JSX.Element => {
   const renderItem = ({ item }: { item: CoffeeBeanType }) => {
     return (
       <ItemCard
         id={item.id}
         cost={item.cost}
-        description={item.description}
         name={item.name}
         image={item.image}
         ratting={item.ratting}
+        liked={item.liked}
+        longDescription={item.longDescription}
+        shortDescription={item.shortDescription}
+        numberOfRattings={item.numberOfRattings}
       />
     );
   };

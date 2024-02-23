@@ -21,6 +21,7 @@ export interface FavouriteItem {
   ratting: number;
   numberOfRattings: number;
   longDescription: string;
+  cost: number;
 }
 export interface ItemProp {
   item: FavouriteItem;

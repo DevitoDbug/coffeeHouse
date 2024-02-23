@@ -5,10 +5,13 @@ import { ItemCard } from "./ItemCard";
 export interface CoffeeType {
   id: number;
   name: string;
-  description: string;
+  shortDescription: string;
+  longDescription: string;
   cost: number;
   image: string;
   ratting: number;
+  liked: boolean;
+  numberOfRattings: number;
 }
 
 export interface CoffeeTypesFlatListProps {
@@ -23,10 +26,13 @@ export const CoffeeTypesFlatList = ({
       <ItemCard
         id={item.id}
         cost={item.cost}
-        description={item.description}
         name={item.name}
         image={item.image}
         ratting={item.ratting}
+        liked={item.liked}
+        longDescription={item.longDescription}
+        shortDescription={item.shortDescription}
+        numberOfRattings={item.numberOfRattings}
       />
     );
   };
