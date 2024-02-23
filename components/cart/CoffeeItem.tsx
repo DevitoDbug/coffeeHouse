@@ -27,7 +27,9 @@ export const CoffeeItem = ({ coffeeItem }: CoffeeItemProps): JSX.Element => {
           >
             {coffeeItem.name}
           </Text>
-          <Text style={styles.coffeeDescription}>{coffeeItem.description}</Text>
+          <Text style={styles.coffeeDescription}>
+            {coffeeItem.shortDescription}
+          </Text>
         </View>
       </View>
       <View style={styles.bottomSection}>

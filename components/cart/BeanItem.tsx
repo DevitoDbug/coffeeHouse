@@ -27,7 +27,9 @@ export const BeanItem = ({ beanItem }: BeanItemProps): JSX.Element => {
           >
             {beanItem.name}
           </Text>
-          <Text style={styles.beanDescription}>{beanItem.description}</Text>
+          <Text style={styles.beanDescription}>
+            {beanItem.shortDescription}
+          </Text>
         </View>
       </View>
       <View style={styles.bottomSection}>

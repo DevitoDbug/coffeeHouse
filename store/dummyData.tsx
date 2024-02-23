@@ -140,7 +140,8 @@ export const CoffeeBeansCartItems: CoffeeBeanCartItemType[] = [
     imageURL:
       "https://media.istockphoto.com/id/523168994/photo/cappuccino-with-coffee-beans.jpg?s=612x612&w=0&k=20&c=qhRFxaeTppFykANecfXx8B17JSJYNJgW2KExDrUWKCk=",
     name: "Liberica Coffee Beans",
-    description: "Medium Roasted",
+    shortDescription: "Medium Roasted",
+    longDescription: "From Africa",
     quantity_250gm: {
       price: 10,
       quantity: 3,
@@ -161,7 +162,9 @@ export const CoffeeCartItems: CoffeeCartItemType[] = [
     name: "Cappuccino",
     imageURL:
       "https://www.acouplecooks.com/wp-content/uploads/2021/05/Latte-Art-066.jpg",
-    description: "With milk and sugar",
+    shortDescription: "With milk and sugar",
+    longDescription:
+      "A classic coffee drink with frothy milk and a touch of sweetness.",
     small: {
       price: 10,
       quantity: 3,

@@ -14,7 +14,8 @@ import { screenContainer } from "../assets/constants";
 export interface CoffeeBeanCartItemType {
   imageURL: string;
   name: string;
-  description: string;
+  shortDescription: string;
+  longDescription: string;
   quantity_250gm: {
     price: number;
     quantity: number;
@@ -32,7 +33,8 @@ export interface CoffeeBeanCartItemType {
 export interface CoffeeCartItemType {
   name: string;
   imageURL: string;
-  description: string;
+  shortDescription: string;
+  longDescription: string;
   small: {
     price: number;
     quantity: number;
