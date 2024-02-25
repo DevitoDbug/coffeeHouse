@@ -205,23 +205,6 @@ export const OrderItemDummyData: OrderItemType[] = [
         },
       },
       {
-        id: "2",
-        imageURL:
-          "https://media.istockphoto.com/id/523168994/photo/cappuccino-with-coffee-beans.jpg?s=612x612&w=0&k=20&c=qhRFxaeTppFykANecfXx8B17JSJYNJgW2KExDrUWKCk=",
-        title: "Item 1",
-        shortDescription: "Description 1",
-        largePrice: 10,
-        mediumPrice: 8,
-        smallPrice: 6,
-        totalPrice: 20,
-        product: "coffee",
-        quantity: {
-          small: 0,
-          medium: 3,
-          large: 4,
-        },
-      },
-      {
         id: "3",
         imageURL:
           "https://media.istockphoto.com/id/523168994/photo/cappuccino-with-coffee-beans.jpg?s=612x612&w=0&k=20&c=qhRFxaeTppFykANecfXx8B17JSJYNJgW2KExDrUWKCk=",
