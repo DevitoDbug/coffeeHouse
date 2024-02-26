@@ -119,19 +119,6 @@ export const FavouriteItemDummyData: FavouriteItem[] = [
     longDescription:
       "Espresso is a concentrated coffee brewed by forcing a small amount of nearly boiling water under pressure through finely-ground coffee beans.",
   },
-  {
-    id: 3,
-    imageURl:
-      "https://media.istockphoto.com/id/523168994/photo/cappuccino-with-coffee-beans.jpg?s=612x612&w=0&k=20&c=qhRFxaeTppFykANecfXx8B17JSJYNJgW2KExDrUWKCk=",
-    liked: true,
-    name: "Latte",
-    shortDescription: "Creamy coffee",
-    ratting: 4.7,
-    numberOfRattings: 120,
-    cost: 3.8,
-    longDescription:
-      "Latte is a coffee drink made with espresso and steamed milk. The term comes from the Italian caffè e latte, meaning 'coffee and milk'.",
-  },
 ];
 
 // Item for cart screen
