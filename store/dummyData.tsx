@@ -119,6 +119,19 @@ export const FavouriteItemDummyData: FavouriteItem[] = [
     longDescription:
       "Espresso is a concentrated coffee brewed by forcing a small amount of nearly boiling water under pressure through finely-ground coffee beans.",
   },
+  {
+    id: 3,
+    imageURl:
+      "https://media.istockphoto.com/id/523168994/photo/cappuccino-with-coffee-beans.jpg?s=612x612&w=0&k=20&c=qhRFxaeTppFykANecfXx8B17JSJYNJgW2KExDrUWKCk=",
+    liked: false,
+    name: "Espresso",
+    shortDescription: "Strong coffee",
+    ratting: 4.2,
+    numberOfRattings: 80,
+    cost: 3.8,
+    longDescription:
+      "Espresso is a concentrated coffee brewed by forcing a small amount of nearly boiling water under pressure through finely-ground coffee beans.",
+  },
 ];
 
 // Item for cart screen
