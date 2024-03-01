@@ -8,4 +8,10 @@ createdb:
 	docker exec -it postgres13 createdb --username=root --owner=root coffeeHouse
 dropdb:
 	docker exec -it postgres13 dropdb simple_bank
-.PHONY: postgres stoppostgres removepostgres createdb dropdb
+migrateup:
+	migrate -path db/migration -database "postgresql://root:j1751502021@localhost:5432/coffeeHouse?sslmode=disable" -verbose up
+migratedown:
+	migrate -path db/migration -database "postgresql://root:j1751502021@localhost:5432/coffeeHouse?sslmode=disable" -verbose down
+sqlc:
+	sqlc generate
+.PHONY: postgres stoppostgres removepostgres createdb dropdb migrateup migratedown
