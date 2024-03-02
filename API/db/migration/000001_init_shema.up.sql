@@ -28,7 +28,8 @@ CREATE TABLE "product_variant" (
                                    "updated_at" timestamptz DEFAULT (now()),
                                    "deleted_at" timestamptz,
                                    "price" decimal NOT NULL DEFAULT 0,
-                                   "pd_id" bigserial
+                                   "pd_id" bigserial,
+                                   "att_id" bigserial
 );
 
 CREATE TABLE "attribute" (
@@ -37,8 +38,7 @@ CREATE TABLE "attribute" (
                              "updated_at" timestamptz DEFAULT (now()),
                              "deleted_at" timestamptz,
                              "att_value" varchar,
-                             "abbreviations" varchar,
-                             "product_variant_id" bigserial
+                             "abbreviations" varchar
 );
 
 CREATE TABLE "category" (
@@ -105,6 +105,8 @@ CREATE INDEX ON "product_variant" ("pd_id");
 
 CREATE INDEX ON "product_variant" ("price");
 
+CREATE INDEX ON "product_variant" ("att_id");
+
 CREATE INDEX ON "category" ("category_name");
 
 CREATE INDEX ON "rating" ("pd_id");
@@ -129,7 +131,7 @@ ALTER TABLE "product" ADD FOREIGN KEY ("category_id") REFERENCES "category" ("ca
 
 ALTER TABLE "product_variant" ADD FOREIGN KEY ("pd_id") REFERENCES "product" ("pd_id");
 
-ALTER TABLE "attribute" ADD FOREIGN KEY ("product_variant_id") REFERENCES "product_variant" ("product_variant_id");
+ALTER TABLE "product_variant" ADD FOREIGN KEY ("att_id") REFERENCES "attribute" ("att_id");
 
 ALTER TABLE "rating" ADD FOREIGN KEY ("pd_id") REFERENCES "product" ("pd_id");
 

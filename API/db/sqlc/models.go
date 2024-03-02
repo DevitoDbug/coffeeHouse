@@ -10,13 +10,12 @@ import (
 )
 
 type Attribute struct {
-	AttID            int64          `json:"att_id"`
-	CreatedAt        time.Time      `json:"created_at"`
-	UpdatedAt        sql.NullTime   `json:"updated_at"`
-	DeletedAt        sql.NullTime   `json:"deleted_at"`
-	AttValue         sql.NullString `json:"att_value"`
-	Abbreviations    sql.NullString `json:"abbreviations"`
-	ProductVariantID sql.NullInt64  `json:"product_variant_id"`
+	AttID         int64          `json:"att_id"`
+	CreatedAt     time.Time      `json:"created_at"`
+	UpdatedAt     sql.NullTime   `json:"updated_at"`
+	DeletedAt     sql.NullTime   `json:"deleted_at"`
+	AttValue      sql.NullString `json:"att_value"`
+	Abbreviations sql.NullString `json:"abbreviations"`
 }
 
 type Cart struct {
@@ -78,6 +77,7 @@ type ProductVariant struct {
 	DeletedAt        sql.NullTime  `json:"deleted_at"`
 	Price            string        `json:"price"`
 	PdID             sql.NullInt64 `json:"pd_id"`
+	AttID            sql.NullInt64 `json:"att_id"`
 }
 
 type Rating struct {
