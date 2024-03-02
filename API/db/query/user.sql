@@ -6,6 +6,10 @@ fname, sname , email , password, "photoURL"
 )
 RETURNING *;
 
+-- name: GetUsers :one
+SELECT * FROM "user"
+WHERE usr_id = $1;
+
 -- name: ListUsers :many
 SELECT * FROM "user"
 WHERE deleted_at IS NULL
@@ -15,26 +19,26 @@ OFFSET $2;
 
 -- name: UpdateUserNames :one
 UPDATE "user"
-SET fname = $2, sname= $3 ,updated_at = now()
-WHERE usr_id = $1 AND deleted_at IS NULL
+SET fname = $1, sname= $2 ,updated_at = now()
+WHERE usr_id = $3 AND deleted_at IS NULL
 RETURNING  *;
 
 -- name: UpdateUserEmail :one
 UPDATE "user"
-SET email = $2, updated_at = now()
-WHERE usr_id = $1 AND deleted_at IS NULL
+SET email = $1, updated_at = now()
+WHERE usr_id = $2 AND deleted_at IS NULL
 RETURNING  *;
 
 -- name: UpdateUserPassword :one
 UPDATE "user"
-SET password = $2, updated_at = now()
-WHERE usr_id = $1 AND deleted_at IS NULL
+SET password = $1, updated_at = now()
+WHERE usr_id = $2 AND deleted_at IS NULL
 RETURNING  *;
 
 -- name: UpdateUserPhotoURL :one
 UPDATE "user"
-SET "photoURL" = $2, updated_at = now()
-WHERE usr_id = $1 AND deleted_at IS NULL
+SET "photoURL" = $1, updated_at = now()
+WHERE usr_id = $2 AND deleted_at IS NULL
 RETURNING  *;
 
 -- name: DeleteUserTemporarily :one
