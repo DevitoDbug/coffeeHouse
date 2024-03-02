@@ -64,7 +64,8 @@ CREATE TABLE "image" (
                          "created_at" timestamptz NOT NULL DEFAULT (now()),
                          "updated_at" timestamptz DEFAULT (now()),
                          "deleted_at" timestamptz,
-                         "img_name" varchar,
+                         "img_name" varchar UNIQUE,
+                         "img_url" varchar,
                          "alt_text" varchar
 );
 
@@ -87,7 +88,7 @@ CREATE TABLE "cart" (
                         "cart_id" bigserial PRIMARY KEY,
                         "created_at" timestamptz NOT NULL,
                         "quantity" int DEFAULT 1,
-                        "product_varriant_id" bigserial,
+                        "product_variant_id" bigserial,
                         "usr_id" bigserial
 );
 
@@ -119,7 +120,7 @@ CREATE INDEX ON "order_item" ("order_id");
 
 CREATE INDEX ON "order_item" ("product_variant_id");
 
-CREATE INDEX ON "cart" ("product_varriant_id");
+CREATE INDEX ON "cart" ("product_variant_id");
 
 CREATE INDEX ON "cart" ("usr_id");
 
@@ -143,6 +144,6 @@ ALTER TABLE "order_item" ADD FOREIGN KEY ("product_variant_id") REFERENCES "prod
 
 ALTER TABLE "order_item" ADD FOREIGN KEY ("order_id") REFERENCES "order" ("order_id");
 
-ALTER TABLE "cart" ADD FOREIGN KEY ("product_varriant_id") REFERENCES "product_variant" ("product_variant_id");
+ALTER TABLE "cart" ADD FOREIGN KEY ("product_variant_id") REFERENCES "product_variant" ("product_variant_id");
 
 ALTER TABLE "cart" ADD FOREIGN KEY ("usr_id") REFERENCES "user" ("usr_id");

@@ -19,11 +19,11 @@ type Attribute struct {
 }
 
 type Cart struct {
-	CartID            int64         `json:"cart_id"`
-	CreatedAt         time.Time     `json:"created_at"`
-	Quantity          sql.NullInt32 `json:"quantity"`
-	ProductVarriantID sql.NullInt64 `json:"product_varriant_id"`
-	UsrID             sql.NullInt64 `json:"usr_id"`
+	CartID           int64         `json:"cart_id"`
+	CreatedAt        time.Time     `json:"created_at"`
+	Quantity         sql.NullInt32 `json:"quantity"`
+	ProductVariantID sql.NullInt64 `json:"product_variant_id"`
+	UsrID            sql.NullInt64 `json:"usr_id"`
 }
 
 type Category struct {
@@ -40,6 +40,7 @@ type Image struct {
 	UpdatedAt sql.NullTime   `json:"updated_at"`
 	DeletedAt sql.NullTime   `json:"deleted_at"`
 	ImgName   sql.NullString `json:"img_name"`
+	ImgUrl    sql.NullString `json:"img_url"`
 	AltText   sql.NullString `json:"alt_text"`
 }
 

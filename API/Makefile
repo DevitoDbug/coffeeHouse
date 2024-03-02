@@ -7,7 +7,7 @@ removepostgres:
 createdb:
 	docker exec -it postgres13 createdb --username=root --owner=root coffeeHouse
 dropdb:
-	docker exec -it postgres13 dropdb simple_bank
+	docker exec -it postgres13 dropdb coffeeHouse
 migrateup:
 	migrate -path db/migration -database "postgresql://root:j1751502021@localhost:5432/coffeeHouse?sslmode=disable" -verbose up
 migratedown:
