@@ -3,8 +3,8 @@ CREATE TABLE "user" (
                         "created_at" timestamptz NOT NULL DEFAULT (now()),
                         "updated_at" timestamptz DEFAULT (now()),
                         "deleted_at" timestamptz,
-                        "fname" varchar[20],
-                        "sname" varchar[20],
+                        "fname" varchar,
+                        "sname" varchar,
                         "email" varchar UNIQUE NOT NULL,
                         "password" varchar UNIQUE NOT NULL,
                         "photoURL" varchar
@@ -15,7 +15,7 @@ CREATE TABLE "product" (
                            "created_at" timestamptz NOT NULL DEFAULT (now()),
                            "updated_at" timestamptz DEFAULT (now()),
                            "deleted_at" timestamptz,
-                           "pd_name" varchar[20] UNIQUE NOT NULL,
+                           "pd_name" varchar UNIQUE NOT NULL,
                            "short_description" text,
                            "long_description" text,
                            "img_id" bigserial,
@@ -36,8 +36,8 @@ CREATE TABLE "attribute" (
                              "created_at" timestamptz NOT NULL DEFAULT (now()),
                              "updated_at" timestamptz DEFAULT (now()),
                              "deleted_at" timestamptz,
-                             "att_value" varchar[20],
-                             "abbreviations" varchar[1],
+                             "att_value" varchar,
+                             "abbreviations" varchar,
                              "product_variant_id" bigserial
 );
 
@@ -46,7 +46,7 @@ CREATE TABLE "category" (
                             "created_at" timestamptz DEFAULT (now()),
                             "updated_at" timestamptz DEFAULT (now()),
                             "deleted_at" timestamptz,
-                            "category_name" varchar[20] UNIQUE NOT NULL
+                            "category_name" varchar UNIQUE NOT NULL
 );
 
 CREATE TABLE "rating" (
@@ -64,8 +64,8 @@ CREATE TABLE "image" (
                          "created_at" timestamptz NOT NULL DEFAULT (now()),
                          "updated_at" timestamptz DEFAULT (now()),
                          "deleted_at" timestamptz,
-                         "img_name" varchar[20],
-                         "alt_text" varchar[50]
+                         "img_name" varchar,
+                         "alt_text" varchar
 );
 
 CREATE TABLE "order" (
