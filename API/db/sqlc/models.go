@@ -12,24 +12,33 @@ import (
 type Attribute struct {
 	AttID         int64          `json:"att_id"`
 	CreatedAt     time.Time      `json:"created_at"`
-	UpdatedAt     sql.NullTime   `json:"updated_at"`
+	UpdatedAt     time.Time      `json:"updated_at"`
 	DeletedAt     sql.NullTime   `json:"deleted_at"`
 	AttValue      sql.NullString `json:"att_value"`
 	Abbreviations sql.NullString `json:"abbreviations"`
 }
 
 type Cart struct {
-	CartID           int64         `json:"cart_id"`
+	CartID    int64     `json:"cart_id"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+	// This is the owner of the cart
+	UsrID sql.NullInt64 `json:"usr_id"`
+}
+
+type CartItem struct {
+	CartItemID       int64         `json:"cart_item_id"`
 	CreatedAt        time.Time     `json:"created_at"`
+	UpdatedAt        time.Time     `json:"updated_at"`
 	Quantity         sql.NullInt32 `json:"quantity"`
 	ProductVariantID sql.NullInt64 `json:"product_variant_id"`
-	UsrID            sql.NullInt64 `json:"usr_id"`
+	CartID           sql.NullInt64 `json:"cart_id"`
 }
 
 type Category struct {
 	CategoryID   int64        `json:"category_id"`
-	CreatedAt    sql.NullTime `json:"created_at"`
-	UpdatedAt    sql.NullTime `json:"updated_at"`
+	CreatedAt    time.Time    `json:"created_at"`
+	UpdatedAt    time.Time    `json:"updated_at"`
 	DeletedAt    sql.NullTime `json:"deleted_at"`
 	CategoryName string       `json:"category_name"`
 }
@@ -62,7 +71,7 @@ type OrderItem struct {
 type Product struct {
 	PdID             int64          `json:"pd_id"`
 	CreatedAt        time.Time      `json:"created_at"`
-	UpdatedAt        sql.NullTime   `json:"updated_at"`
+	UpdatedAt        time.Time      `json:"updated_at"`
 	DeletedAt        sql.NullTime   `json:"deleted_at"`
 	PdName           string         `json:"pd_name"`
 	ShortDescription sql.NullString `json:"short_description"`
@@ -74,7 +83,7 @@ type Product struct {
 type ProductVariant struct {
 	ProductVariantID int64         `json:"product_variant_id"`
 	CreatedAt        time.Time     `json:"created_at"`
-	UpdatedAt        sql.NullTime  `json:"updated_at"`
+	UpdatedAt        time.Time     `json:"updated_at"`
 	DeletedAt        sql.NullTime  `json:"deleted_at"`
 	Price            string        `json:"price"`
 	PdID             sql.NullInt64 `json:"pd_id"`
@@ -84,7 +93,7 @@ type ProductVariant struct {
 type Rating struct {
 	RatingID    int64          `json:"rating_id"`
 	CreatedAt   time.Time      `json:"created_at"`
-	UpdatedAt   sql.NullTime   `json:"updated_at"`
+	UpdatedAt   time.Time      `json:"updated_at"`
 	DeletedAt   sql.NullTime   `json:"deleted_at"`
 	RatingValue sql.NullString `json:"rating_value"`
 	PdID        sql.NullInt64  `json:"pd_id"`
@@ -94,7 +103,7 @@ type Rating struct {
 type User struct {
 	UsrID     int64          `json:"usr_id"`
 	CreatedAt time.Time      `json:"created_at"`
-	UpdatedAt sql.NullTime   `json:"updated_at"`
+	UpdatedAt time.Time      `json:"updated_at"`
 	DeletedAt sql.NullTime   `json:"deleted_at"`
 	Fname     sql.NullString `json:"fname"`
 	Sname     sql.NullString `json:"sname"`
