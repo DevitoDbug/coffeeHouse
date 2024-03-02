@@ -1,8 +1,8 @@
 -- name: CreateProductVariant :one
 INSERT INTO "product_variant" (
-                               price, pd_id
+                               price, pd_id , att_id
 ) VALUES (
-             $1 , $2
+             $1 , $2 , $3
          )
 RETURNING *;
 
