@@ -10,7 +10,7 @@ import (
 	"database/sql"
 )
 
-const createOrder = `-- name: CreateOrder :one
+const createCustomerOrder = `-- name: CreateCustomerOrder :one
 INSERT INTO customer_order (
     usr_id
 ) VALUES (
@@ -19,50 +19,50 @@ INSERT INTO customer_order (
 RETURNING customer_order_id, created_at, usr_id
 `
 
-func (q *Queries) CreateOrder(ctx context.Context, usrID sql.NullInt64) (CustomerOrder, error) {
-	row := q.db.QueryRowContext(ctx, createOrder, usrID)
+func (q *Queries) CreateCustomerOrder(ctx context.Context, usrID sql.NullInt64) (CustomerOrder, error) {
+	row := q.db.QueryRowContext(ctx, createCustomerOrder, usrID)
 	var i CustomerOrder
 	err := row.Scan(&i.CustomerOrderID, &i.CreatedAt, &i.UsrID)
 	return i, err
 }
 
-const deleteOrder = `-- name: DeleteOrder :one
+const deleteCustomerOrder = `-- name: DeleteCustomerOrder :one
 DELETE FROM customer_order WHERE customer_order_id = $1 RETURNING customer_order_id, created_at, usr_id
 `
 
-func (q *Queries) DeleteOrder(ctx context.Context, customerOrderID int64) (CustomerOrder, error) {
-	row := q.db.QueryRowContext(ctx, deleteOrder, customerOrderID)
+func (q *Queries) DeleteCustomerOrder(ctx context.Context, customerOrderID int64) (CustomerOrder, error) {
+	row := q.db.QueryRowContext(ctx, deleteCustomerOrder, customerOrderID)
 	var i CustomerOrder
 	err := row.Scan(&i.CustomerOrderID, &i.CreatedAt, &i.UsrID)
 	return i, err
 }
 
-const getSpecificOrder = `-- name: GetSpecificOrder :one
+const getSpecificCustomerOrder = `-- name: GetSpecificCustomerOrder :one
 SELECT customer_order_id, created_at, usr_id FROM customer_order
 WHERE usr_id = $1
 `
 
-func (q *Queries) GetSpecificOrder(ctx context.Context, usrID sql.NullInt64) (CustomerOrder, error) {
-	row := q.db.QueryRowContext(ctx, getSpecificOrder, usrID)
+func (q *Queries) GetSpecificCustomerOrder(ctx context.Context, usrID sql.NullInt64) (CustomerOrder, error) {
+	row := q.db.QueryRowContext(ctx, getSpecificCustomerOrder, usrID)
 	var i CustomerOrder
 	err := row.Scan(&i.CustomerOrderID, &i.CreatedAt, &i.UsrID)
 	return i, err
 }
 
-const listOrders = `-- name: ListOrders :many
+const listCustomerOrders = `-- name: ListCustomerOrders :many
 SELECT customer_order_id, created_at, usr_id FROM customer_order
 ORDER BY customer_order_id
 LIMIT $1
 OFFSET $2
 `
 
-type ListOrdersParams struct {
+type ListCustomerOrdersParams struct {
 	Limit  int32 `json:"limit"`
 	Offset int32 `json:"offset"`
 }
 
-func (q *Queries) ListOrders(ctx context.Context, arg ListOrdersParams) ([]CustomerOrder, error) {
-	rows, err := q.db.QueryContext(ctx, listOrders, arg.Limit, arg.Offset)
+func (q *Queries) ListCustomerOrders(ctx context.Context, arg ListCustomerOrdersParams) ([]CustomerOrder, error) {
+	rows, err := q.db.QueryContext(ctx, listCustomerOrders, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}

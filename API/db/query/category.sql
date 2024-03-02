@@ -6,6 +6,13 @@ INSERT INTO category (
          )
 RETURNING *;
 
+-- name: GetCategory :many
+SELECT * FROM category
+WHERE category_id = $1 AND deleted_at IS NULL
+ORDER BY category_id
+LIMIT $1
+    OFFSET $2;
+
 -- name: ListCategory :many
 SELECT * FROM category
 WHERE deleted_at IS NULL

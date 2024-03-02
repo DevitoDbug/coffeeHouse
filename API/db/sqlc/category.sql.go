@@ -68,6 +68,48 @@ func (q *Queries) DeleteCategoryTemporarily(ctx context.Context, categoryID int6
 	return i, err
 }
 
+const getCategory = `-- name: GetCategory :many
+SELECT category_id, created_at, updated_at, deleted_at, category_name FROM category
+WHERE category_id = $1 AND deleted_at IS NULL
+ORDER BY category_id
+LIMIT $1
+    OFFSET $2
+`
+
+type GetCategoryParams struct {
+	Limit  int32 `json:"limit"`
+	Offset int32 `json:"offset"`
+}
+
+func (q *Queries) GetCategory(ctx context.Context, arg GetCategoryParams) ([]Category, error) {
+	rows, err := q.db.QueryContext(ctx, getCategory, arg.Limit, arg.Offset)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Category
+	for rows.Next() {
+		var i Category
+		if err := rows.Scan(
+			&i.CategoryID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.DeletedAt,
+			&i.CategoryName,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const listCategory = `-- name: ListCategory :many
 SELECT category_id, created_at, updated_at, deleted_at, category_name FROM category
 WHERE deleted_at IS NULL

@@ -77,6 +77,41 @@ func (q *Queries) DeleteAttributeTemporarily(ctx context.Context, attID int64) (
 	return i, err
 }
 
+const getAttribute = `-- name: GetAttribute :many
+SELECT att_id, created_at, updated_at, deleted_at, att_value, abbreviations FROM attribute
+WHERE att_id = $1 AND deleted_at IS NULL
+`
+
+func (q *Queries) GetAttribute(ctx context.Context, attID int64) ([]Attribute, error) {
+	rows, err := q.db.QueryContext(ctx, getAttribute, attID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Attribute
+	for rows.Next() {
+		var i Attribute
+		if err := rows.Scan(
+			&i.AttID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.DeletedAt,
+			&i.AttValue,
+			&i.Abbreviations,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const listAttribute = `-- name: ListAttribute :many
 SELECT att_id, created_at, updated_at, deleted_at, att_value, abbreviations FROM attribute
 WHERE deleted_at IS NULL

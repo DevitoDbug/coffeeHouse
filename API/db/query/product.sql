@@ -8,6 +8,10 @@ RETURNING *;
 
 -- name: ListProducts :many
 SELECT * FROM product
+WHERE pd_id = $1;
+
+-- name: ListProducts :many
+SELECT * FROM product
 WHERE deleted_at IS NULL
 ORDER BY pd_id
 LIMIT $1

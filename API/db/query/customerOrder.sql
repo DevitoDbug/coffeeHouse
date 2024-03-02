@@ -1,4 +1,4 @@
--- name: CreateOrder :one
+-- name: CreateCustomerOrder :one
 INSERT INTO customer_order (
     usr_id
 ) VALUES (
@@ -6,15 +6,15 @@ INSERT INTO customer_order (
          )
 RETURNING *;
 
--- name: ListOrders :many
+-- name: ListCustomerOrders :many
 SELECT * FROM customer_order
 ORDER BY customer_order_id
 LIMIT $1
 OFFSET $2;
 
--- name: GetSpecificOrder :one
+-- name: GetSpecificCustomerOrder :one
 SELECT * FROM customer_order
 WHERE usr_id = $1;
 
--- name: DeleteOrder :one
+-- name: DeleteCustomerOrder :one
 DELETE FROM customer_order WHERE customer_order_id = $1 RETURNING *;

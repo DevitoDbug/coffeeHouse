@@ -6,6 +6,10 @@ INSERT INTO attribute (
          )
 RETURNING *;
 
+-- name: GetAttribute :many
+SELECT * FROM attribute
+WHERE att_id = $1 AND deleted_at IS NULL;
+
 -- name: ListAttribute :many
 SELECT * FROM attribute
 WHERE deleted_at IS NULL

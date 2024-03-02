@@ -6,6 +6,10 @@ INSERT INTO "product_variant" (
          )
 RETURNING *;
 
+--name: GetProductVariant :one
+SELECT * FROM "product_variant"
+WHERE product_variant_id = $1;
+
 -- name: ListProductsVariant :many
 SELECT * FROM "product_variant"
 WHERE deleted_at IS NULL
