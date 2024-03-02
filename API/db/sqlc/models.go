@@ -34,6 +34,12 @@ type Category struct {
 	CategoryName string       `json:"category_name"`
 }
 
+type CustomerOrder struct {
+	CustomerOrderID int64         `json:"customer_order_id"`
+	CreatedAt       time.Time     `json:"created_at"`
+	UsrID           sql.NullInt64 `json:"usr_id"`
+}
+
 type Image struct {
 	ImgID     int64          `json:"img_id"`
 	CreatedAt time.Time      `json:"created_at"`
@@ -42,12 +48,6 @@ type Image struct {
 	ImgName   sql.NullString `json:"img_name"`
 	ImgUrl    sql.NullString `json:"img_url"`
 	AltText   sql.NullString `json:"alt_text"`
-}
-
-type Order struct {
-	OrderID   int64         `json:"order_id"`
-	CreatedAt time.Time     `json:"created_at"`
-	UsrID     sql.NullInt64 `json:"usr_id"`
 }
 
 type OrderItem struct {

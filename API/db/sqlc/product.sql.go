@@ -11,7 +11,7 @@ import (
 )
 
 const createProduct = `-- name: CreateProduct :one
-INSERT INTO "product" (
+INSERT INTO product (
     pd_name, short_description, long_description, img_id , category_id
 ) VALUES (
              $1 , $2 , $3 , $4 ,$5
@@ -51,7 +51,7 @@ func (q *Queries) CreateProduct(ctx context.Context, arg CreateProductParams) (P
 }
 
 const deleteProduct = `-- name: DeleteProduct :one
-DELETE FROM "product" WHERE pd_id = $1 RETURNING pd_id, created_at, updated_at, deleted_at, pd_name, short_description, long_description, img_id, category_id
+DELETE FROM product WHERE pd_id = $1 RETURNING pd_id, created_at, updated_at, deleted_at, pd_name, short_description, long_description, img_id, category_id
 `
 
 func (q *Queries) DeleteProduct(ctx context.Context, pdID int64) (Product, error) {
@@ -72,7 +72,7 @@ func (q *Queries) DeleteProduct(ctx context.Context, pdID int64) (Product, error
 }
 
 const deleteProductTemporarily = `-- name: DeleteProductTemporarily :one
-UPDATE "product"
+UPDATE product
 SET deleted_at = now()
 WHERE pd_id = $1 AND deleted_at IS NULL
 RETURNING  pd_id, created_at, updated_at, deleted_at, pd_name, short_description, long_description, img_id, category_id
@@ -96,7 +96,7 @@ func (q *Queries) DeleteProductTemporarily(ctx context.Context, pdID int64) (Pro
 }
 
 const listProducts = `-- name: ListProducts :many
-SELECT pd_id, created_at, updated_at, deleted_at, pd_name, short_description, long_description, img_id, category_id FROM "product"
+SELECT pd_id, created_at, updated_at, deleted_at, pd_name, short_description, long_description, img_id, category_id FROM product
 WHERE deleted_at IS NULL
 ORDER BY pd_id
 LIMIT $1
@@ -142,7 +142,7 @@ func (q *Queries) ListProducts(ctx context.Context, arg ListProductsParams) ([]P
 }
 
 const restoreProduct = `-- name: RestoreProduct :one
-UPDATE "product"
+UPDATE product
 SET deleted_at = NULL
 WHERE pd_id = $1 AND deleted_at IS NOT NULL
 RETURNING  pd_id, created_at, updated_at, deleted_at, pd_name, short_description, long_description, img_id, category_id
@@ -166,7 +166,7 @@ func (q *Queries) RestoreProduct(ctx context.Context, pdID int64) (Product, erro
 }
 
 const updateProductCategoryId = `-- name: UpdateProductCategoryId :one
-UPDATE "product"
+UPDATE product
 SET category_id = $2, updated_at = now()
 WHERE pd_id = $1 AND deleted_at IS NULL
 RETURNING  pd_id, created_at, updated_at, deleted_at, pd_name, short_description, long_description, img_id, category_id
@@ -195,7 +195,7 @@ func (q *Queries) UpdateProductCategoryId(ctx context.Context, arg UpdateProduct
 }
 
 const updateProductImgId = `-- name: UpdateProductImgId :one
-UPDATE "product"
+UPDATE product
 SET img_id = $2, updated_at = now()
 WHERE pd_id = $1 AND deleted_at IS NULL
 RETURNING  pd_id, created_at, updated_at, deleted_at, pd_name, short_description, long_description, img_id, category_id
@@ -224,7 +224,7 @@ func (q *Queries) UpdateProductImgId(ctx context.Context, arg UpdateProductImgId
 }
 
 const updateProductLongDescription = `-- name: UpdateProductLongDescription :one
-UPDATE "product"
+UPDATE product
 SET long_description = $2, updated_at = now()
 WHERE pd_id = $1 AND deleted_at IS NULL
 RETURNING  pd_id, created_at, updated_at, deleted_at, pd_name, short_description, long_description, img_id, category_id
@@ -253,7 +253,7 @@ func (q *Queries) UpdateProductLongDescription(ctx context.Context, arg UpdatePr
 }
 
 const updateProductName = `-- name: UpdateProductName :one
-UPDATE "product"
+UPDATE product
 SET pd_name = $2, updated_at = now()
 WHERE pd_id = $1 AND deleted_at IS NULL
 RETURNING  pd_id, created_at, updated_at, deleted_at, pd_name, short_description, long_description, img_id, category_id
@@ -282,7 +282,7 @@ func (q *Queries) UpdateProductName(ctx context.Context, arg UpdateProductNamePa
 }
 
 const updateProductShortDescription = `-- name: UpdateProductShortDescription :one
-UPDATE "product"
+UPDATE product
 SET short_description = $2, updated_at = now()
 WHERE pd_id = $1 AND deleted_at IS NULL
 RETURNING  pd_id, created_at, updated_at, deleted_at, pd_name, short_description, long_description, img_id, category_id

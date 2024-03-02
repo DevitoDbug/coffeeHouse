@@ -69,10 +69,10 @@ CREATE TABLE "image" (
                          "alt_text" varchar
 );
 
-CREATE TABLE "order" (
-                         "order_id" bigserial PRIMARY KEY,
-                         "created_at" timestamptz NOT NULL,
-                         "usr_id" bigserial
+CREATE TABLE "customer_order" (
+                                  "customer_order_id" bigserial PRIMARY KEY,
+                                  "created_at" timestamptz NOT NULL,
+                                  "usr_id" bigserial
 );
 
 CREATE TABLE "order_item" (
@@ -114,7 +114,7 @@ CREATE INDEX ON "rating" ("pd_id");
 
 CREATE INDEX ON "image" ("img_name");
 
-CREATE INDEX ON "order" ("usr_id");
+CREATE INDEX ON "customer_order" ("usr_id");
 
 CREATE INDEX ON "order_item" ("order_id");
 
@@ -138,11 +138,11 @@ ALTER TABLE "rating" ADD FOREIGN KEY ("pd_id") REFERENCES "product" ("pd_id");
 
 ALTER TABLE "rating" ADD FOREIGN KEY ("usr_id") REFERENCES "user" ("usr_id");
 
-ALTER TABLE "order" ADD FOREIGN KEY ("usr_id") REFERENCES "user" ("usr_id");
+ALTER TABLE "customer_order" ADD FOREIGN KEY ("usr_id") REFERENCES "user" ("usr_id");
 
 ALTER TABLE "order_item" ADD FOREIGN KEY ("product_variant_id") REFERENCES "product_variant" ("product_variant_id");
 
-ALTER TABLE "order_item" ADD FOREIGN KEY ("order_id") REFERENCES "order" ("order_id");
+ALTER TABLE "order_item" ADD FOREIGN KEY ("order_id") REFERENCES "customer_order" ("customer_order_id");
 
 ALTER TABLE "cart" ADD FOREIGN KEY ("product_variant_id") REFERENCES "product_variant" ("product_variant_id");
 

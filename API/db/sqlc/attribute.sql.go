@@ -11,7 +11,7 @@ import (
 )
 
 const createAttribute = `-- name: CreateAttribute :one
-INSERT INTO "attribute" (
+INSERT INTO attribute (
     att_value, abbreviations
 ) VALUES (
              $1 , $2
@@ -39,7 +39,7 @@ func (q *Queries) CreateAttribute(ctx context.Context, arg CreateAttributeParams
 }
 
 const deleteAttribute = `-- name: DeleteAttribute :one
-DELETE FROM "attribute" WHERE att_id = $1 RETURNING att_id, created_at, updated_at, deleted_at, att_value, abbreviations
+DELETE FROM attribute WHERE att_id = $1 RETURNING att_id, created_at, updated_at, deleted_at, att_value, abbreviations
 `
 
 func (q *Queries) DeleteAttribute(ctx context.Context, attID int64) (Attribute, error) {
@@ -57,7 +57,7 @@ func (q *Queries) DeleteAttribute(ctx context.Context, attID int64) (Attribute, 
 }
 
 const deleteAttributeTemporarily = `-- name: DeleteAttributeTemporarily :one
-UPDATE "attribute"
+UPDATE attribute
 SET deleted_at = now()
 WHERE att_id = $1 AND deleted_at IS NULL
 RETURNING  att_id, created_at, updated_at, deleted_at, att_value, abbreviations
@@ -78,7 +78,7 @@ func (q *Queries) DeleteAttributeTemporarily(ctx context.Context, attID int64) (
 }
 
 const listAttribute = `-- name: ListAttribute :many
-SELECT att_id, created_at, updated_at, deleted_at, att_value, abbreviations FROM "attribute"
+SELECT att_id, created_at, updated_at, deleted_at, att_value, abbreviations FROM attribute
 WHERE deleted_at IS NULL
 ORDER BY att_id
 LIMIT $1
@@ -121,7 +121,7 @@ func (q *Queries) ListAttribute(ctx context.Context, arg ListAttributeParams) ([
 }
 
 const restoreAttribute = `-- name: RestoreAttribute :one
-UPDATE "attribute"
+UPDATE attribute
 SET deleted_at = NULL
 WHERE att_id = $1 AND deleted_at IS NOT NULL
 RETURNING  att_id, created_at, updated_at, deleted_at, att_value, abbreviations
@@ -142,7 +142,7 @@ func (q *Queries) RestoreAttribute(ctx context.Context, attID int64) (Attribute,
 }
 
 const updateAbbreviations = `-- name: UpdateAbbreviations :one
-UPDATE "attribute"
+UPDATE attribute
 SET abbreviations = $2, updated_at = now()
 WHERE att_id = $1 AND deleted_at IS NULL
 RETURNING  att_id, created_at, updated_at, deleted_at, att_value, abbreviations
@@ -168,7 +168,7 @@ func (q *Queries) UpdateAbbreviations(ctx context.Context, arg UpdateAbbreviatio
 }
 
 const updateAttValue = `-- name: UpdateAttValue :one
-UPDATE "attribute"
+UPDATE attribute
 SET att_value = $2, updated_at = now()
 WHERE att_id = $1 AND deleted_at IS NULL
 RETURNING  att_id, created_at, updated_at, deleted_at, att_value, abbreviations

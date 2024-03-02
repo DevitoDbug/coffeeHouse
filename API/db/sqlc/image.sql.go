@@ -11,7 +11,7 @@ import (
 )
 
 const createImage = `-- name: CreateImage :one
-INSERT INTO "image" (
+INSERT INTO image (
     img_name, alt_text
 ) VALUES (
              $1 , $2
@@ -40,7 +40,7 @@ func (q *Queries) CreateImage(ctx context.Context, arg CreateImageParams) (Image
 }
 
 const deleteImage = `-- name: DeleteImage :one
-DELETE FROM "image" WHERE img_id = $1 RETURNING img_id, created_at, updated_at, deleted_at, img_name, img_url, alt_text
+DELETE FROM image WHERE img_id = $1 RETURNING img_id, created_at, updated_at, deleted_at, img_name, img_url, alt_text
 `
 
 func (q *Queries) DeleteImage(ctx context.Context, imgID int64) (Image, error) {
@@ -59,7 +59,7 @@ func (q *Queries) DeleteImage(ctx context.Context, imgID int64) (Image, error) {
 }
 
 const deleteImageTemporarily = `-- name: DeleteImageTemporarily :one
-UPDATE "image"
+UPDATE image
 SET deleted_at = now()
 WHERE img_id = $1 AND deleted_at IS NULL
 RETURNING  img_id, created_at, updated_at, deleted_at, img_name, img_url, alt_text
@@ -81,7 +81,7 @@ func (q *Queries) DeleteImageTemporarily(ctx context.Context, imgID int64) (Imag
 }
 
 const getImage = `-- name: GetImage :one
-SELECT img_id, created_at, updated_at, deleted_at, img_name, img_url, alt_text FROM "image"
+SELECT img_id, created_at, updated_at, deleted_at, img_name, img_url, alt_text FROM image
 WHERE img_name = $1
 `
 
@@ -101,7 +101,7 @@ func (q *Queries) GetImage(ctx context.Context, imgName sql.NullString) (Image, 
 }
 
 const listImage = `-- name: ListImage :many
-SELECT img_id, created_at, updated_at, deleted_at, img_name, img_url, alt_text FROM "image"
+SELECT img_id, created_at, updated_at, deleted_at, img_name, img_url, alt_text FROM image
 WHERE deleted_at IS NULL
 ORDER BY img_name
 LIMIT $1
@@ -145,7 +145,7 @@ func (q *Queries) ListImage(ctx context.Context, arg ListImageParams) ([]Image, 
 }
 
 const restoreImage = `-- name: RestoreImage :one
-UPDATE "image"
+UPDATE image
 SET deleted_at = NULL
 WHERE img_id = $1 AND deleted_at IS NOT NULL
 RETURNING  img_id, created_at, updated_at, deleted_at, img_name, img_url, alt_text
@@ -167,7 +167,7 @@ func (q *Queries) RestoreImage(ctx context.Context, imgID int64) (Image, error) 
 }
 
 const updateImageAltText = `-- name: UpdateImageAltText :one
-UPDATE "image"
+UPDATE image
 SET alt_text = $2, updated_at = now()
 WHERE img_id = $1 AND deleted_at IS NULL
 RETURNING  img_id, created_at, updated_at, deleted_at, img_name, img_url, alt_text
@@ -194,7 +194,7 @@ func (q *Queries) UpdateImageAltText(ctx context.Context, arg UpdateImageAltText
 }
 
 const updateImageName = `-- name: UpdateImageName :one
-UPDATE "image"
+UPDATE image
 SET img_name = $2, updated_at = now()
 WHERE img_id = $1 AND deleted_at IS NULL
 RETURNING  img_id, created_at, updated_at, deleted_at, img_name, img_url, alt_text
@@ -221,7 +221,7 @@ func (q *Queries) UpdateImageName(ctx context.Context, arg UpdateImageNameParams
 }
 
 const updateImageURL = `-- name: UpdateImageURL :one
-UPDATE "image"
+UPDATE image
 SET img_url = $2, updated_at = now()
 WHERE img_id = $1 AND deleted_at IS NULL
 RETURNING  img_id, created_at, updated_at, deleted_at, img_name, img_url, alt_text

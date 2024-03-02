@@ -10,7 +10,7 @@ import (
 )
 
 const createCategory = `-- name: CreateCategory :one
-INSERT INTO "category" (
+INSERT INTO category (
     category_name
 ) VALUES (
              $1
@@ -32,7 +32,7 @@ func (q *Queries) CreateCategory(ctx context.Context, categoryName string) (Cate
 }
 
 const deleteCategory = `-- name: DeleteCategory :one
-DELETE FROM "category" WHERE category_id = $1 RETURNING category_id, created_at, updated_at, deleted_at, category_name
+DELETE FROM category WHERE category_id = $1 RETURNING category_id, created_at, updated_at, deleted_at, category_name
 `
 
 func (q *Queries) DeleteCategory(ctx context.Context, categoryID int64) (Category, error) {
@@ -49,7 +49,7 @@ func (q *Queries) DeleteCategory(ctx context.Context, categoryID int64) (Categor
 }
 
 const deleteCategoryTemporarily = `-- name: DeleteCategoryTemporarily :one
-UPDATE "category"
+UPDATE category
 SET deleted_at = now()
 WHERE category_id = $1 AND deleted_at IS NULL
 RETURNING  category_id, created_at, updated_at, deleted_at, category_name
@@ -69,7 +69,7 @@ func (q *Queries) DeleteCategoryTemporarily(ctx context.Context, categoryID int6
 }
 
 const listCategory = `-- name: ListCategory :many
-SELECT category_id, created_at, updated_at, deleted_at, category_name FROM "category"
+SELECT category_id, created_at, updated_at, deleted_at, category_name FROM category
 WHERE deleted_at IS NULL
 ORDER BY category_id
 LIMIT $1
@@ -111,7 +111,7 @@ func (q *Queries) ListCategory(ctx context.Context, arg ListCategoryParams) ([]C
 }
 
 const restoreCategory = `-- name: RestoreCategory :one
-UPDATE "category"
+UPDATE category
 SET deleted_at = NULL
 WHERE category_id = $1 AND deleted_at IS NOT NULL
 RETURNING  category_id, created_at, updated_at, deleted_at, category_name
@@ -131,7 +131,7 @@ func (q *Queries) RestoreCategory(ctx context.Context, categoryID int64) (Catego
 }
 
 const updateCategoryName = `-- name: UpdateCategoryName :one
-UPDATE "category"
+UPDATE category
 SET category_name = $2, updated_at = now()
 WHERE category_id = $1 AND deleted_at IS NULL
 RETURNING  category_id, created_at, updated_at, deleted_at, category_name
