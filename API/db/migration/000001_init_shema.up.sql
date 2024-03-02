@@ -81,7 +81,7 @@ CREATE TABLE "order_item" (
                               "quantity" int DEFAULT 1,
                               "price_per_item" decimal NOT NULL DEFAULT 0,
                               "product_variant_id" bigserial,
-                              "order_id" bigserial
+                              "customer_order_id" bigserial
 );
 
 CREATE TABLE "cart" (
@@ -116,7 +116,7 @@ CREATE INDEX ON "image" ("img_name");
 
 CREATE INDEX ON "customer_order" ("usr_id");
 
-CREATE INDEX ON "order_item" ("order_id");
+CREATE INDEX ON "order_item" ("customer_order_id");
 
 CREATE INDEX ON "order_item" ("product_variant_id");
 
@@ -142,7 +142,7 @@ ALTER TABLE "customer_order" ADD FOREIGN KEY ("usr_id") REFERENCES "user" ("usr_
 
 ALTER TABLE "order_item" ADD FOREIGN KEY ("product_variant_id") REFERENCES "product_variant" ("product_variant_id");
 
-ALTER TABLE "order_item" ADD FOREIGN KEY ("order_id") REFERENCES "customer_order" ("customer_order_id");
+ALTER TABLE "order_item" ADD FOREIGN KEY ("customer_order_id") REFERENCES "customer_order" ("customer_order_id");
 
 ALTER TABLE "cart" ADD FOREIGN KEY ("product_variant_id") REFERENCES "product_variant" ("product_variant_id");
 

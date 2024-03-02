@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS "rating";
 DROP TABLE IF EXISTS "cart";
 DROP TABLE IF EXISTS "order_item";
-DROP TABLE IF EXISTS "order";
+DROP TABLE IF EXISTS "customer_order";
 DROP TABLE IF EXISTS "product_variant";
 DROP TABLE IF EXISTS "attribute";
 DROP TABLE IF EXISTS "product";

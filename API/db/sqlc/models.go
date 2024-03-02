@@ -56,7 +56,7 @@ type OrderItem struct {
 	Quantity         sql.NullInt32 `json:"quantity"`
 	PricePerItem     string        `json:"price_per_item"`
 	ProductVariantID sql.NullInt64 `json:"product_variant_id"`
-	OrderID          sql.NullInt64 `json:"order_id"`
+	CustomerOrderID  sql.NullInt64 `json:"customer_order_id"`
 }
 
 type Product struct {
