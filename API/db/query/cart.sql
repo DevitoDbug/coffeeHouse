@@ -1,5 +1,5 @@
 -- name: CreateCart :one
-INSERT INTO "cart" (
+INSERT INTO cart (
                     usr_id
 ) VALUES (
              $1
@@ -7,11 +7,11 @@ INSERT INTO "cart" (
 RETURNING *;
 
 -- name: GetCarts :one
-SELECT * FROM "cart"
+SELECT * FROM cart
 WHERE cart_id = $1;
 
 -- name: ListCarts :many
-SELECT * FROM "cart"
+SELECT * FROM cart
 ORDER BY usr_id
 LIMIT $1
 OFFSET $2;
@@ -45,4 +45,4 @@ WHERE cart.usr_id = $1
 ORDER BY  product.pd_id, att_value;
 
 -- name: DeleteCart :one
-DELETE FROM "cart" WHERE cart_id = $1 RETURNING *;
+DELETE FROM cart WHERE cart_id = $1 RETURNING *;

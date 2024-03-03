@@ -122,6 +122,8 @@ CREATE INDEX ON "category" ("category_name");
 
 CREATE INDEX ON "rating" ("pd_id");
 
+CREATE INDEX ON "rating" ("usr_id");
+
 CREATE INDEX ON "image" ("img_name");
 
 CREATE INDEX ON "customer_order" ("usr_id");

@@ -11,7 +11,7 @@ import (
 )
 
 const createCart = `-- name: CreateCart :one
-INSERT INTO "cart" (
+INSERT INTO cart (
                     usr_id
 ) VALUES (
              $1
@@ -32,7 +32,7 @@ func (q *Queries) CreateCart(ctx context.Context, usrID sql.NullInt64) (Cart, er
 }
 
 const deleteCart = `-- name: DeleteCart :one
-DELETE FROM "cart" WHERE cart_id = $1 RETURNING cart_id, created_at, updated_at, usr_id
+DELETE FROM cart WHERE cart_id = $1 RETURNING cart_id, created_at, updated_at, usr_id
 `
 
 func (q *Queries) DeleteCart(ctx context.Context, cartID int64) (Cart, error) {
@@ -48,7 +48,7 @@ func (q *Queries) DeleteCart(ctx context.Context, cartID int64) (Cart, error) {
 }
 
 const getCarts = `-- name: GetCarts :one
-SELECT cart_id, created_at, updated_at, usr_id FROM "cart"
+SELECT cart_id, created_at, updated_at, usr_id FROM cart
 WHERE cart_id = $1
 `
 
@@ -143,7 +143,7 @@ func (q *Queries) ListCartItemsForSpecificUserCart(ctx context.Context, usrID sq
 }
 
 const listCarts = `-- name: ListCarts :many
-SELECT cart_id, created_at, updated_at, usr_id FROM "cart"
+SELECT cart_id, created_at, updated_at, usr_id FROM cart
 ORDER BY usr_id
 LIMIT $1
 OFFSET $2
