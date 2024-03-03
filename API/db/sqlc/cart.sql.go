@@ -85,6 +85,11 @@ JOIN attribute ON product_variant.att_id = attribute.att_id
 JOIN image ON product.img_id = image.img_id
 JOIN category ON product.category_id = category.category_id
 WHERE cart.usr_id = $1
+    AND product_variant.deleted_at IS NULL
+    AND attribute.deleted_at IS NULL
+    AND product.deleted_at IS NULL
+    AND image.deleted_at IS NULL
+    AND category.deleted_at IS NULL
 ORDER BY  product.pd_id, att_value
 `
 
