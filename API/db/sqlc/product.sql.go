@@ -95,10 +95,32 @@ func (q *Queries) DeleteProductTemporarily(ctx context.Context, pdID int64) (Pro
 	return i, err
 }
 
+const getProduct = `-- name: GetProduct :one
+SELECT pd_id, created_at, updated_at, deleted_at, pd_name, short_description, long_description, img_id, category_id FROM product
+WHERE pd_id = $1
+`
+
+func (q *Queries) GetProduct(ctx context.Context, pdID int64) (Product, error) {
+	row := q.db.QueryRowContext(ctx, getProduct, pdID)
+	var i Product
+	err := row.Scan(
+		&i.PdID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.DeletedAt,
+		&i.PdName,
+		&i.ShortDescription,
+		&i.LongDescription,
+		&i.ImgID,
+		&i.CategoryID,
+	)
+	return i, err
+}
+
 const listProducts = `-- name: ListProducts :many
 SELECT pd_id, created_at, updated_at, deleted_at, pd_name, short_description, long_description, img_id, category_id FROM product
 WHERE deleted_at IS NULL
-ORDER BY pd_id
+ORDER BY category_id, pd_id
 LIMIT $1
 OFFSET $2
 `

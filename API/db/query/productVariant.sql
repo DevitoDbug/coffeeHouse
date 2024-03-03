@@ -6,7 +6,7 @@ INSERT INTO "product_variant" (
          )
 RETURNING *;
 
---name: GetProductVariant :one
+-- name: GetProductVariant :one
 SELECT * FROM "product_variant"
 WHERE product_variant_id = $1;
 

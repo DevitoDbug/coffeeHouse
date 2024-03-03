@@ -16,7 +16,7 @@ INSERT INTO "rating" (
 ) VALUES (
              $1 , $2 , $3
          )
-RETURNING rating_id, created_at, updated_at, deleted_at, rating_value, pd_id, usr_id
+RETURNING rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id
 `
 
 type CreateRatingParams struct {
@@ -34,6 +34,8 @@ func (q *Queries) CreateRating(ctx context.Context, arg CreateRatingParams) (Rat
 		&i.UpdatedAt,
 		&i.DeletedAt,
 		&i.RatingValue,
+		&i.Liked,
+		&i.Comment,
 		&i.PdID,
 		&i.UsrID,
 	)
@@ -41,7 +43,7 @@ func (q *Queries) CreateRating(ctx context.Context, arg CreateRatingParams) (Rat
 }
 
 const deleteRating = `-- name: DeleteRating :one
-DELETE FROM "rating" WHERE rating_id = $1 RETURNING rating_id, created_at, updated_at, deleted_at, rating_value, pd_id, usr_id
+DELETE FROM "rating" WHERE rating_id = $1 RETURNING rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id
 `
 
 func (q *Queries) DeleteRating(ctx context.Context, ratingID int64) (Rating, error) {
@@ -53,6 +55,8 @@ func (q *Queries) DeleteRating(ctx context.Context, ratingID int64) (Rating, err
 		&i.UpdatedAt,
 		&i.DeletedAt,
 		&i.RatingValue,
+		&i.Liked,
+		&i.Comment,
 		&i.PdID,
 		&i.UsrID,
 	)
@@ -63,7 +67,7 @@ const deleteRatingTemporarily = `-- name: DeleteRatingTemporarily :one
 UPDATE "rating"
 SET deleted_at = now()
 WHERE rating_id = $1 AND deleted_at IS NULL
-RETURNING  rating_id, created_at, updated_at, deleted_at, rating_value, pd_id, usr_id
+RETURNING  rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id
 `
 
 func (q *Queries) DeleteRatingTemporarily(ctx context.Context, ratingID int64) (Rating, error) {
@@ -75,6 +79,31 @@ func (q *Queries) DeleteRatingTemporarily(ctx context.Context, ratingID int64) (
 		&i.UpdatedAt,
 		&i.DeletedAt,
 		&i.RatingValue,
+		&i.Liked,
+		&i.Comment,
+		&i.PdID,
+		&i.UsrID,
+	)
+	return i, err
+}
+
+const getUserLikeStatus = `-- name: GetUserLikeStatus :one
+SELECT rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id FROM "rating"
+WHERE liked = true AND usr_id = $1 AND deleted_at IS NULL
+ORDER BY pd_id
+`
+
+func (q *Queries) GetUserLikeStatus(ctx context.Context, usrID sql.NullInt64) (Rating, error) {
+	row := q.db.QueryRowContext(ctx, getUserLikeStatus, usrID)
+	var i Rating
+	err := row.Scan(
+		&i.RatingID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.DeletedAt,
+		&i.RatingValue,
+		&i.Liked,
+		&i.Comment,
 		&i.PdID,
 		&i.UsrID,
 	)
@@ -82,7 +111,7 @@ func (q *Queries) DeleteRatingTemporarily(ctx context.Context, ratingID int64) (
 }
 
 const listRating = `-- name: ListRating :many
-SELECT rating_id, created_at, updated_at, deleted_at, rating_value, pd_id, usr_id FROM "rating"
+SELECT rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id FROM "rating"
 WHERE deleted_at IS NULL
 ORDER BY pd_id
 LIMIT $1
@@ -109,6 +138,100 @@ func (q *Queries) ListRating(ctx context.Context, arg ListRatingParams) ([]Ratin
 			&i.UpdatedAt,
 			&i.DeletedAt,
 			&i.RatingValue,
+			&i.Liked,
+			&i.Comment,
+			&i.PdID,
+			&i.UsrID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const listUserLikeStatus = `-- name: ListUserLikeStatus :many
+SELECT rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id FROM "rating"
+WHERE liked = true AND deleted_at IS NULL
+ORDER BY pd_id
+LIMIT $1
+OFFSET $2
+`
+
+type ListUserLikeStatusParams struct {
+	Limit  int32 `json:"limit"`
+	Offset int32 `json:"offset"`
+}
+
+func (q *Queries) ListUserLikeStatus(ctx context.Context, arg ListUserLikeStatusParams) ([]Rating, error) {
+	rows, err := q.db.QueryContext(ctx, listUserLikeStatus, arg.Limit, arg.Offset)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Rating
+	for rows.Next() {
+		var i Rating
+		if err := rows.Scan(
+			&i.RatingID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.DeletedAt,
+			&i.RatingValue,
+			&i.Liked,
+			&i.Comment,
+			&i.PdID,
+			&i.UsrID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const listUserNotLikedStatus = `-- name: ListUserNotLikedStatus :many
+SELECT rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id FROM "rating"
+WHERE liked = false AND deleted_at IS NULL
+ORDER BY pd_id
+LIMIT $1
+OFFSET $2
+`
+
+type ListUserNotLikedStatusParams struct {
+	Limit  int32 `json:"limit"`
+	Offset int32 `json:"offset"`
+}
+
+func (q *Queries) ListUserNotLikedStatus(ctx context.Context, arg ListUserNotLikedStatusParams) ([]Rating, error) {
+	rows, err := q.db.QueryContext(ctx, listUserNotLikedStatus, arg.Limit, arg.Offset)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Rating
+	for rows.Next() {
+		var i Rating
+		if err := rows.Scan(
+			&i.RatingID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.DeletedAt,
+			&i.RatingValue,
+			&i.Liked,
+			&i.Comment,
 			&i.PdID,
 			&i.UsrID,
 		); err != nil {
@@ -171,7 +294,7 @@ const restoreRating = `-- name: RestoreRating :one
 UPDATE "rating"
 SET deleted_at = NULL
 WHERE rating_id = $1 AND deleted_at IS NOT NULL
-RETURNING  rating_id, created_at, updated_at, deleted_at, rating_value, pd_id, usr_id
+RETURNING  rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id
 `
 
 func (q *Queries) RestoreRating(ctx context.Context, ratingID int64) (Rating, error) {
@@ -183,6 +306,8 @@ func (q *Queries) RestoreRating(ctx context.Context, ratingID int64) (Rating, er
 		&i.UpdatedAt,
 		&i.DeletedAt,
 		&i.RatingValue,
+		&i.Liked,
+		&i.Comment,
 		&i.PdID,
 		&i.UsrID,
 	)
@@ -193,7 +318,7 @@ const updateRatingValue = `-- name: UpdateRatingValue :one
 UPDATE "rating"
 SET rating_value = $3, updated_at = now()
 WHERE usr_id = $1 AND pd_id= $2 AND deleted_at IS NULL
-RETURNING  rating_id, created_at, updated_at, deleted_at, rating_value, pd_id, usr_id
+RETURNING  rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id
 `
 
 type UpdateRatingValueParams struct {
@@ -211,6 +336,8 @@ func (q *Queries) UpdateRatingValue(ctx context.Context, arg UpdateRatingValuePa
 		&i.UpdatedAt,
 		&i.DeletedAt,
 		&i.RatingValue,
+		&i.Liked,
+		&i.Comment,
 		&i.PdID,
 		&i.UsrID,
 	)

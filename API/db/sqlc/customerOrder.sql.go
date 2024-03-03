@@ -40,6 +40,7 @@ func (q *Queries) DeleteCustomerOrder(ctx context.Context, customerOrderID int64
 const getSpecificCustomerOrder = `-- name: GetSpecificCustomerOrder :one
 SELECT customer_order_id, created_at, usr_id FROM customer_order
 WHERE usr_id = $1
+ORDER BY created_at
 `
 
 func (q *Queries) GetSpecificCustomerOrder(ctx context.Context, usrID sql.NullInt64) (CustomerOrder, error) {
@@ -51,7 +52,7 @@ func (q *Queries) GetSpecificCustomerOrder(ctx context.Context, usrID sql.NullIn
 
 const listCustomerOrders = `-- name: ListCustomerOrders :many
 SELECT customer_order_id, created_at, usr_id FROM customer_order
-ORDER BY customer_order_id
+ORDER BY usr_id, created_at
 LIMIT $1
 OFFSET $2
 `

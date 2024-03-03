@@ -81,6 +81,26 @@ func (q *Queries) DeleteProductVariantTemporarily(ctx context.Context, productVa
 	return i, err
 }
 
+const getProductVariant = `-- name: GetProductVariant :one
+SELECT product_variant_id, created_at, updated_at, deleted_at, price, pd_id, att_id FROM "product_variant"
+WHERE product_variant_id = $1
+`
+
+func (q *Queries) GetProductVariant(ctx context.Context, productVariantID int64) (ProductVariant, error) {
+	row := q.db.QueryRowContext(ctx, getProductVariant, productVariantID)
+	var i ProductVariant
+	err := row.Scan(
+		&i.ProductVariantID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.DeletedAt,
+		&i.Price,
+		&i.PdID,
+		&i.AttID,
+	)
+	return i, err
+}
+
 const listProductsVariant = `-- name: ListProductsVariant :many
 SELECT product_variant_id, created_at, updated_at, deleted_at, price, pd_id, att_id FROM "product_variant"
 WHERE deleted_at IS NULL

@@ -96,6 +96,8 @@ type Rating struct {
 	UpdatedAt   time.Time      `json:"updated_at"`
 	DeletedAt   sql.NullTime   `json:"deleted_at"`
 	RatingValue sql.NullString `json:"rating_value"`
+	Liked       sql.NullBool   `json:"liked"`
+	Comment     sql.NullString `json:"comment"`
 	PdID        sql.NullInt64  `json:"pd_id"`
 	UsrID       sql.NullInt64  `json:"usr_id"`
 }

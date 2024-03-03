@@ -55,6 +55,8 @@ CREATE TABLE "rating" (
                           "updated_at" timestamptz NOT NULL DEFAULT (now()),
                           "deleted_at" timestamptz,
                           "rating_value" decimal,
+                          "liked" boolean,
+                          "comment" text,
                           "pd_id" bigserial,
                           "usr_id" bigserial
 );

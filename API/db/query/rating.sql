@@ -6,6 +6,25 @@ INSERT INTO "rating" (
          )
 RETURNING *;
 
+-- name: GetUserLikeStatus :one
+SELECT * FROM "rating"
+WHERE liked = true AND usr_id = $1 AND deleted_at IS NULL
+ORDER BY pd_id;
+
+-- name: ListUserLikeStatus :many
+SELECT * FROM "rating"
+WHERE liked = true AND deleted_at IS NULL
+ORDER BY pd_id
+LIMIT $1
+OFFSET $2;
+
+-- name: ListUserNotLikedStatus :many
+SELECT * FROM "rating"
+WHERE liked = false AND deleted_at IS NULL
+ORDER BY pd_id
+LIMIT $1
+OFFSET $2;
+
 -- name: ListRating :many
 SELECT * FROM "rating"
 WHERE deleted_at IS NULL
