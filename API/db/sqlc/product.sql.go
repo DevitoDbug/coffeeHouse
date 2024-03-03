@@ -117,6 +117,66 @@ func (q *Queries) GetProduct(ctx context.Context, pdID int64) (Product, error) {
 	return i, err
 }
 
+const listProductForSpecificCategory = `-- name: ListProductForSpecificCategory :many
+SELECT
+    product.pd_id,
+    product.pd_name,
+    product.short_description,
+    product.long_description,
+    image.img_url,
+    image.img_name,
+    image.alt_text,
+    category.category_name
+FROM product
+JOIN category ON product.category_id = category.category_id
+JOIN image on product.img_id = image.img_id
+WHERE product.category_id =$1
+ORDER BY product.pd_name
+`
+
+type ListProductForSpecificCategoryRow struct {
+	PdID             int64          `json:"pd_id"`
+	PdName           string         `json:"pd_name"`
+	ShortDescription sql.NullString `json:"short_description"`
+	LongDescription  sql.NullString `json:"long_description"`
+	ImgUrl           sql.NullString `json:"img_url"`
+	ImgName          sql.NullString `json:"img_name"`
+	AltText          sql.NullString `json:"alt_text"`
+	CategoryName     string         `json:"category_name"`
+}
+
+func (q *Queries) ListProductForSpecificCategory(ctx context.Context, categoryID sql.NullInt64) ([]ListProductForSpecificCategoryRow, error) {
+	rows, err := q.db.QueryContext(ctx, listProductForSpecificCategory, categoryID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []ListProductForSpecificCategoryRow
+	for rows.Next() {
+		var i ListProductForSpecificCategoryRow
+		if err := rows.Scan(
+			&i.PdID,
+			&i.PdName,
+			&i.ShortDescription,
+			&i.LongDescription,
+			&i.ImgUrl,
+			&i.ImgName,
+			&i.AltText,
+			&i.CategoryName,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const listProducts = `-- name: ListProducts :many
 SELECT pd_id, created_at, updated_at, deleted_at, pd_name, short_description, long_description, img_id, category_id FROM product
 WHERE deleted_at IS NULL
@@ -189,18 +249,18 @@ func (q *Queries) RestoreProduct(ctx context.Context, pdID int64) (Product, erro
 
 const updateProductCategoryId = `-- name: UpdateProductCategoryId :one
 UPDATE product
-SET category_id = $2, updated_at = now()
-WHERE pd_id = $1 AND deleted_at IS NULL
+SET category_id = $1, updated_at = now()
+WHERE pd_id = $2 AND deleted_at IS NULL
 RETURNING  pd_id, created_at, updated_at, deleted_at, pd_name, short_description, long_description, img_id, category_id
 `
 
 type UpdateProductCategoryIdParams struct {
-	PdID       int64         `json:"pd_id"`
 	CategoryID sql.NullInt64 `json:"category_id"`
+	PdID       int64         `json:"pd_id"`
 }
 
 func (q *Queries) UpdateProductCategoryId(ctx context.Context, arg UpdateProductCategoryIdParams) (Product, error) {
-	row := q.db.QueryRowContext(ctx, updateProductCategoryId, arg.PdID, arg.CategoryID)
+	row := q.db.QueryRowContext(ctx, updateProductCategoryId, arg.CategoryID, arg.PdID)
 	var i Product
 	err := row.Scan(
 		&i.PdID,
@@ -218,18 +278,18 @@ func (q *Queries) UpdateProductCategoryId(ctx context.Context, arg UpdateProduct
 
 const updateProductImgId = `-- name: UpdateProductImgId :one
 UPDATE product
-SET img_id = $2, updated_at = now()
-WHERE pd_id = $1 AND deleted_at IS NULL
+SET img_id = $1, updated_at = now()
+WHERE pd_id = $2 AND deleted_at IS NULL
 RETURNING  pd_id, created_at, updated_at, deleted_at, pd_name, short_description, long_description, img_id, category_id
 `
 
 type UpdateProductImgIdParams struct {
-	PdID  int64         `json:"pd_id"`
 	ImgID sql.NullInt64 `json:"img_id"`
+	PdID  int64         `json:"pd_id"`
 }
 
 func (q *Queries) UpdateProductImgId(ctx context.Context, arg UpdateProductImgIdParams) (Product, error) {
-	row := q.db.QueryRowContext(ctx, updateProductImgId, arg.PdID, arg.ImgID)
+	row := q.db.QueryRowContext(ctx, updateProductImgId, arg.ImgID, arg.PdID)
 	var i Product
 	err := row.Scan(
 		&i.PdID,
@@ -247,18 +307,18 @@ func (q *Queries) UpdateProductImgId(ctx context.Context, arg UpdateProductImgId
 
 const updateProductLongDescription = `-- name: UpdateProductLongDescription :one
 UPDATE product
-SET long_description = $2, updated_at = now()
-WHERE pd_id = $1 AND deleted_at IS NULL
+SET long_description = $1, updated_at = now()
+WHERE pd_id = $2 AND deleted_at IS NULL
 RETURNING  pd_id, created_at, updated_at, deleted_at, pd_name, short_description, long_description, img_id, category_id
 `
 
 type UpdateProductLongDescriptionParams struct {
-	PdID            int64          `json:"pd_id"`
 	LongDescription sql.NullString `json:"long_description"`
+	PdID            int64          `json:"pd_id"`
 }
 
 func (q *Queries) UpdateProductLongDescription(ctx context.Context, arg UpdateProductLongDescriptionParams) (Product, error) {
-	row := q.db.QueryRowContext(ctx, updateProductLongDescription, arg.PdID, arg.LongDescription)
+	row := q.db.QueryRowContext(ctx, updateProductLongDescription, arg.LongDescription, arg.PdID)
 	var i Product
 	err := row.Scan(
 		&i.PdID,
@@ -276,18 +336,18 @@ func (q *Queries) UpdateProductLongDescription(ctx context.Context, arg UpdatePr
 
 const updateProductName = `-- name: UpdateProductName :one
 UPDATE product
-SET pd_name = $2, updated_at = now()
-WHERE pd_id = $1 AND deleted_at IS NULL
+SET pd_name = $1, updated_at = now()
+WHERE pd_id = $2 AND deleted_at IS NULL
 RETURNING  pd_id, created_at, updated_at, deleted_at, pd_name, short_description, long_description, img_id, category_id
 `
 
 type UpdateProductNameParams struct {
-	PdID   int64  `json:"pd_id"`
 	PdName string `json:"pd_name"`
+	PdID   int64  `json:"pd_id"`
 }
 
 func (q *Queries) UpdateProductName(ctx context.Context, arg UpdateProductNameParams) (Product, error) {
-	row := q.db.QueryRowContext(ctx, updateProductName, arg.PdID, arg.PdName)
+	row := q.db.QueryRowContext(ctx, updateProductName, arg.PdName, arg.PdID)
 	var i Product
 	err := row.Scan(
 		&i.PdID,
@@ -305,18 +365,18 @@ func (q *Queries) UpdateProductName(ctx context.Context, arg UpdateProductNamePa
 
 const updateProductShortDescription = `-- name: UpdateProductShortDescription :one
 UPDATE product
-SET short_description = $2, updated_at = now()
-WHERE pd_id = $1 AND deleted_at IS NULL
+SET short_description = $1, updated_at = now()
+WHERE pd_id = $2 AND deleted_at IS NULL
 RETURNING  pd_id, created_at, updated_at, deleted_at, pd_name, short_description, long_description, img_id, category_id
 `
 
 type UpdateProductShortDescriptionParams struct {
-	PdID             int64          `json:"pd_id"`
 	ShortDescription sql.NullString `json:"short_description"`
+	PdID             int64          `json:"pd_id"`
 }
 
 func (q *Queries) UpdateProductShortDescription(ctx context.Context, arg UpdateProductShortDescriptionParams) (Product, error) {
-	row := q.db.QueryRowContext(ctx, updateProductShortDescription, arg.PdID, arg.ShortDescription)
+	row := q.db.QueryRowContext(ctx, updateProductShortDescription, arg.ShortDescription, arg.PdID)
 	var i Product
 	err := row.Scan(
 		&i.PdID,

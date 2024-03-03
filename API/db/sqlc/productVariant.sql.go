@@ -169,18 +169,18 @@ func (q *Queries) RestoreProductVariant(ctx context.Context, productVariantID in
 
 const updateProductVariantAttId = `-- name: UpdateProductVariantAttId :one
 UPDATE "product_variant"
-SET att_id = $2, updated_at = now()
-WHERE product_variant_id = $1 AND deleted_at IS NULL
+SET att_id = $1, updated_at = now()
+WHERE product_variant_id = $2 AND deleted_at IS NULL
 RETURNING  product_variant_id, created_at, updated_at, deleted_at, price, pd_id, att_id
 `
 
 type UpdateProductVariantAttIdParams struct {
-	ProductVariantID int64         `json:"product_variant_id"`
 	AttID            sql.NullInt64 `json:"att_id"`
+	ProductVariantID int64         `json:"product_variant_id"`
 }
 
 func (q *Queries) UpdateProductVariantAttId(ctx context.Context, arg UpdateProductVariantAttIdParams) (ProductVariant, error) {
-	row := q.db.QueryRowContext(ctx, updateProductVariantAttId, arg.ProductVariantID, arg.AttID)
+	row := q.db.QueryRowContext(ctx, updateProductVariantAttId, arg.AttID, arg.ProductVariantID)
 	var i ProductVariant
 	err := row.Scan(
 		&i.ProductVariantID,
@@ -196,18 +196,18 @@ func (q *Queries) UpdateProductVariantAttId(ctx context.Context, arg UpdateProdu
 
 const updateProductVariantPdId = `-- name: UpdateProductVariantPdId :one
 UPDATE "product_variant"
-SET pd_id = $2, updated_at = now()
-WHERE product_variant_id = $1 AND deleted_at IS NULL
+SET pd_id = $1, updated_at = now()
+WHERE product_variant_id = $2 AND deleted_at IS NULL
 RETURNING  product_variant_id, created_at, updated_at, deleted_at, price, pd_id, att_id
 `
 
 type UpdateProductVariantPdIdParams struct {
-	ProductVariantID int64         `json:"product_variant_id"`
 	PdID             sql.NullInt64 `json:"pd_id"`
+	ProductVariantID int64         `json:"product_variant_id"`
 }
 
 func (q *Queries) UpdateProductVariantPdId(ctx context.Context, arg UpdateProductVariantPdIdParams) (ProductVariant, error) {
-	row := q.db.QueryRowContext(ctx, updateProductVariantPdId, arg.ProductVariantID, arg.PdID)
+	row := q.db.QueryRowContext(ctx, updateProductVariantPdId, arg.PdID, arg.ProductVariantID)
 	var i ProductVariant
 	err := row.Scan(
 		&i.ProductVariantID,
@@ -223,18 +223,18 @@ func (q *Queries) UpdateProductVariantPdId(ctx context.Context, arg UpdateProduc
 
 const updateProductVariantPrice = `-- name: UpdateProductVariantPrice :one
 UPDATE "product_variant"
-SET price = $2, updated_at = now()
-WHERE product_variant_id = $1 AND deleted_at IS NULL
+SET price = $1, updated_at = now()
+WHERE product_variant_id = $2 AND deleted_at IS NULL
 RETURNING  product_variant_id, created_at, updated_at, deleted_at, price, pd_id, att_id
 `
 
 type UpdateProductVariantPriceParams struct {
-	ProductVariantID int64  `json:"product_variant_id"`
 	Price            string `json:"price"`
+	ProductVariantID int64  `json:"product_variant_id"`
 }
 
 func (q *Queries) UpdateProductVariantPrice(ctx context.Context, arg UpdateProductVariantPriceParams) (ProductVariant, error) {
-	row := q.db.QueryRowContext(ctx, updateProductVariantPrice, arg.ProductVariantID, arg.Price)
+	row := q.db.QueryRowContext(ctx, updateProductVariantPrice, arg.Price, arg.ProductVariantID)
 	var i ProductVariant
 	err := row.Scan(
 		&i.ProductVariantID,

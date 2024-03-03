@@ -168,18 +168,18 @@ func (q *Queries) RestoreImage(ctx context.Context, imgID int64) (Image, error) 
 
 const updateImageAltText = `-- name: UpdateImageAltText :one
 UPDATE image
-SET alt_text = $2, updated_at = now()
-WHERE img_id = $1 AND deleted_at IS NULL
+SET alt_text = $1, updated_at = now()
+WHERE img_id = $2 AND deleted_at IS NULL
 RETURNING  img_id, created_at, updated_at, deleted_at, img_name, img_url, alt_text
 `
 
 type UpdateImageAltTextParams struct {
-	ImgID   int64          `json:"img_id"`
 	AltText sql.NullString `json:"alt_text"`
+	ImgID   int64          `json:"img_id"`
 }
 
 func (q *Queries) UpdateImageAltText(ctx context.Context, arg UpdateImageAltTextParams) (Image, error) {
-	row := q.db.QueryRowContext(ctx, updateImageAltText, arg.ImgID, arg.AltText)
+	row := q.db.QueryRowContext(ctx, updateImageAltText, arg.AltText, arg.ImgID)
 	var i Image
 	err := row.Scan(
 		&i.ImgID,
@@ -195,18 +195,18 @@ func (q *Queries) UpdateImageAltText(ctx context.Context, arg UpdateImageAltText
 
 const updateImageName = `-- name: UpdateImageName :one
 UPDATE image
-SET img_name = $2, updated_at = now()
-WHERE img_id = $1 AND deleted_at IS NULL
+SET img_name = $1, updated_at = now()
+WHERE img_id = $2 AND deleted_at IS NULL
 RETURNING  img_id, created_at, updated_at, deleted_at, img_name, img_url, alt_text
 `
 
 type UpdateImageNameParams struct {
-	ImgID   int64          `json:"img_id"`
 	ImgName sql.NullString `json:"img_name"`
+	ImgID   int64          `json:"img_id"`
 }
 
 func (q *Queries) UpdateImageName(ctx context.Context, arg UpdateImageNameParams) (Image, error) {
-	row := q.db.QueryRowContext(ctx, updateImageName, arg.ImgID, arg.ImgName)
+	row := q.db.QueryRowContext(ctx, updateImageName, arg.ImgName, arg.ImgID)
 	var i Image
 	err := row.Scan(
 		&i.ImgID,
@@ -222,18 +222,18 @@ func (q *Queries) UpdateImageName(ctx context.Context, arg UpdateImageNameParams
 
 const updateImageURL = `-- name: UpdateImageURL :one
 UPDATE image
-SET img_url = $2, updated_at = now()
-WHERE img_id = $1 AND deleted_at IS NULL
+SET img_url = $1, updated_at = now()
+WHERE img_id = $2 AND deleted_at IS NULL
 RETURNING  img_id, created_at, updated_at, deleted_at, img_name, img_url, alt_text
 `
 
 type UpdateImageURLParams struct {
-	ImgID  int64          `json:"img_id"`
 	ImgUrl sql.NullString `json:"img_url"`
+	ImgID  int64          `json:"img_id"`
 }
 
 func (q *Queries) UpdateImageURL(ctx context.Context, arg UpdateImageURLParams) (Image, error) {
-	row := q.db.QueryRowContext(ctx, updateImageURL, arg.ImgID, arg.ImgUrl)
+	row := q.db.QueryRowContext(ctx, updateImageURL, arg.ImgUrl, arg.ImgID)
 	var i Image
 	err := row.Scan(
 		&i.ImgID,

@@ -17,6 +17,22 @@ ORDER BY category_id, pd_id
 LIMIT $1
 OFFSET $2;
 
+-- name: ListProductForSpecificCategory :many
+SELECT
+    product.pd_id,
+    product.pd_name,
+    product.short_description,
+    product.long_description,
+    image.img_url,
+    image.img_name,
+    image.alt_text,
+    category.category_name
+FROM product
+JOIN category ON product.category_id = category.category_id
+JOIN image on product.img_id = image.img_id
+WHERE product.category_id =$1
+ORDER BY product.pd_name;
+
 -- name: UpdateProductName :one
 UPDATE product
 SET pd_name = $1, updated_at = now()

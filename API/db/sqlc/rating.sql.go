@@ -316,19 +316,19 @@ func (q *Queries) RestoreRating(ctx context.Context, ratingID int64) (Rating, er
 
 const updateRatingValue = `-- name: UpdateRatingValue :one
 UPDATE "rating"
-SET rating_value = $3, updated_at = now()
-WHERE usr_id = $1 AND pd_id= $2 AND deleted_at IS NULL
+SET rating_value = $1, updated_at = now()
+WHERE usr_id = $2 AND pd_id= $3 AND deleted_at IS NULL
 RETURNING  rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id
 `
 
 type UpdateRatingValueParams struct {
+	RatingValue sql.NullString `json:"rating_value"`
 	UsrID       sql.NullInt64  `json:"usr_id"`
 	PdID        sql.NullInt64  `json:"pd_id"`
-	RatingValue sql.NullString `json:"rating_value"`
 }
 
 func (q *Queries) UpdateRatingValue(ctx context.Context, arg UpdateRatingValueParams) (Rating, error) {
-	row := q.db.QueryRowContext(ctx, updateRatingValue, arg.UsrID, arg.PdID, arg.RatingValue)
+	row := q.db.QueryRowContext(ctx, updateRatingValue, arg.RatingValue, arg.UsrID, arg.PdID)
 	var i Rating
 	err := row.Scan(
 		&i.RatingID,

@@ -72,17 +72,18 @@ const getCategory = `-- name: GetCategory :many
 SELECT category_id, created_at, updated_at, deleted_at, category_name FROM category
 WHERE category_id = $1 AND deleted_at IS NULL
 ORDER BY category_id
-LIMIT $1
-    OFFSET $2
+LIMIT $2
+OFFSET $3
 `
 
 type GetCategoryParams struct {
-	Limit  int32 `json:"limit"`
-	Offset int32 `json:"offset"`
+	CategoryID int64 `json:"category_id"`
+	Limit      int32 `json:"limit"`
+	Offset     int32 `json:"offset"`
 }
 
 func (q *Queries) GetCategory(ctx context.Context, arg GetCategoryParams) ([]Category, error) {
-	rows, err := q.db.QueryContext(ctx, getCategory, arg.Limit, arg.Offset)
+	rows, err := q.db.QueryContext(ctx, getCategory, arg.CategoryID, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}
@@ -174,18 +175,18 @@ func (q *Queries) RestoreCategory(ctx context.Context, categoryID int64) (Catego
 
 const updateCategoryName = `-- name: UpdateCategoryName :one
 UPDATE category
-SET category_name = $2, updated_at = now()
-WHERE category_id = $1 AND deleted_at IS NULL
+SET category_name = $1, updated_at = now()
+WHERE category_id = $2 AND deleted_at IS NULL
 RETURNING  category_id, created_at, updated_at, deleted_at, category_name
 `
 
 type UpdateCategoryNameParams struct {
-	CategoryID   int64  `json:"category_id"`
 	CategoryName string `json:"category_name"`
+	CategoryID   int64  `json:"category_id"`
 }
 
 func (q *Queries) UpdateCategoryName(ctx context.Context, arg UpdateCategoryNameParams) (Category, error) {
-	row := q.db.QueryRowContext(ctx, updateCategoryName, arg.CategoryID, arg.CategoryName)
+	row := q.db.QueryRowContext(ctx, updateCategoryName, arg.CategoryName, arg.CategoryID)
 	var i Category
 	err := row.Scan(
 		&i.CategoryID,
