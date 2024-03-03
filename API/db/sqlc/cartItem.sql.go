@@ -11,7 +11,7 @@ import (
 )
 
 const createCartItem = `-- name: CreateCartItem :one
-INSERT INTO "cart_item" (
+INSERT INTO cart_item (
     quantity , product_variant_id , cart_id
 ) VALUES (
              $1 , $2 , $3
@@ -40,7 +40,7 @@ func (q *Queries) CreateCartItem(ctx context.Context, arg CreateCartItemParams) 
 }
 
 const deleteCartItem = `-- name: DeleteCartItem :one
-DELETE FROM "cart_item" WHERE cart_item_id = $1 RETURNING cart_item_id, created_at, updated_at, quantity, product_variant_id, cart_id
+DELETE FROM cart_item WHERE cart_item_id = $1 RETURNING cart_item_id, created_at, updated_at, quantity, product_variant_id, cart_id
 `
 
 func (q *Queries) DeleteCartItem(ctx context.Context, cartItemID int64) (CartItem, error) {
@@ -58,7 +58,7 @@ func (q *Queries) DeleteCartItem(ctx context.Context, cartItemID int64) (CartIte
 }
 
 const getCartItem = `-- name: GetCartItem :one
-SELECT cart_item_id, created_at, updated_at, quantity, product_variant_id, cart_id FROM "cart_item"
+SELECT cart_item_id, created_at, updated_at, quantity, product_variant_id, cart_id FROM cart_item
 WHERE cart_item_id = $1
 `
 
@@ -77,9 +77,9 @@ func (q *Queries) GetCartItem(ctx context.Context, cartItemID int64) (CartItem, 
 }
 
 const listCartItemForSpecificCart = `-- name: ListCartItemForSpecificCart :many
-SELECT cart_item_id, created_at, updated_at, quantity, product_variant_id, cart_id FROM "cart_item"
+SELECT cart_item_id, created_at, updated_at, quantity, product_variant_id, cart_id FROM cart_item
 WHERE cart_id = $1
-ORDER BY product_variant_id
+ORDER BY product_variant_id, cart_item.created_at DESC
 LIMIT $2
 OFFSET $3
 `
@@ -121,7 +121,7 @@ func (q *Queries) ListCartItemForSpecificCart(ctx context.Context, arg ListCartI
 }
 
 const updateQuantity = `-- name: UpdateQuantity :one
-UPDATE "cart_item"
+UPDATE cart_item
 SET quantity = $1 ,updated_at = now()
 WHERE cart_id = $2
 RETURNING  cart_item_id, created_at, updated_at, quantity, product_variant_id, cart_id
