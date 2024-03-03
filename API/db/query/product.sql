@@ -19,32 +19,32 @@ OFFSET $2;
 
 -- name: UpdateProductName :one
 UPDATE product
-SET pd_name = $2, updated_at = now()
-WHERE pd_id = $1 AND deleted_at IS NULL
+SET pd_name = $1, updated_at = now()
+WHERE pd_id = $2 AND deleted_at IS NULL
 RETURNING  *;
 
 -- name: UpdateProductShortDescription :one
 UPDATE product
-SET short_description = $2, updated_at = now()
-WHERE pd_id = $1 AND deleted_at IS NULL
+SET short_description = $1, updated_at = now()
+WHERE pd_id = $2 AND deleted_at IS NULL
 RETURNING  *;
 
 -- name: UpdateProductLongDescription :one
 UPDATE product
-SET long_description = $2, updated_at = now()
-WHERE pd_id = $1 AND deleted_at IS NULL
+SET long_description = $1, updated_at = now()
+WHERE pd_id = $2 AND deleted_at IS NULL
 RETURNING  *;
 
 -- name: UpdateProductImgId :one
 UPDATE product
-SET img_id = $2, updated_at = now()
-WHERE pd_id = $1 AND deleted_at IS NULL
+SET img_id = $1, updated_at = now()
+WHERE pd_id = $2 AND deleted_at IS NULL
 RETURNING  *;
 
 -- name: UpdateProductCategoryId :one
 UPDATE product
-SET category_id = $2, updated_at = now()
-WHERE pd_id = $1 AND deleted_at IS NULL
+SET category_id = $1, updated_at = now()
+WHERE pd_id = $2 AND deleted_at IS NULL
 RETURNING  *;
 
 -- name: DeleteProductTemporarily :one

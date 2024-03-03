@@ -19,20 +19,20 @@ WHERE img_name = $1;
 
 -- name: UpdateImageName :one
 UPDATE image
-SET img_name = $2, updated_at = now()
-WHERE img_id = $1 AND deleted_at IS NULL
+SET img_name = $1, updated_at = now()
+WHERE img_id = $2 AND deleted_at IS NULL
 RETURNING  *;
 
 -- name: UpdateImageURL :one
 UPDATE image
-SET img_url = $2, updated_at = now()
-WHERE img_id = $1 AND deleted_at IS NULL
+SET img_url = $1, updated_at = now()
+WHERE img_id = $2 AND deleted_at IS NULL
 RETURNING  *;
 
 -- name: UpdateImageAltText :one
 UPDATE image
-SET alt_text = $2, updated_at = now()
-WHERE img_id = $1 AND deleted_at IS NULL
+SET alt_text = $1, updated_at = now()
+WHERE img_id = $2 AND deleted_at IS NULL
 RETURNING  *;
 
 -- name: DeleteImageTemporarily :one

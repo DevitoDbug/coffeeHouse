@@ -44,8 +44,8 @@ WHERE pd_id = $1;
 
 -- name: UpdateRatingValue :one
 UPDATE "rating"
-SET rating_value = $3, updated_at = now()
-WHERE usr_id = $1 AND pd_id= $2 AND deleted_at IS NULL
+SET rating_value = $1, updated_at = now()
+WHERE usr_id = $2 AND pd_id= $3 AND deleted_at IS NULL
 RETURNING  *;
 
 -- name: DeleteRatingTemporarily :one

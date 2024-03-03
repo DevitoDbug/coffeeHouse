@@ -10,8 +10,8 @@ RETURNING *;
 SELECT * FROM category
 WHERE category_id = $1 AND deleted_at IS NULL
 ORDER BY category_id
-LIMIT $1
-    OFFSET $2;
+LIMIT $2
+OFFSET $3;
 
 -- name: ListCategory :many
 SELECT * FROM category
@@ -22,8 +22,8 @@ OFFSET $2;
 
 -- name: UpdateCategoryName :one
 UPDATE category
-SET category_name = $2, updated_at = now()
-WHERE category_id = $1 AND deleted_at IS NULL
+SET category_name = $1, updated_at = now()
+WHERE category_id = $2 AND deleted_at IS NULL
 RETURNING  *;
 
 -- name: DeleteCategoryTemporarily :one

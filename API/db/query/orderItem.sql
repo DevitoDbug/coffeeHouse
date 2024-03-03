@@ -14,10 +14,10 @@ OFFSET $2;
 
 -- name: ListOrderItemsForSpecificOrder :many
 SELECT * FROM "order_item"
-WHERE customer_order_id = $3
+WHERE customer_order_id = $1
 ORDER BY product_variant_id
-LIMIT $1
-OFFSET $2;
+LIMIT $2
+OFFSET $3;
 
 -- name: DeleteOrderItem :one
 DELETE FROM "order_item" WHERE order_item_id = $1 RETURNING *;
