@@ -8,6 +8,7 @@ package db
 import (
 	"context"
 	"database/sql"
+	"time"
 )
 
 const createRating = `-- name: CreateRating :one
@@ -87,27 +88,74 @@ func (q *Queries) DeleteRatingTemporarily(ctx context.Context, ratingID int64) (
 	return i, err
 }
 
-const getUserLikeStatus = `-- name: GetUserLikeStatus :one
-SELECT rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id FROM "rating"
+const listLikedProductsForSpecificUser = `-- name: ListLikedProductsForSpecificUser :many
+SELECT
+    rating.rating_id,
+    rating.comment,
+    rating.rating_value,
+    rating.updated_at,
+    product.pd_name,
+    product.short_description,
+    image. img_name,
+    image.img_url,
+    image.alt_text,
+    category.category_name,
+    rating.usr_id
+FROM "rating"
+JOIN product ON rating.pd_id = product.pd_id
+JOIN image ON product.img_id = image.img_id
+JOIN category ON product.category_id = category.category_id
 WHERE liked = true AND usr_id = $1 AND deleted_at IS NULL
-ORDER BY pd_id
+ORDER BY rating.updated_at DESC
 `
 
-func (q *Queries) GetUserLikeStatus(ctx context.Context, usrID sql.NullInt64) (Rating, error) {
-	row := q.db.QueryRowContext(ctx, getUserLikeStatus, usrID)
-	var i Rating
-	err := row.Scan(
-		&i.RatingID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.DeletedAt,
-		&i.RatingValue,
-		&i.Liked,
-		&i.Comment,
-		&i.PdID,
-		&i.UsrID,
-	)
-	return i, err
+type ListLikedProductsForSpecificUserRow struct {
+	RatingID         int64          `json:"rating_id"`
+	Comment          sql.NullString `json:"comment"`
+	RatingValue      sql.NullString `json:"rating_value"`
+	UpdatedAt        time.Time      `json:"updated_at"`
+	PdName           string         `json:"pd_name"`
+	ShortDescription sql.NullString `json:"short_description"`
+	ImgName          sql.NullString `json:"img_name"`
+	ImgUrl           sql.NullString `json:"img_url"`
+	AltText          sql.NullString `json:"alt_text"`
+	CategoryName     string         `json:"category_name"`
+	UsrID            sql.NullInt64  `json:"usr_id"`
+}
+
+func (q *Queries) ListLikedProductsForSpecificUser(ctx context.Context, usrID sql.NullInt64) ([]ListLikedProductsForSpecificUserRow, error) {
+	rows, err := q.db.QueryContext(ctx, listLikedProductsForSpecificUser, usrID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []ListLikedProductsForSpecificUserRow
+	for rows.Next() {
+		var i ListLikedProductsForSpecificUserRow
+		if err := rows.Scan(
+			&i.RatingID,
+			&i.Comment,
+			&i.RatingValue,
+			&i.UpdatedAt,
+			&i.PdName,
+			&i.ShortDescription,
+			&i.ImgName,
+			&i.ImgUrl,
+			&i.AltText,
+			&i.CategoryName,
+			&i.UsrID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
 const listRating = `-- name: ListRating :many
@@ -299,6 +347,66 @@ RETURNING  rating_id, created_at, updated_at, deleted_at, rating_value, liked, c
 
 func (q *Queries) RestoreRating(ctx context.Context, ratingID int64) (Rating, error) {
 	row := q.db.QueryRowContext(ctx, restoreRating, ratingID)
+	var i Rating
+	err := row.Scan(
+		&i.RatingID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.DeletedAt,
+		&i.RatingValue,
+		&i.Liked,
+		&i.Comment,
+		&i.PdID,
+		&i.UsrID,
+	)
+	return i, err
+}
+
+const updateComment = `-- name: UpdateComment :one
+UPDATE "rating"
+SET liked = $1, updated_at = now()
+WHERE usr_id = $2 AND pd_id= $3 AND deleted_at IS NULL
+RETURNING  rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id
+`
+
+type UpdateCommentParams struct {
+	Liked sql.NullBool  `json:"liked"`
+	UsrID sql.NullInt64 `json:"usr_id"`
+	PdID  sql.NullInt64 `json:"pd_id"`
+}
+
+func (q *Queries) UpdateComment(ctx context.Context, arg UpdateCommentParams) (Rating, error) {
+	row := q.db.QueryRowContext(ctx, updateComment, arg.Liked, arg.UsrID, arg.PdID)
+	var i Rating
+	err := row.Scan(
+		&i.RatingID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.DeletedAt,
+		&i.RatingValue,
+		&i.Liked,
+		&i.Comment,
+		&i.PdID,
+		&i.UsrID,
+	)
+	return i, err
+}
+
+const updateLiked = `-- name: UpdateLiked :one
+UPDATE "rating"
+SET liked = $1, updated_at = now()
+WHERE usr_id = $2 AND pd_id= $3 AND deleted_at IS NULL
+RETURNING  rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id
+`
+
+type UpdateLikedParams struct {
+	Liked sql.NullBool  `json:"liked"`
+	UsrID sql.NullInt64 `json:"usr_id"`
+	PdID  sql.NullInt64 `json:"pd_id"`
+}
+
+func (q *Queries) UpdateLiked(ctx context.Context, arg UpdateLikedParams) (Rating, error) {
+	row := q.db.QueryRowContext(ctx, updateLiked, arg.Liked, arg.UsrID, arg.PdID)
 	var i Rating
 	err := row.Scan(
 		&i.RatingID,
