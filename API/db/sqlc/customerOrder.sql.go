@@ -84,3 +84,81 @@ func (q *Queries) ListCustomerOrders(ctx context.Context, arg ListCustomerOrders
 	}
 	return items, nil
 }
+
+const listOrderHistoryForSpecificUser = `-- name: ListOrderHistoryForSpecificUser :many
+SELECT
+    order_item.order_item_id,
+    order_item.quantity,
+    order_item.price_per_item,
+    product.pd_name,
+    image.img_name,
+    image.img_url,
+    image.alt_text,
+    category.category_name,
+    attribute.att_value,
+    attribute.abbreviations
+FROM customer_order
+JOIN order_item ON customer_order.customer_order_id = order_item.customer_order_id
+JOIN product_variant ON order_item.product_variant_id = product_variant.product_variant_id
+JOIN product ON product_variant.pd_id = product.pd_id
+JOIN image ON product.img_id = image.img_id
+JOIN category ON product.category_id = category.category_id
+JOIN attribute ON product_variant.att_id = attribute.att_id
+WHERE customer_order.usr_id = $1
+ORDER BY customer_order.created_at DESC, attribute.abbreviations
+LIMIT $2
+OFFSET $3
+`
+
+type ListOrderHistoryForSpecificUserParams struct {
+	UsrID  sql.NullInt64 `json:"usr_id"`
+	Limit  int32         `json:"limit"`
+	Offset int32         `json:"offset"`
+}
+
+type ListOrderHistoryForSpecificUserRow struct {
+	OrderItemID   int64          `json:"order_item_id"`
+	Quantity      sql.NullInt32  `json:"quantity"`
+	PricePerItem  string         `json:"price_per_item"`
+	PdName        string         `json:"pd_name"`
+	ImgName       sql.NullString `json:"img_name"`
+	ImgUrl        sql.NullString `json:"img_url"`
+	AltText       sql.NullString `json:"alt_text"`
+	CategoryName  string         `json:"category_name"`
+	AttValue      sql.NullString `json:"att_value"`
+	Abbreviations sql.NullString `json:"abbreviations"`
+}
+
+func (q *Queries) ListOrderHistoryForSpecificUser(ctx context.Context, arg ListOrderHistoryForSpecificUserParams) ([]ListOrderHistoryForSpecificUserRow, error) {
+	rows, err := q.db.QueryContext(ctx, listOrderHistoryForSpecificUser, arg.UsrID, arg.Limit, arg.Offset)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []ListOrderHistoryForSpecificUserRow
+	for rows.Next() {
+		var i ListOrderHistoryForSpecificUserRow
+		if err := rows.Scan(
+			&i.OrderItemID,
+			&i.Quantity,
+			&i.PricePerItem,
+			&i.PdName,
+			&i.ImgName,
+			&i.ImgUrl,
+			&i.AltText,
+			&i.CategoryName,
+			&i.AttValue,
+			&i.Abbreviations,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}

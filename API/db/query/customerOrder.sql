@@ -30,7 +30,7 @@ JOIN product_variant ON order_item.product_variant_id = product_variant.product_
 JOIN product ON product_variant.pd_id = product.pd_id
 JOIN image ON product.img_id = image.img_id
 JOIN category ON product.category_id = category.category_id
-JOIN attribute on product_variant.att_id = attribute.att_id
+JOIN attribute ON product_variant.att_id = attribute.att_id
 WHERE customer_order.usr_id = $1
 ORDER BY customer_order.created_at DESC, attribute.abbreviations
 LIMIT $2

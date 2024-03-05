@@ -12,7 +12,7 @@ import (
 )
 
 const createRating = `-- name: CreateRating :one
-INSERT INTO "rating" (
+INSERT INTO rating (
     rating_value, pd_id, usr_id
 ) VALUES (
              $1 , $2 , $3
@@ -44,7 +44,7 @@ func (q *Queries) CreateRating(ctx context.Context, arg CreateRatingParams) (Rat
 }
 
 const deleteRating = `-- name: DeleteRating :one
-DELETE FROM "rating" WHERE rating_id = $1 RETURNING rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id
+DELETE FROM rating WHERE rating_id = $1 RETURNING rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id
 `
 
 func (q *Queries) DeleteRating(ctx context.Context, ratingID int64) (Rating, error) {
@@ -65,7 +65,7 @@ func (q *Queries) DeleteRating(ctx context.Context, ratingID int64) (Rating, err
 }
 
 const deleteRatingTemporarily = `-- name: DeleteRatingTemporarily :one
-UPDATE "rating"
+UPDATE rating
 SET deleted_at = now()
 WHERE rating_id = $1 AND deleted_at IS NULL
 RETURNING  rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id
@@ -101,7 +101,7 @@ SELECT
     image.alt_text,
     category.category_name,
     rating.usr_id
-FROM "rating"
+FROM rating
 JOIN product ON rating.pd_id = product.pd_id
 JOIN image ON product.img_id = image.img_id
 JOIN category ON product.category_id = category.category_id
@@ -159,7 +159,7 @@ func (q *Queries) ListLikedProductsForSpecificUser(ctx context.Context, usrID sq
 }
 
 const listRating = `-- name: ListRating :many
-SELECT rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id FROM "rating"
+SELECT rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id FROM rating
 WHERE deleted_at IS NULL
 ORDER BY pd_id
 LIMIT $1
@@ -205,7 +205,7 @@ func (q *Queries) ListRating(ctx context.Context, arg ListRatingParams) ([]Ratin
 }
 
 const listUserLikeStatus = `-- name: ListUserLikeStatus :many
-SELECT rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id FROM "rating"
+SELECT rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id FROM rating
 WHERE liked = true AND deleted_at IS NULL
 ORDER BY pd_id
 LIMIT $1
@@ -251,7 +251,7 @@ func (q *Queries) ListUserLikeStatus(ctx context.Context, arg ListUserLikeStatus
 }
 
 const listUserNotLikedStatus = `-- name: ListUserNotLikedStatus :many
-SELECT rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id FROM "rating"
+SELECT rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id FROM rating
 WHERE liked = false AND deleted_at IS NULL
 ORDER BY pd_id
 LIMIT $1
@@ -339,7 +339,7 @@ func (q *Queries) ProductRating(ctx context.Context, pdID sql.NullInt64) ([]floa
 }
 
 const restoreRating = `-- name: RestoreRating :one
-UPDATE "rating"
+UPDATE rating
 SET deleted_at = NULL
 WHERE rating_id = $1 AND deleted_at IS NOT NULL
 RETURNING  rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id
@@ -363,7 +363,7 @@ func (q *Queries) RestoreRating(ctx context.Context, ratingID int64) (Rating, er
 }
 
 const updateComment = `-- name: UpdateComment :one
-UPDATE "rating"
+UPDATE rating
 SET liked = $1, updated_at = now()
 WHERE usr_id = $2 AND pd_id= $3 AND deleted_at IS NULL
 RETURNING  rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id
@@ -393,7 +393,7 @@ func (q *Queries) UpdateComment(ctx context.Context, arg UpdateCommentParams) (R
 }
 
 const updateLiked = `-- name: UpdateLiked :one
-UPDATE "rating"
+UPDATE rating
 SET liked = $1, updated_at = now()
 WHERE usr_id = $2 AND pd_id= $3 AND deleted_at IS NULL
 RETURNING  rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id
@@ -423,7 +423,7 @@ func (q *Queries) UpdateLiked(ctx context.Context, arg UpdateLikedParams) (Ratin
 }
 
 const updateRatingValue = `-- name: UpdateRatingValue :one
-UPDATE "rating"
+UPDATE rating
 SET rating_value = $1, updated_at = now()
 WHERE usr_id = $2 AND pd_id= $3 AND deleted_at IS NULL
 RETURNING  rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id
