@@ -17,28 +17,10 @@ ORDER BY usr_id
 LIMIT $1
 OFFSET $2;
 
--- name: UpdateUserNames :one
+-- name: UpdateUser :one
 UPDATE user
-SET fname = $1, sname= $2 ,updated_at = now()
-WHERE usr_id = $3 AND deleted_at IS NULL
-RETURNING  *;
-
--- name: UpdateUserEmail :one
-UPDATE user
-SET email = $1, updated_at = now()
-WHERE usr_id = $2 AND deleted_at IS NULL
-RETURNING  *;
-
--- name: UpdateUserPassword :one
-UPDATE user
-SET password = $1, updated_at = now()
-WHERE usr_id = $2 AND deleted_at IS NULL
-RETURNING  *;
-
--- name: UpdateUserPhotoURL :one
-UPDATE user
-SET "photoURL" = $1, updated_at = now()
-WHERE usr_id = $2 AND deleted_at IS NULL
+SET fname = $1, sname= $2 ,"photoURL" = $3 ,password = $4 ,email=$5 ,updated_at = now()
+WHERE usr_id = $6 AND deleted_at IS NULL
 RETURNING  *;
 
 -- name: DeleteUserTemporarily :one
