@@ -1,6 +1,7 @@
 package db
 
 import (
+	"coffeeHouse_API/util"
 	"context"
 	"database/sql"
 	"github.com/google/uuid"
@@ -8,35 +9,22 @@ import (
 	"testing"
 )
 
-func createDummyUser(fName string) User {
-	newUser := User{
+func createRandomUser(t *testing.T) User {
+	arg := CreateUserParams{
 		Fname: sql.NullString{
-			String: fName,
+			String: util.RandomUserName(),
 			Valid:  true,
 		},
 		Sname: sql.NullString{
-			String: fName + "lst",
+			String: util.RandomUserName() + "lst",
 			Valid:  true,
 		},
-		Email:    fName + "@gmail.com",
+		Email:    util.RandomUserName() + "@gmail.com",
 		Password: uuid.NewString(),
 		PhotoURL: sql.NullString{
 			String: "user1PhotoURl",
 			Valid:  true,
 		},
-	}
-
-	return newUser
-}
-
-func TestQueries_CreateUser(t *testing.T) {
-	newUser := createDummyUser("James")
-	arg := CreateUserParams{
-		Fname:    newUser.Fname,
-		Sname:    newUser.Sname,
-		Email:    newUser.Email,
-		Password: newUser.Password,
-		PhotoURL: newUser.PhotoURL,
 	}
 
 	user1, err := testQueries.CreateUser(context.Background(), arg)
@@ -49,7 +37,17 @@ func TestQueries_CreateUser(t *testing.T) {
 	require.Equal(t, arg.Email, user1.Email)
 	require.Equal(t, arg.Password, user1.Password)
 	require.Equal(t, arg.PhotoURL, user1.PhotoURL)
-	require.NotEmpty(t, user1.CreatedAt)
 	require.NotEmpty(t, user1.UpdatedAt)
+	require.NotEmpty(t, user1.CreatedAt)
+	require.NotEmpty(t, user1.UsrID)
+	require.NotZero(t, user1.UsrID)
+	require.NotZero(t, user1.CreatedAt)
+	require.NotZero(t, user1.UpdatedAt)
 	require.Empty(t, user1.DeletedAt)
+
+	return user1
+}
+
+func TestQueries_CreateUser(t *testing.T) {
+	createRandomUser(t)
 }
