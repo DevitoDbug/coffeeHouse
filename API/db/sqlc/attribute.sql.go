@@ -38,22 +38,14 @@ func (q *Queries) CreateAttribute(ctx context.Context, arg CreateAttributeParams
 	return i, err
 }
 
-const deleteAttribute = `-- name: DeleteAttribute :one
-DELETE FROM attribute WHERE att_id = $1 RETURNING att_id, created_at, updated_at, deleted_at, att_value, abbreviations
+const deleteAttribute = `-- name: DeleteAttribute :exec
+DELETE FROM attribute
+WHERE att_id = $1
 `
 
-func (q *Queries) DeleteAttribute(ctx context.Context, attID int64) (Attribute, error) {
-	row := q.db.QueryRowContext(ctx, deleteAttribute, attID)
-	var i Attribute
-	err := row.Scan(
-		&i.AttID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.DeletedAt,
-		&i.AttValue,
-		&i.Abbreviations,
-	)
-	return i, err
+func (q *Queries) DeleteAttribute(ctx context.Context, attID int64) error {
+	_, err := q.db.ExecContext(ctx, deleteAttribute, attID)
+	return err
 }
 
 const deleteAttributeTemporarily = `-- name: DeleteAttributeTemporarily :one

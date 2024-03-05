@@ -43,25 +43,14 @@ func (q *Queries) CreateRating(ctx context.Context, arg CreateRatingParams) (Rat
 	return i, err
 }
 
-const deleteRating = `-- name: DeleteRating :one
-DELETE FROM rating WHERE rating_id = $1 RETURNING rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id
+const deleteRating = `-- name: DeleteRating :exec
+DELETE FROM rating
+WHERE rating_id = $1
 `
 
-func (q *Queries) DeleteRating(ctx context.Context, ratingID int64) (Rating, error) {
-	row := q.db.QueryRowContext(ctx, deleteRating, ratingID)
-	var i Rating
-	err := row.Scan(
-		&i.RatingID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.DeletedAt,
-		&i.RatingValue,
-		&i.Liked,
-		&i.Comment,
-		&i.PdID,
-		&i.UsrID,
-	)
-	return i, err
+func (q *Queries) DeleteRating(ctx context.Context, ratingID int64) error {
+	_, err := q.db.ExecContext(ctx, deleteRating, ratingID)
+	return err
 }
 
 const deleteRatingTemporarily = `-- name: DeleteRatingTemporarily :one

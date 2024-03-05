@@ -50,25 +50,14 @@ func (q *Queries) CreateProduct(ctx context.Context, arg CreateProductParams) (P
 	return i, err
 }
 
-const deleteProduct = `-- name: DeleteProduct :one
-DELETE FROM product WHERE pd_id = $1 RETURNING pd_id, created_at, updated_at, deleted_at, pd_name, short_description, long_description, img_id, category_id
+const deleteProduct = `-- name: DeleteProduct :exec
+DELETE FROM product
+WHERE pd_id = $1
 `
 
-func (q *Queries) DeleteProduct(ctx context.Context, pdID int64) (Product, error) {
-	row := q.db.QueryRowContext(ctx, deleteProduct, pdID)
-	var i Product
-	err := row.Scan(
-		&i.PdID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.DeletedAt,
-		&i.PdName,
-		&i.ShortDescription,
-		&i.LongDescription,
-		&i.ImgID,
-		&i.CategoryID,
-	)
-	return i, err
+func (q *Queries) DeleteProduct(ctx context.Context, pdID int64) error {
+	_, err := q.db.ExecContext(ctx, deleteProduct, pdID)
+	return err
 }
 
 const deleteProductTemporarily = `-- name: DeleteProductTemporarily :one

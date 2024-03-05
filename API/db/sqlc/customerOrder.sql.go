@@ -26,15 +26,14 @@ func (q *Queries) CreateCustomerOrder(ctx context.Context, usrID sql.NullInt64) 
 	return i, err
 }
 
-const deleteCustomerOrder = `-- name: DeleteCustomerOrder :one
-DELETE FROM customer_order WHERE customer_order_id = $1 RETURNING customer_order_id, created_at, usr_id
+const deleteCustomerOrder = `-- name: DeleteCustomerOrder :exec
+DELETE FROM customer_order
+WHERE customer_order_id = $1
 `
 
-func (q *Queries) DeleteCustomerOrder(ctx context.Context, customerOrderID int64) (CustomerOrder, error) {
-	row := q.db.QueryRowContext(ctx, deleteCustomerOrder, customerOrderID)
-	var i CustomerOrder
-	err := row.Scan(&i.CustomerOrderID, &i.CreatedAt, &i.UsrID)
-	return i, err
+func (q *Queries) DeleteCustomerOrder(ctx context.Context, customerOrderID int64) error {
+	_, err := q.db.ExecContext(ctx, deleteCustomerOrder, customerOrderID)
+	return err
 }
 
 const getSpecificCustomerOrder = `-- name: GetSpecificCustomerOrder :one

@@ -39,23 +39,14 @@ func (q *Queries) CreateImage(ctx context.Context, arg CreateImageParams) (Image
 	return i, err
 }
 
-const deleteImage = `-- name: DeleteImage :one
-DELETE FROM image WHERE img_id = $1 RETURNING img_id, created_at, updated_at, deleted_at, img_name, img_url, alt_text
+const deleteImage = `-- name: DeleteImage :exec
+DELETE FROM image
+WHERE img_id = $1
 `
 
-func (q *Queries) DeleteImage(ctx context.Context, imgID int64) (Image, error) {
-	row := q.db.QueryRowContext(ctx, deleteImage, imgID)
-	var i Image
-	err := row.Scan(
-		&i.ImgID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.DeletedAt,
-		&i.ImgName,
-		&i.ImgUrl,
-		&i.AltText,
-	)
-	return i, err
+func (q *Queries) DeleteImage(ctx context.Context, imgID int64) error {
+	_, err := q.db.ExecContext(ctx, deleteImage, imgID)
+	return err
 }
 
 const deleteImageTemporarily = `-- name: DeleteImageTemporarily :one

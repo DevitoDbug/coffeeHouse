@@ -11,7 +11,7 @@ import (
 )
 
 const createOrderItem = `-- name: CreateOrderItem :one
-INSERT INTO "order_item" (
+INSERT INTO order_item  (
               quantity, price_per_item, product_variant_id, customer_order_id
 ) VALUES (
              $1 , $2 , $3 , $4
@@ -45,26 +45,18 @@ func (q *Queries) CreateOrderItem(ctx context.Context, arg CreateOrderItemParams
 	return i, err
 }
 
-const deleteOrderItem = `-- name: DeleteOrderItem :one
-DELETE FROM "order_item" WHERE order_item_id = $1 RETURNING order_item_id, created_at, quantity, price_per_item, product_variant_id, customer_order_id
+const deleteOrderItem = `-- name: DeleteOrderItem :exec
+DELETE FROM order_item
+WHERE order_item_id = $1
 `
 
-func (q *Queries) DeleteOrderItem(ctx context.Context, orderItemID int64) (OrderItem, error) {
-	row := q.db.QueryRowContext(ctx, deleteOrderItem, orderItemID)
-	var i OrderItem
-	err := row.Scan(
-		&i.OrderItemID,
-		&i.CreatedAt,
-		&i.Quantity,
-		&i.PricePerItem,
-		&i.ProductVariantID,
-		&i.CustomerOrderID,
-	)
-	return i, err
+func (q *Queries) DeleteOrderItem(ctx context.Context, orderItemID int64) error {
+	_, err := q.db.ExecContext(ctx, deleteOrderItem, orderItemID)
+	return err
 }
 
 const listOrderItems = `-- name: ListOrderItems :many
-SELECT order_item_id, created_at, quantity, price_per_item, product_variant_id, customer_order_id FROM "order_item"
+SELECT order_item_id, created_at, quantity, price_per_item, product_variant_id, customer_order_id FROM order_item
 ORDER BY customer_order_id, product_variant_id
 LIMIT $1
 OFFSET $2
@@ -106,7 +98,7 @@ func (q *Queries) ListOrderItems(ctx context.Context, arg ListOrderItemsParams) 
 }
 
 const listOrderItemsForSpecificOrder = `-- name: ListOrderItemsForSpecificOrder :many
-SELECT order_item_id, created_at, quantity, price_per_item, product_variant_id, customer_order_id FROM "order_item"
+SELECT order_item_id, created_at, quantity, price_per_item, product_variant_id, customer_order_id FROM order_item
 WHERE customer_order_id = $1
 ORDER BY product_variant_id
 LIMIT $2

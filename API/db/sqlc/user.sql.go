@@ -50,25 +50,14 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 	return i, err
 }
 
-const deleteUser = `-- name: DeleteUser :one
-DELETE FROM "user" WHERE usr_id = $1 RETURNING usr_id, created_at, updated_at, deleted_at, fname, sname, email, password, "photoURL"
+const deleteUser = `-- name: DeleteUser :exec
+DELETE FROM "user"
+WHERE usr_id = $1
 `
 
-func (q *Queries) DeleteUser(ctx context.Context, usrID int64) (User, error) {
-	row := q.db.QueryRowContext(ctx, deleteUser, usrID)
-	var i User
-	err := row.Scan(
-		&i.UsrID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.DeletedAt,
-		&i.Fname,
-		&i.Sname,
-		&i.Email,
-		&i.Password,
-		&i.PhotoURL,
-	)
-	return i, err
+func (q *Queries) DeleteUser(ctx context.Context, usrID int64) error {
+	_, err := q.db.ExecContext(ctx, deleteUser, usrID)
+	return err
 }
 
 const deleteUserTemporarily = `-- name: DeleteUserTemporarily :one
@@ -95,13 +84,13 @@ func (q *Queries) DeleteUserTemporarily(ctx context.Context, usrID int64) (User,
 	return i, err
 }
 
-const getUsers = `-- name: GetUsers :one
+const getUser = `-- name: GetUser :one
 SELECT usr_id, created_at, updated_at, deleted_at, fname, sname, email, password, "photoURL" FROM "user"
 WHERE usr_id = $1
 `
 
-func (q *Queries) GetUsers(ctx context.Context, usrID int64) (User, error) {
-	row := q.db.QueryRowContext(ctx, getUsers, usrID)
+func (q *Queries) GetUser(ctx context.Context, usrID int64) (User, error) {
+	row := q.db.QueryRowContext(ctx, getUser, usrID)
 	var i User
 	err := row.Scan(
 		&i.UsrID,
@@ -187,108 +176,31 @@ func (q *Queries) RestoreUser(ctx context.Context, usrID int64) (User, error) {
 	return i, err
 }
 
-const updateUserEmail = `-- name: UpdateUserEmail :one
+const updateUser = `-- name: UpdateUser :one
 UPDATE "user"
-SET email = $1, updated_at = now()
-WHERE usr_id = $2 AND deleted_at IS NULL
+SET fname = $1, sname= $2 ,"photoURL" = $3 ,password = $4 ,email=$5 ,updated_at = now()
+WHERE usr_id = $6 AND deleted_at IS NULL
 RETURNING  usr_id, created_at, updated_at, deleted_at, fname, sname, email, password, "photoURL"
 `
 
-type UpdateUserEmailParams struct {
-	Email string `json:"email"`
-	UsrID int64  `json:"usr_id"`
-}
-
-func (q *Queries) UpdateUserEmail(ctx context.Context, arg UpdateUserEmailParams) (User, error) {
-	row := q.db.QueryRowContext(ctx, updateUserEmail, arg.Email, arg.UsrID)
-	var i User
-	err := row.Scan(
-		&i.UsrID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.DeletedAt,
-		&i.Fname,
-		&i.Sname,
-		&i.Email,
-		&i.Password,
-		&i.PhotoURL,
-	)
-	return i, err
-}
-
-const updateUserNames = `-- name: UpdateUserNames :one
-UPDATE "user"
-SET fname = $1, sname= $2 ,updated_at = now()
-WHERE usr_id = $3 AND deleted_at IS NULL
-RETURNING  usr_id, created_at, updated_at, deleted_at, fname, sname, email, password, "photoURL"
-`
-
-type UpdateUserNamesParams struct {
-	Fname sql.NullString `json:"fname"`
-	Sname sql.NullString `json:"sname"`
-	UsrID int64          `json:"usr_id"`
-}
-
-func (q *Queries) UpdateUserNames(ctx context.Context, arg UpdateUserNamesParams) (User, error) {
-	row := q.db.QueryRowContext(ctx, updateUserNames, arg.Fname, arg.Sname, arg.UsrID)
-	var i User
-	err := row.Scan(
-		&i.UsrID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.DeletedAt,
-		&i.Fname,
-		&i.Sname,
-		&i.Email,
-		&i.Password,
-		&i.PhotoURL,
-	)
-	return i, err
-}
-
-const updateUserPassword = `-- name: UpdateUserPassword :one
-UPDATE "user"
-SET password = $1, updated_at = now()
-WHERE usr_id = $2 AND deleted_at IS NULL
-RETURNING  usr_id, created_at, updated_at, deleted_at, fname, sname, email, password, "photoURL"
-`
-
-type UpdateUserPasswordParams struct {
-	Password string `json:"password"`
-	UsrID    int64  `json:"usr_id"`
-}
-
-func (q *Queries) UpdateUserPassword(ctx context.Context, arg UpdateUserPasswordParams) (User, error) {
-	row := q.db.QueryRowContext(ctx, updateUserPassword, arg.Password, arg.UsrID)
-	var i User
-	err := row.Scan(
-		&i.UsrID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.DeletedAt,
-		&i.Fname,
-		&i.Sname,
-		&i.Email,
-		&i.Password,
-		&i.PhotoURL,
-	)
-	return i, err
-}
-
-const updateUserPhotoURL = `-- name: UpdateUserPhotoURL :one
-UPDATE "user"
-SET "photoURL" = $1, updated_at = now()
-WHERE usr_id = $2 AND deleted_at IS NULL
-RETURNING  usr_id, created_at, updated_at, deleted_at, fname, sname, email, password, "photoURL"
-`
-
-type UpdateUserPhotoURLParams struct {
+type UpdateUserParams struct {
+	Fname    sql.NullString `json:"fname"`
+	Sname    sql.NullString `json:"sname"`
 	PhotoURL sql.NullString `json:"photoURL"`
+	Password string         `json:"password"`
+	Email    string         `json:"email"`
 	UsrID    int64          `json:"usr_id"`
 }
 
-func (q *Queries) UpdateUserPhotoURL(ctx context.Context, arg UpdateUserPhotoURLParams) (User, error) {
-	row := q.db.QueryRowContext(ctx, updateUserPhotoURL, arg.PhotoURL, arg.UsrID)
+func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) (User, error) {
+	row := q.db.QueryRowContext(ctx, updateUser,
+		arg.Fname,
+		arg.Sname,
+		arg.PhotoURL,
+		arg.Password,
+		arg.Email,
+		arg.UsrID,
+	)
 	var i User
 	err := row.Scan(
 		&i.UsrID,

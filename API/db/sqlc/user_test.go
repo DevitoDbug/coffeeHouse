@@ -55,7 +55,7 @@ func TestQueries_CreateUser(t *testing.T) {
 func TestQueries_GetUsers(t *testing.T) {
 	createdUser := createRandomUser(t)
 
-	fetchedUser, err := testQueries.GetUsers(context.Background(), createdUser.UsrID)
+	fetchedUser, err := testQueries.GetUser(context.Background(), createdUser.UsrID)
 	require.NoError(t, err)
 	require.NotEmpty(t, fetchedUser)
 
@@ -65,4 +65,15 @@ func TestQueries_GetUsers(t *testing.T) {
 	require.Equal(t, createdUser.Email, fetchedUser.Email)
 	require.Equal(t, createdUser.Password, fetchedUser.Password)
 	require.Equal(t, createdUser.PhotoURL, fetchedUser.PhotoURL)
+}
+
+func TestQueries_DeleteUser(t *testing.T) {
+	user := createRandomUser(t)
+	err1 := testQueries.DeleteUser(context.Background(), user.UsrID)
+	require.NoError(t, err1)
+
+	fetchedUser, err2 := testQueries.GetUser(context.Background(), user.UsrID)
+	require.Error(t, err2)
+	require.EqualError(t, err2, sql.ErrNoRows.Error())
+	require.Empty(t, fetchedUser)
 }

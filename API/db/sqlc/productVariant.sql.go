@@ -11,7 +11,7 @@ import (
 )
 
 const createProductVariant = `-- name: CreateProductVariant :one
-INSERT INTO "product_variant" (
+INSERT INTO product_variant (
                                price, pd_id , att_id
 ) VALUES (
              $1 , $2 , $3
@@ -40,27 +40,18 @@ func (q *Queries) CreateProductVariant(ctx context.Context, arg CreateProductVar
 	return i, err
 }
 
-const deleteProductVariant = `-- name: DeleteProductVariant :one
-DELETE FROM "product_variant" WHERE product_variant_id = $1 RETURNING product_variant_id, created_at, updated_at, deleted_at, price, pd_id, att_id
+const deleteProductVariant = `-- name: DeleteProductVariant :exec
+DELETE FROM product_variant
+WHERE product_variant_id = $1
 `
 
-func (q *Queries) DeleteProductVariant(ctx context.Context, productVariantID int64) (ProductVariant, error) {
-	row := q.db.QueryRowContext(ctx, deleteProductVariant, productVariantID)
-	var i ProductVariant
-	err := row.Scan(
-		&i.ProductVariantID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.DeletedAt,
-		&i.Price,
-		&i.PdID,
-		&i.AttID,
-	)
-	return i, err
+func (q *Queries) DeleteProductVariant(ctx context.Context, productVariantID int64) error {
+	_, err := q.db.ExecContext(ctx, deleteProductVariant, productVariantID)
+	return err
 }
 
 const deleteProductVariantTemporarily = `-- name: DeleteProductVariantTemporarily :one
-UPDATE "product_variant"
+UPDATE product_variant
 SET deleted_at = now()
 WHERE product_variant_id = $1 AND deleted_at IS NULL
 RETURNING  product_variant_id, created_at, updated_at, deleted_at, price, pd_id, att_id
@@ -82,7 +73,7 @@ func (q *Queries) DeleteProductVariantTemporarily(ctx context.Context, productVa
 }
 
 const getProductVariant = `-- name: GetProductVariant :one
-SELECT product_variant_id, created_at, updated_at, deleted_at, price, pd_id, att_id FROM "product_variant"
+SELECT product_variant_id, created_at, updated_at, deleted_at, price, pd_id, att_id FROM product_variant
 WHERE product_variant_id = $1
 `
 
@@ -102,7 +93,7 @@ func (q *Queries) GetProductVariant(ctx context.Context, productVariantID int64)
 }
 
 const listProductsVariant = `-- name: ListProductsVariant :many
-SELECT product_variant_id, created_at, updated_at, deleted_at, price, pd_id, att_id FROM "product_variant"
+SELECT product_variant_id, created_at, updated_at, deleted_at, price, pd_id, att_id FROM product_variant
 WHERE deleted_at IS NULL
 ORDER BY pd_id
 LIMIT $1
@@ -146,7 +137,7 @@ func (q *Queries) ListProductsVariant(ctx context.Context, arg ListProductsVaria
 }
 
 const restoreProductVariant = `-- name: RestoreProductVariant :one
-UPDATE "product_variant"
+UPDATE product_variant
 SET deleted_at = NULL
 WHERE product_variant_id = $1 AND deleted_at IS NOT NULL
 RETURNING  product_variant_id, created_at, updated_at, deleted_at, price, pd_id, att_id
@@ -168,7 +159,7 @@ func (q *Queries) RestoreProductVariant(ctx context.Context, productVariantID in
 }
 
 const updateProductVariantAttId = `-- name: UpdateProductVariantAttId :one
-UPDATE "product_variant"
+UPDATE product_variant
 SET att_id = $1, updated_at = now()
 WHERE product_variant_id = $2 AND deleted_at IS NULL
 RETURNING  product_variant_id, created_at, updated_at, deleted_at, price, pd_id, att_id
@@ -195,7 +186,7 @@ func (q *Queries) UpdateProductVariantAttId(ctx context.Context, arg UpdateProdu
 }
 
 const updateProductVariantPdId = `-- name: UpdateProductVariantPdId :one
-UPDATE "product_variant"
+UPDATE product_variant
 SET pd_id = $1, updated_at = now()
 WHERE product_variant_id = $2 AND deleted_at IS NULL
 RETURNING  product_variant_id, created_at, updated_at, deleted_at, price, pd_id, att_id
@@ -222,7 +213,7 @@ func (q *Queries) UpdateProductVariantPdId(ctx context.Context, arg UpdateProduc
 }
 
 const updateProductVariantPrice = `-- name: UpdateProductVariantPrice :one
-UPDATE "product_variant"
+UPDATE product_variant
 SET price = $1, updated_at = now()
 WHERE product_variant_id = $2 AND deleted_at IS NULL
 RETURNING  product_variant_id, created_at, updated_at, deleted_at, price, pd_id, att_id

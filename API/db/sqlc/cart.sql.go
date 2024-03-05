@@ -31,20 +31,14 @@ func (q *Queries) CreateCart(ctx context.Context, usrID sql.NullInt64) (Cart, er
 	return i, err
 }
 
-const deleteCart = `-- name: DeleteCart :one
-DELETE FROM cart WHERE cart_id = $1 RETURNING cart_id, created_at, updated_at, usr_id
+const deleteCart = `-- name: DeleteCart :exec
+DELETE FROM cart
+WHERE cart_id = $1
 `
 
-func (q *Queries) DeleteCart(ctx context.Context, cartID int64) (Cart, error) {
-	row := q.db.QueryRowContext(ctx, deleteCart, cartID)
-	var i Cart
-	err := row.Scan(
-		&i.CartID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UsrID,
-	)
-	return i, err
+func (q *Queries) DeleteCart(ctx context.Context, cartID int64) error {
+	_, err := q.db.ExecContext(ctx, deleteCart, cartID)
+	return err
 }
 
 const getCarts = `-- name: GetCarts :one

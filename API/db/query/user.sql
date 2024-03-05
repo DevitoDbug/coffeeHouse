@@ -1,5 +1,5 @@
 -- name: CreateUser :one
-INSERT INTO user (
+INSERT INTO "user" (
 fname, sname , email , password, "photoURL"
 ) VALUES (
     $1 , $2 , $3 , $4 ,$5
@@ -7,34 +7,34 @@ fname, sname , email , password, "photoURL"
 RETURNING *;
 
 -- name: GetUser :one
-SELECT * FROM user
+SELECT * FROM "user"
 WHERE usr_id = $1;
 
 -- name: ListUsers :many
-SELECT * FROM user
+SELECT * FROM "user"
 WHERE deleted_at IS NULL
 ORDER BY usr_id
 LIMIT $1
 OFFSET $2;
 
 -- name: UpdateUser :one
-UPDATE user
+UPDATE "user"
 SET fname = $1, sname= $2 ,"photoURL" = $3 ,password = $4 ,email=$5 ,updated_at = now()
 WHERE usr_id = $6 AND deleted_at IS NULL
 RETURNING  *;
 
 -- name: DeleteUserTemporarily :one
-UPDATE user
+UPDATE "user"
 SET deleted_at = now()
 WHERE usr_id = $1 AND deleted_at IS NULL
 RETURNING  *;
 
 -- name: RestoreUser :one
-UPDATE user
+UPDATE "user"
 SET deleted_at = NULL
 WHERE usr_id = $1 AND deleted_at IS NOT NULL
 RETURNING  *;
 
 -- name: DeleteUser :exec
-DELETE FROM user
+DELETE FROM "user"
 WHERE usr_id = $1;

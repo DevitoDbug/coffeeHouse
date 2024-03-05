@@ -31,21 +31,14 @@ func (q *Queries) CreateCategory(ctx context.Context, categoryName string) (Cate
 	return i, err
 }
 
-const deleteCategory = `-- name: DeleteCategory :one
-DELETE FROM category WHERE category_id = $1 RETURNING category_id, created_at, updated_at, deleted_at, category_name
+const deleteCategory = `-- name: DeleteCategory :exec
+DELETE FROM category
+WHERE category_id = $1
 `
 
-func (q *Queries) DeleteCategory(ctx context.Context, categoryID int64) (Category, error) {
-	row := q.db.QueryRowContext(ctx, deleteCategory, categoryID)
-	var i Category
-	err := row.Scan(
-		&i.CategoryID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.DeletedAt,
-		&i.CategoryName,
-	)
-	return i, err
+func (q *Queries) DeleteCategory(ctx context.Context, categoryID int64) error {
+	_, err := q.db.ExecContext(ctx, deleteCategory, categoryID)
+	return err
 }
 
 const deleteCategoryTemporarily = `-- name: DeleteCategoryTemporarily :one
