@@ -87,5 +87,6 @@ SET deleted_at = NULL
 WHERE rating_id = $1 AND deleted_at IS NOT NULL
 RETURNING  *;
 
--- name: DeleteRating :one
-DELETE FROM rating WHERE rating_id = $1 RETURNING *;
+-- name: DeleteRating :exec
+DELETE FROM rating
+WHERE rating_id = $1 ;

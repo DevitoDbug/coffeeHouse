@@ -75,5 +75,6 @@ SET deleted_at = NULL
 WHERE pd_id = $1 AND deleted_at IS NOT NULL
 RETURNING  *;
 
--- name: DeleteProduct :one
-DELETE FROM product WHERE pd_id = $1 RETURNING *;
+-- name: DeleteProduct :exec
+DELETE FROM product
+WHERE pd_id = $1;

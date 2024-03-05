@@ -39,4 +39,5 @@ WHERE category_id = $1 AND deleted_at IS NOT NULL
 RETURNING  *;
 
 -- name: DeleteCategory :one
-DELETE FROM category WHERE category_id = $1 RETURNING *;
+DELETE FROM category
+WHERE category_id = $1;

@@ -47,5 +47,6 @@ SET deleted_at = NULL
 WHERE img_id = $1 AND deleted_at IS NOT NULL
 RETURNING  *;
 
--- name: DeleteImage :one
-DELETE FROM image WHERE img_id = $1 RETURNING *;
+-- name: DeleteImage :exec
+DELETE FROM image
+WHERE img_id = $1;

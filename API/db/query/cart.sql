@@ -44,5 +44,6 @@ WHERE cart.usr_id = $1
     AND category.deleted_at IS NULL
 ORDER BY  product.pd_id, att_value;
 
--- name: DeleteCart :one
-DELETE FROM cart WHERE cart_id = $1 RETURNING *;
+-- name: DeleteCart :exec
+DELETE FROM cart
+WHERE cart_id = $1;

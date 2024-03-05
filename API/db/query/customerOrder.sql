@@ -42,4 +42,5 @@ WHERE usr_id = $1
 ORDER BY created_at;
 
 -- name: DeleteCustomerOrder :one
-DELETE FROM customer_order WHERE customer_order_id = $1 RETURNING *;
+DELETE FROM customer_order
+WHERE customer_order_id = $1;

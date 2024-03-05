@@ -41,5 +41,6 @@ SET deleted_at = NULL
 WHERE att_id = $1 AND deleted_at IS NOT NULL
 RETURNING  *;
 
--- name: DeleteAttribute :one
-DELETE FROM attribute WHERE att_id = $1 RETURNING *;
+-- name: DeleteAttribute :exec
+DELETE FROM attribute
+WHERE att_id = $1 ;

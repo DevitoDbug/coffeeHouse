@@ -23,5 +23,6 @@ SET quantity = $1 ,updated_at = now()
 WHERE cart_id = $2
 RETURNING  *;
 
--- name: DeleteCartItem :one
-DELETE FROM cart_item WHERE cart_item_id = $1 RETURNING *;
+-- name: DeleteCartItem :exec
+DELETE FROM cart_item
+WHERE cart_item_id = $1 ;
