@@ -6,7 +6,7 @@ fname, sname , email , password, "photoURL"
 )
 RETURNING *;
 
--- name: GetUsers :one
+-- name: GetUser :one
 SELECT * FROM user
 WHERE usr_id = $1;
 
