@@ -157,3 +157,44 @@ func TestQueries_ListAllPossibleUsers(t *testing.T) {
 		require.NotEmpty(t, user)
 	}
 }
+
+func TestQueries_UpdateUser(t *testing.T) {
+	user := createRandomUser(t)
+
+	fname := util.RandomUserName()
+	sname := fname + "lst"
+	password := uuid.NewString()
+	email := fname + "gmail.com"
+	photoURL := fname + "photoURL"
+
+	arg := UpdateUserParams{
+		Fname: sql.NullString{
+			String: fname,
+			Valid:  true,
+		},
+		Sname: sql.NullString{
+			String: sname,
+			Valid:  true,
+		},
+		PhotoURL: sql.NullString{
+			String: photoURL,
+			Valid:  true,
+		},
+		Password: password,
+		Email:    email,
+		UsrID:    user.UsrID,
+	}
+
+	updatedUser, err := testQueries.UpdateUser(context.Background(), arg)
+	require.NoError(t, err)
+	require.NotEmpty(t, updatedUser)
+
+	require.Equal(t, user.UsrID, updatedUser.UsrID)
+	require.Equal(t, fname, updatedUser.Fname.String)
+	require.Equal(t, sname, updatedUser.Sname.String)
+	require.Equal(t, photoURL, updatedUser.PhotoURL.String)
+	require.Equal(t, password, updatedUser.Password)
+	require.Equal(t, email, updatedUser.Email)
+
+	require.NotEqual(t, user.UpdatedAt, updatedUser.UpdatedAt)
+}
