@@ -69,39 +69,23 @@ func (q *Queries) DeleteAttributeTemporarily(ctx context.Context, attID int64) (
 	return i, err
 }
 
-const getAttribute = `-- name: GetAttribute :many
+const getAttribute = `-- name: GetAttribute :one
 SELECT att_id, created_at, updated_at, deleted_at, att_value, abbreviations FROM attribute
 WHERE att_id = $1 AND deleted_at IS NULL
 `
 
-func (q *Queries) GetAttribute(ctx context.Context, attID int64) ([]Attribute, error) {
-	rows, err := q.db.QueryContext(ctx, getAttribute, attID)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []Attribute
-	for rows.Next() {
-		var i Attribute
-		if err := rows.Scan(
-			&i.AttID,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.DeletedAt,
-			&i.AttValue,
-			&i.Abbreviations,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
+func (q *Queries) GetAttribute(ctx context.Context, attID int64) (Attribute, error) {
+	row := q.db.QueryRowContext(ctx, getAttribute, attID)
+	var i Attribute
+	err := row.Scan(
+		&i.AttID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.DeletedAt,
+		&i.AttValue,
+		&i.Abbreviations,
+	)
+	return i, err
 }
 
 const listAttribute = `-- name: ListAttribute :many
@@ -168,46 +152,21 @@ func (q *Queries) RestoreAttribute(ctx context.Context, attID int64) (Attribute,
 	return i, err
 }
 
-const updateAbbreviations = `-- name: UpdateAbbreviations :one
+const updateAttribute = `-- name: UpdateAttribute :one
 UPDATE attribute
-SET abbreviations = $2, updated_at = now()
-WHERE att_id = $1 AND deleted_at IS NULL
+SET att_value = $1, abbreviations = $2, updated_at = now()
+WHERE att_id = $3 AND deleted_at IS NULL
 RETURNING  att_id, created_at, updated_at, deleted_at, att_value, abbreviations
 `
 
-type UpdateAbbreviationsParams struct {
-	AttID         int64          `json:"att_id"`
+type UpdateAttributeParams struct {
+	AttValue      sql.NullString `json:"att_value"`
 	Abbreviations sql.NullString `json:"abbreviations"`
+	AttID         int64          `json:"att_id"`
 }
 
-func (q *Queries) UpdateAbbreviations(ctx context.Context, arg UpdateAbbreviationsParams) (Attribute, error) {
-	row := q.db.QueryRowContext(ctx, updateAbbreviations, arg.AttID, arg.Abbreviations)
-	var i Attribute
-	err := row.Scan(
-		&i.AttID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.DeletedAt,
-		&i.AttValue,
-		&i.Abbreviations,
-	)
-	return i, err
-}
-
-const updateAttValue = `-- name: UpdateAttValue :one
-UPDATE attribute
-SET att_value = $2, updated_at = now()
-WHERE att_id = $1 AND deleted_at IS NULL
-RETURNING  att_id, created_at, updated_at, deleted_at, att_value, abbreviations
-`
-
-type UpdateAttValueParams struct {
-	AttID    int64          `json:"att_id"`
-	AttValue sql.NullString `json:"att_value"`
-}
-
-func (q *Queries) UpdateAttValue(ctx context.Context, arg UpdateAttValueParams) (Attribute, error) {
-	row := q.db.QueryRowContext(ctx, updateAttValue, arg.AttID, arg.AttValue)
+func (q *Queries) UpdateAttribute(ctx context.Context, arg UpdateAttributeParams) (Attribute, error) {
+	row := q.db.QueryRowContext(ctx, updateAttribute, arg.AttValue, arg.Abbreviations, arg.AttID)
 	var i Attribute
 	err := row.Scan(
 		&i.AttID,

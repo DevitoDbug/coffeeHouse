@@ -6,7 +6,7 @@ INSERT INTO attribute (
          )
 RETURNING *;
 
--- name: GetAttribute :many
+-- name: GetAttribute :one
 SELECT * FROM attribute
 WHERE att_id = $1 AND deleted_at IS NULL;
 
@@ -17,16 +17,10 @@ ORDER BY att_id
 LIMIT $1
 OFFSET $2;
 
--- name: UpdateAttValue :one
+-- name: UpdateAttribute :one
 UPDATE attribute
-SET att_value = $2, updated_at = now()
-WHERE att_id = $1 AND deleted_at IS NULL
-RETURNING  *;
-
--- name: UpdateAbbreviations :one
-UPDATE attribute
-SET abbreviations = $2, updated_at = now()
-WHERE att_id = $1 AND deleted_at IS NULL
+SET att_value = $1, abbreviations = $2, updated_at = now()
+WHERE att_id = $3 AND deleted_at IS NULL
 RETURNING  *;
 
 -- name: DeleteAttributeTemporarily :one
