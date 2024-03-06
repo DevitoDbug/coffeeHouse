@@ -106,6 +106,52 @@ func (q *Queries) GetUser(ctx context.Context, usrID int64) (User, error) {
 	return i, err
 }
 
+const listAllPossibleUsers = `-- name: ListAllPossibleUsers :many
+SELECT usr_id, created_at, updated_at, deleted_at, fname, sname, email, password, "photoURL" FROM "user"
+WHERE deleted_at IS NULL
+ORDER BY usr_id
+LIMIT $1
+OFFSET $2
+`
+
+type ListAllPossibleUsersParams struct {
+	Limit  int32 `json:"limit"`
+	Offset int32 `json:"offset"`
+}
+
+func (q *Queries) ListAllPossibleUsers(ctx context.Context, arg ListAllPossibleUsersParams) ([]User, error) {
+	rows, err := q.db.QueryContext(ctx, listAllPossibleUsers, arg.Limit, arg.Offset)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []User
+	for rows.Next() {
+		var i User
+		if err := rows.Scan(
+			&i.UsrID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.DeletedAt,
+			&i.Fname,
+			&i.Sname,
+			&i.Email,
+			&i.Password,
+			&i.PhotoURL,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const listUsers = `-- name: ListUsers :many
 SELECT usr_id, created_at, updated_at, deleted_at, fname, sname, email, password, "photoURL" FROM "user"
 WHERE deleted_at IS NULL
