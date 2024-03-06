@@ -113,3 +113,23 @@ func TestQueries_RestoreUser(t *testing.T) {
 	require.Equal(t, user.Password, restoredUser.Password)
 	require.Equal(t, user.PhotoURL, restoredUser.PhotoURL)
 }
+
+func TestQueries_ListUsers(t *testing.T) {
+	for i := 0; i < 5; i++ {
+		createRandomUser(t)
+	}
+
+	args := ListUsersParams{
+		Limit:  5,
+		Offset: 5,
+	}
+
+	userList, err := testQueries.ListUsers(context.Background(), args)
+	require.NoError(t, err)
+	require.NotEmpty(t, userList)
+	require.Len(t, userList, 5)
+
+	for _, user := range userList {
+		require.NotEmpty(t, user)
+	}
+}
