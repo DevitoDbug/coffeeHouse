@@ -96,3 +96,20 @@ func TestQueries_DeleteUserTemporarily(t *testing.T) {
 	require.EqualError(t, err3, sql.ErrNoRows.Error())
 	require.Empty(t, fetchedUser)
 }
+
+func TestQueries_RestoreUser(t *testing.T) {
+	user := createRandomUser(t)
+
+	testQueries.DeleteUserTemporarily(context.Background(), user.UsrID)
+	restoredUser, err := testQueries.RestoreUser(context.Background(), user.UsrID)
+	require.NoError(t, err)
+	require.NotEmpty(t, restoredUser)
+	require.Empty(t, restoredUser.DeletedAt)
+
+	require.Equal(t, user.UsrID, restoredUser.UsrID)
+	require.Equal(t, user.Email, restoredUser.Email)
+	require.Equal(t, user.Fname, restoredUser.Fname)
+	require.Equal(t, user.Sname, restoredUser.Sname)
+	require.Equal(t, user.Password, restoredUser.Password)
+	require.Equal(t, user.PhotoURL, restoredUser.PhotoURL)
+}

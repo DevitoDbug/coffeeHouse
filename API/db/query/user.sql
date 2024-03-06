@@ -38,7 +38,7 @@ RETURNING  *;
 
 -- name: RestoreUser :one
 UPDATE "user"
-SET deleted_at = NULL
+SET deleted_at = NULL, updated_at = now()
 WHERE usr_id = $1 AND deleted_at IS NOT NULL
 RETURNING  *;
 

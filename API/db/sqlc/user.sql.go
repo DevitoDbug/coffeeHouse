@@ -200,7 +200,7 @@ func (q *Queries) ListUsers(ctx context.Context, arg ListUsersParams) ([]User, e
 
 const restoreUser = `-- name: RestoreUser :one
 UPDATE "user"
-SET deleted_at = NULL
+SET deleted_at = NULL, updated_at = now()
 WHERE usr_id = $1 AND deleted_at IS NOT NULL
 RETURNING  usr_id, created_at, updated_at, deleted_at, fname, sname, email, password, "photoURL"
 `
