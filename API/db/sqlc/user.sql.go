@@ -86,7 +86,7 @@ func (q *Queries) DeleteUserTemporarily(ctx context.Context, usrID int64) (User,
 
 const getUser = `-- name: GetUser :one
 SELECT usr_id, created_at, updated_at, deleted_at, fname, sname, email, password, "photoURL" FROM "user"
-WHERE usr_id = $1
+WHERE usr_id = $1 AND deleted_at IS NULL
 `
 
 func (q *Queries) GetUser(ctx context.Context, usrID int64) (User, error) {

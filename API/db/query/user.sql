@@ -8,7 +8,14 @@ RETURNING *;
 
 -- name: GetUser :one
 SELECT * FROM "user"
-WHERE usr_id = $1;
+WHERE usr_id = $1 AND deleted_at IS NULL;
+
+-- name: ListAllPossibleUsers :many
+SELECT * FROM "user"
+WHERE deleted_at IS NULL
+ORDER BY usr_id
+LIMIT $1
+OFFSET $2;
 
 -- name: ListUsers :many
 SELECT * FROM "user"

@@ -2,6 +2,8 @@ postgres:
 	docker run --name postgres13 -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=j1751502021 -d postgres:12-alpine
 stoppostgres:
 	docker stop postgres13
+startpostgres:
+	docker start postgres13
 removepostgres:
 	docker rm postgres13
 createdb:
