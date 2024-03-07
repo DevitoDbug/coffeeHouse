@@ -139,16 +139,3 @@ func TestQueries_RestoreAttribute(t *testing.T) {
 	require.Equal(t, attribute.AttID, restoredAttribute.AttID)
 	require.Equal(t, attribute.Abbreviations, restoredAttribute.Abbreviations)
 }
-
-func TestQueries_RestoreAttribute2(t *testing.T) {
-	attribute := createRandomAttribute(t)
-
-	testQueries.DeleteAttributeTemporarily(context.Background(), attribute.AttID)
-	restoredAttribute, err := testQueries.RestoreAttribute(context.Background(), attribute.AttID)
-	require.NoError(t, err)
-	require.NotEmpty(t, restoredAttribute)
-	require.Empty(t, restoredAttribute.DeletedAt)
-
-	require.Equal(t, attribute.AttID, restoredAttribute.AttID)
-	require.Equal(t, attribute.Abbreviations, restoredAttribute.Abbreviations)
-}
