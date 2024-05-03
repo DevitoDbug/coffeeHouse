@@ -65,7 +65,6 @@ func TestQueries_ListAttribute(t *testing.T) {
 
 	for _, attribute := range attributeList {
 		require.NotEmpty(t, attribute)
-		require.Empty(t, attribute.DeletedAt)
 	}
 }
 

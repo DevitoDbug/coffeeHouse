@@ -64,7 +64,7 @@ CREATE TABLE "rating" (
 CREATE TABLE "image" (
                          "img_id" bigserial PRIMARY KEY,
                          "created_at" timestamptz NOT NULL DEFAULT (now()),
-                         "updated_at" timestamptz DEFAULT (now()),
+                         "updated_at" timestamptz NOT NULL DEFAULT (now()),
                          "deleted_at" timestamptz,
                          "img_name" varchar UNIQUE,
                          "img_url" varchar,

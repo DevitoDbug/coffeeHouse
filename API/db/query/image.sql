@@ -15,24 +15,12 @@ OFFSET $2;
 
 -- name: GetImage :one
 SELECT * FROM image
-WHERE img_name = $1;
+WHERE img_id = $1;
 
--- name: UpdateImageName :one
+-- name: UpdateImage :one
 UPDATE image
-SET img_name = $1, updated_at = now()
-WHERE img_id = $2 AND deleted_at IS NULL
-RETURNING  *;
-
--- name: UpdateImageURL :one
-UPDATE image
-SET img_url = $1, updated_at = now()
-WHERE img_id = $2 AND deleted_at IS NULL
-RETURNING  *;
-
--- name: UpdateImageAltText :one
-UPDATE image
-SET alt_text = $1, updated_at = now()
-WHERE img_id = $2 AND deleted_at IS NULL
+SET img_name = $1, img_url = $2 ,updated_at = now()
+WHERE img_id = $3 AND deleted_at IS NULL
 RETURNING  *;
 
 -- name: DeleteImageTemporarily :one
