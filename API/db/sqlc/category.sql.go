@@ -44,7 +44,7 @@ func (q *Queries) DeleteCategory(ctx context.Context, categoryID int64) error {
 const deleteCategoryTemporarily = `-- name: DeleteCategoryTemporarily :one
 UPDATE category
 SET deleted_at = now()
-WHERE category_id = $1 AND deleted_at IS NULL
+WHERE category_id = $1
 RETURNING  category_id, created_at, updated_at, deleted_at, category_name
 `
 
@@ -61,47 +61,23 @@ func (q *Queries) DeleteCategoryTemporarily(ctx context.Context, categoryID int6
 	return i, err
 }
 
-const getCategory = `-- name: GetCategory :many
+const getCategory = `-- name: GetCategory :one
 SELECT category_id, created_at, updated_at, deleted_at, category_name FROM category
 WHERE category_id = $1 AND deleted_at IS NULL
 ORDER BY category_id
-LIMIT $2
-OFFSET $3
 `
 
-type GetCategoryParams struct {
-	CategoryID int64 `json:"category_id"`
-	Limit      int32 `json:"limit"`
-	Offset     int32 `json:"offset"`
-}
-
-func (q *Queries) GetCategory(ctx context.Context, arg GetCategoryParams) ([]Category, error) {
-	rows, err := q.db.QueryContext(ctx, getCategory, arg.CategoryID, arg.Limit, arg.Offset)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []Category
-	for rows.Next() {
-		var i Category
-		if err := rows.Scan(
-			&i.CategoryID,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.DeletedAt,
-			&i.CategoryName,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
+func (q *Queries) GetCategory(ctx context.Context, categoryID int64) (Category, error) {
+	row := q.db.QueryRowContext(ctx, getCategory, categoryID)
+	var i Category
+	err := row.Scan(
+		&i.CategoryID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.DeletedAt,
+		&i.CategoryName,
+	)
+	return i, err
 }
 
 const listCategory = `-- name: ListCategory :many
@@ -166,20 +142,20 @@ func (q *Queries) RestoreCategory(ctx context.Context, categoryID int64) (Catego
 	return i, err
 }
 
-const updateCategoryName = `-- name: UpdateCategoryName :one
+const updateCategory = `-- name: UpdateCategory :one
 UPDATE category
 SET category_name = $1, updated_at = now()
 WHERE category_id = $2 AND deleted_at IS NULL
 RETURNING  category_id, created_at, updated_at, deleted_at, category_name
 `
 
-type UpdateCategoryNameParams struct {
+type UpdateCategoryParams struct {
 	CategoryName string `json:"category_name"`
 	CategoryID   int64  `json:"category_id"`
 }
 
-func (q *Queries) UpdateCategoryName(ctx context.Context, arg UpdateCategoryNameParams) (Category, error) {
-	row := q.db.QueryRowContext(ctx, updateCategoryName, arg.CategoryName, arg.CategoryID)
+func (q *Queries) UpdateCategory(ctx context.Context, arg UpdateCategoryParams) (Category, error) {
+	row := q.db.QueryRowContext(ctx, updateCategory, arg.CategoryName, arg.CategoryID)
 	var i Category
 	err := row.Scan(
 		&i.CategoryID,

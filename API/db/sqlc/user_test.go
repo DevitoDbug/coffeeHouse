@@ -136,7 +136,7 @@ func TestQueries_ListUsers(t *testing.T) {
 }
 
 func TestQueries_ListAllPossibleUsers(t *testing.T) {
-	for i := 0; i < 100; i++ {
+	for i := 0; i < 200; i++ {
 		user := createRandomUser(t)
 		if i%2 == 0 {
 			testQueries.DeleteUserTemporarily(context.Background(), user.UsrID)
@@ -154,6 +154,7 @@ func TestQueries_ListAllPossibleUsers(t *testing.T) {
 	require.Len(t, userList, 50)
 
 	for _, user := range userList {
+		require.Empty(t, user.DeletedAt)
 		require.NotEmpty(t, user)
 	}
 }

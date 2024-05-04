@@ -6,12 +6,10 @@ INSERT INTO category (
          )
 RETURNING *;
 
--- name: GetCategory :many
+-- name: GetCategory :one
 SELECT * FROM category
 WHERE category_id = $1 AND deleted_at IS NULL
-ORDER BY category_id
-LIMIT $2
-OFFSET $3;
+ORDER BY category_id;
 
 -- name: ListCategory :many
 SELECT * FROM category
@@ -20,7 +18,7 @@ ORDER BY category_id
 LIMIT $1
 OFFSET $2;
 
--- name: UpdateCategoryName :one
+-- name: UpdateCategory :one
 UPDATE category
 SET category_name = $1, updated_at = now()
 WHERE category_id = $2 AND deleted_at IS NULL
@@ -29,7 +27,7 @@ RETURNING  *;
 -- name: DeleteCategoryTemporarily :one
 UPDATE category
 SET deleted_at = now()
-WHERE category_id = $1 AND deleted_at IS NULL
+WHERE category_id = $1
 RETURNING  *;
 
 -- name: RestoreCategory :one

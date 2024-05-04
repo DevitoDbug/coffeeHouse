@@ -36,6 +36,7 @@ func TestQueries_GetCart(t *testing.T) {
 	require.NoError(t, err)
 	require.NotEmpty(t, fetchedCart)
 
+	require.Equal(t, createdCart.CartID, fetchedCart.CartID)
 	require.Equal(t, createdCart.UsrID, fetchedCart.UsrID)
 }
 

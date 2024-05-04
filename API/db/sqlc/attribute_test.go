@@ -49,7 +49,7 @@ func TestQueries_GetAttribute(t *testing.T) {
 }
 
 func TestQueries_ListAttribute(t *testing.T) {
-	for i := 0; i < 5; i++ {
+	for i := 0; i < 20; i++ {
 		createRandomAttribute(t)
 	}
 
