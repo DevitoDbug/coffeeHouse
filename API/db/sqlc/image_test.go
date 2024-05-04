@@ -19,11 +19,19 @@ func createRandomImage(t *testing.T) Image {
 			String: util.RandomString(5),
 			Valid:  true,
 		},
+		ImgUrl: sql.NullString{
+			String: util.RandomString(5),
+			Valid:  true,
+		},
 	}
 	createdImg, err := testQueries.CreateImage(context.Background(), arg)
 	require.NoError(t, err)
 
 	require.NotEmpty(t, createdImg)
+	require.NotEmpty(t, createdImg.ImgID)
+	require.NotEmpty(t, createdImg.ImgUrl)
+	require.NotEmpty(t, createdImg.ImgName)
+	require.NotEmpty(t, createdImg.AltText)
 	require.NotZero(t, createdImg.ImgID)
 	require.NotZero(t, createdImg.CreatedAt)
 	require.NotZero(t, createdImg.UpdatedAt)
@@ -78,11 +86,11 @@ func TestQueries_UpdateImage(t *testing.T) {
 
 	arg := UpdateImageParams{
 		ImgName: sql.NullString{
-			String: "UpdatedName",
+			String: util.RandomString(7),
 			Valid:  true,
 		},
 		ImgUrl: sql.NullString{
-			String: "UpdatedURL",
+			String: util.RandomString(7),
 			Valid:  true,
 		},
 		ImgID: originalImg.ImgID,
@@ -97,6 +105,37 @@ func TestQueries_UpdateImage(t *testing.T) {
 	require.NotZero(t, updateImg.UpdatedAt)
 	require.True(t, updateImg.UpdatedAt.After(originalImg.UpdatedAt))
 
+}
+
+func TestQueries_DeleteImageTemporarily(t *testing.T) {
+	randomImage := createRandomImage(t)
+
+	deletedImage, err1 := testQueries.DeleteImageTemporarily(context.Background(), randomImage.ImgID)
+	require.NoError(t, err1)
+	require.NotEmpty(t, deletedImage)
+	require.NotZero(t, deletedImage.DeletedAt)
+
+	//When the image is set as deleted twice
+	reDeletedImage, err2 := testQueries.DeleteImageTemporarily(context.Background(), randomImage.ImgID)
+	require.Error(t, err2)
+	require.EqualError(t, err2, sql.ErrNoRows.Error())
+	require.Empty(t, reDeletedImage)
+
+	fetchedImage, err3 := testQueries.GetImage(context.Background(), randomImage.ImgID)
+	require.Error(t, err3)
+	require.EqualError(t, err3, sql.ErrNoRows.Error())
+	require.Empty(t, fetchedImage)
+
+}
+
+func TestQueries_RestoreImage(t *testing.T) {
+	randomImage := createRandomImage(t)
+	testQueries.DeleteImageTemporarily(context.Background(), randomImage.ImgID)
+
+	restoredImage, err4 := testQueries.RestoreImage(context.Background(), randomImage.ImgID)
+	require.NoError(t, err4)
+	require.NotEmpty(t, restoredImage)
+	require.Empty(t, restoredImage.DeletedAt)
 }
 
 func TestQueries_DeleteImage(t *testing.T) {

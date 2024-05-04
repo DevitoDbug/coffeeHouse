@@ -1,8 +1,8 @@
 -- name: CreateImage :one
 INSERT INTO image (
-    img_name, alt_text
+    img_name, alt_text , img_url
 ) VALUES (
-             $1 , $2
+             $1 , $2 , $3
          )
 RETURNING *;
 
@@ -15,7 +15,7 @@ OFFSET $2;
 
 -- name: GetImage :one
 SELECT * FROM image
-WHERE img_id = $1;
+WHERE img_id = $1 AND deleted_at IS NULL;
 
 -- name: UpdateImage :one
 UPDATE image

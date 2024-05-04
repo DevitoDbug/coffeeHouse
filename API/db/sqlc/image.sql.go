@@ -12,9 +12,9 @@ import (
 
 const createImage = `-- name: CreateImage :one
 INSERT INTO image (
-    img_name, alt_text
+    img_name, alt_text , img_url
 ) VALUES (
-             $1 , $2
+             $1 , $2 , $3
          )
 RETURNING img_id, created_at, updated_at, deleted_at, img_name, img_url, alt_text
 `
@@ -22,10 +22,11 @@ RETURNING img_id, created_at, updated_at, deleted_at, img_name, img_url, alt_tex
 type CreateImageParams struct {
 	ImgName sql.NullString `json:"img_name"`
 	AltText sql.NullString `json:"alt_text"`
+	ImgUrl  sql.NullString `json:"img_url"`
 }
 
 func (q *Queries) CreateImage(ctx context.Context, arg CreateImageParams) (Image, error) {
-	row := q.db.QueryRowContext(ctx, createImage, arg.ImgName, arg.AltText)
+	row := q.db.QueryRowContext(ctx, createImage, arg.ImgName, arg.AltText, arg.ImgUrl)
 	var i Image
 	err := row.Scan(
 		&i.ImgID,
@@ -73,7 +74,7 @@ func (q *Queries) DeleteImageTemporarily(ctx context.Context, imgID int64) (Imag
 
 const getImage = `-- name: GetImage :one
 SELECT img_id, created_at, updated_at, deleted_at, img_name, img_url, alt_text FROM image
-WHERE img_id = $1
+WHERE img_id = $1 AND deleted_at IS NULL
 `
 
 func (q *Queries) GetImage(ctx context.Context, imgID int64) (Image, error) {
