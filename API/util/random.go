@@ -23,5 +23,5 @@ func RandomString(generatedStringSize int) string {
 }
 
 func RandomUserName() string {
-	return RandomString(5)
+	return RandomString(10)
 }

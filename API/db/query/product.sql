@@ -8,7 +8,7 @@ RETURNING *;
 
 -- name: GetProduct :one
 SELECT * FROM product
-WHERE pd_id = $1;
+WHERE pd_id = $1 AND deleted_at IS NULL;
 
 -- name: ListProducts :many
 SELECT * FROM product
@@ -33,34 +33,15 @@ JOIN image on product.img_id = image.img_id
 WHERE product.category_id =$1
 ORDER BY product.pd_name;
 
--- name: UpdateProductName :one
+-- name: UpdateProduct :one
 UPDATE product
-SET pd_name = $1, updated_at = now()
-WHERE pd_id = $2 AND deleted_at IS NULL
-RETURNING  *;
-
--- name: UpdateProductShortDescription :one
-UPDATE product
-SET short_description = $1, updated_at = now()
-WHERE pd_id = $2 AND deleted_at IS NULL
-RETURNING  *;
-
--- name: UpdateProductLongDescription :one
-UPDATE product
-SET long_description = $1, updated_at = now()
-WHERE pd_id = $2 AND deleted_at IS NULL
-RETURNING  *;
-
--- name: UpdateProductImgId :one
-UPDATE product
-SET img_id = $1, updated_at = now()
-WHERE pd_id = $2 AND deleted_at IS NULL
-RETURNING  *;
-
--- name: UpdateProductCategoryId :one
-UPDATE product
-SET category_id = $1, updated_at = now()
-WHERE pd_id = $2 AND deleted_at IS NULL
+SET pd_name = $1,
+    short_description = $2 ,
+    long_description = $3,
+    category_id = $4,
+    img_id =$5,
+    updated_at = now()
+WHERE pd_id = $6 AND deleted_at IS NULL
 RETURNING  *;
 
 -- name: DeleteProductTemporarily :one
