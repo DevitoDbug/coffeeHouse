@@ -41,13 +41,13 @@ func (q *Queries) DeleteCart(ctx context.Context, cartID int64) error {
 	return err
 }
 
-const getCarts = `-- name: GetCarts :one
+const getCart = `-- name: GetCart :one
 SELECT cart_id, created_at, updated_at, usr_id FROM cart
 WHERE cart_id = $1
 `
 
-func (q *Queries) GetCarts(ctx context.Context, cartID int64) (Cart, error) {
-	row := q.db.QueryRowContext(ctx, getCarts, cartID)
+func (q *Queries) GetCart(ctx context.Context, cartID int64) (Cart, error) {
+	row := q.db.QueryRowContext(ctx, getCart, cartID)
 	var i Cart
 	err := row.Scan(
 		&i.CartID,

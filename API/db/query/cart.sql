@@ -6,7 +6,7 @@ INSERT INTO cart (
          )
 RETURNING *;
 
--- name: GetCarts :one
+-- name: GetCart :one
 SELECT * FROM cart
 WHERE cart_id = $1;
 
