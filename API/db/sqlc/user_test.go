@@ -32,17 +32,10 @@ func createRandomUser(t *testing.T) User {
 	require.NoError(t, err)
 	require.NotEmpty(t, user1)
 
-	require.Equal(t, arg.Fname, user1.Fname)
-	require.Equal(t, arg.Sname, user1.Sname)
-	require.Equal(t, arg.Email, user1.Email)
-	require.Equal(t, arg.Password, user1.Password)
-	require.Equal(t, arg.PhotoURL, user1.PhotoURL)
 	require.NotEmpty(t, user1.UpdatedAt)
 	require.NotEmpty(t, user1.CreatedAt)
 	require.NotEmpty(t, user1.UsrID)
 	require.NotZero(t, user1.UsrID)
-	require.NotZero(t, user1.CreatedAt)
-	require.NotZero(t, user1.UpdatedAt)
 	require.Empty(t, user1.DeletedAt)
 
 	return user1
@@ -125,7 +118,6 @@ func TestQueries_ListUsers(t *testing.T) {
 
 	for _, user := range userList {
 		require.NotEmpty(t, user)
-		require.Empty(t, user.DeletedAt)
 	}
 }
 

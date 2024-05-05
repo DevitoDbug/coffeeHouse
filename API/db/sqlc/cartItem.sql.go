@@ -112,20 +112,20 @@ func (q *Queries) ListCartItemForSpecificCart(ctx context.Context, arg ListCartI
 	return items, nil
 }
 
-const updateQuantity = `-- name: UpdateQuantity :one
+const updateCartItemQuantity = `-- name: UpdateCartItemQuantity :one
 UPDATE cart_item
 SET quantity = $1 ,updated_at = now()
-WHERE cart_id = $2
+WHERE cart_item_id = $2
 RETURNING  cart_item_id, created_at, updated_at, quantity, product_variant_id, cart_id
 `
 
-type UpdateQuantityParams struct {
-	Quantity sql.NullInt32 `json:"quantity"`
-	CartID   sql.NullInt64 `json:"cart_id"`
+type UpdateCartItemQuantityParams struct {
+	Quantity   sql.NullInt32 `json:"quantity"`
+	CartItemID int64         `json:"cart_item_id"`
 }
 
-func (q *Queries) UpdateQuantity(ctx context.Context, arg UpdateQuantityParams) (CartItem, error) {
-	row := q.db.QueryRowContext(ctx, updateQuantity, arg.Quantity, arg.CartID)
+func (q *Queries) UpdateCartItemQuantity(ctx context.Context, arg UpdateCartItemQuantityParams) (CartItem, error) {
+	row := q.db.QueryRowContext(ctx, updateCartItemQuantity, arg.Quantity, arg.CartItemID)
 	var i CartItem
 	err := row.Scan(
 		&i.CartItemID,

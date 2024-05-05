@@ -9,3 +9,5 @@ packages:
       emit_prepared_queries: false
       emit_interface: false
       emit_exact_table_names: false
+
+# TODO: find a way to have decimal type in schema to be converted to float64 in go code

@@ -8,7 +8,8 @@ RETURNING *;
 
 -- name: GetProductVariant :one
 SELECT * FROM product_variant
-WHERE product_variant_id = $1;
+WHERE product_variant_id = $1
+AND deleted_at IS NULL;
 
 -- name: ListProductsVariant :many
 SELECT * FROM product_variant
@@ -17,22 +18,13 @@ ORDER BY pd_id
 LIMIT $1
 OFFSET $2;
 
--- name: UpdateProductVariantPrice :one
+-- name: UpdateProductVariant :one
 UPDATE product_variant
-SET price = $1, updated_at = now()
-WHERE product_variant_id = $2 AND deleted_at IS NULL
-RETURNING  *;
-
--- name: UpdateProductVariantPdId :one
-UPDATE product_variant
-SET pd_id = $1, updated_at = now()
-WHERE product_variant_id = $2 AND deleted_at IS NULL
-RETURNING  *;
-
--- name: UpdateProductVariantAttId :one
-UPDATE product_variant
-SET att_id = $1, updated_at = now()
-WHERE product_variant_id = $2 AND deleted_at IS NULL
+SET price = $1,
+    pd_id = $2,
+    att_id = $3,
+    updated_at = now()
+WHERE product_variant_id = $4 AND deleted_at IS NULL
 RETURNING  *;
 
 -- name: DeleteProductVariantTemporarily :one

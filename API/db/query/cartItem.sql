@@ -17,10 +17,10 @@ ORDER BY product_variant_id, cart_item.created_at DESC
 LIMIT $2
 OFFSET $3;
 
--- name: UpdateQuantity :one
+-- name: UpdateCartItemQuantity :one
 UPDATE cart_item
 SET quantity = $1 ,updated_at = now()
-WHERE cart_id = $2
+WHERE cart_item_id = $2
 RETURNING  *;
 
 -- name: DeleteCartItem :exec
