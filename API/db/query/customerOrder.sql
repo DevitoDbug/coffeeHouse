@@ -6,14 +6,20 @@ INSERT INTO customer_order (
          )
 RETURNING *;
 
--- name: ListCustomerOrders :many
+-- name: GetSpecificCustomerOrder :one
+SELECT * FROM customer_order
+WHERE customer_order_id = $1
+ORDER BY created_at;
+
+-- name: ListAllCustomerOrders :many
 SELECT * FROM customer_order
 ORDER BY usr_id, created_at
 LIMIT $1
 OFFSET $2;
 
--- name: ListOrderHistoryForSpecificUser :many
+-- name: ListCustomerOrdersForSpecificUser :many
 SELECT
+    customer_order.usr_id,
     order_item.order_item_id,
     order_item.quantity,
     order_item.price_per_item,
@@ -35,11 +41,6 @@ WHERE customer_order.usr_id = $1
 ORDER BY customer_order.created_at DESC, attribute.abbreviations
 LIMIT $2
 OFFSET $3;
-
--- name: GetSpecificCustomerOrder :one
-SELECT * FROM customer_order
-WHERE usr_id = $1
-ORDER BY created_at;
 
 -- name: DeleteCustomerOrder :exec
 DELETE FROM customer_order

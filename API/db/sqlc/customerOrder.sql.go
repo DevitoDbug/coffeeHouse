@@ -38,31 +38,31 @@ func (q *Queries) DeleteCustomerOrder(ctx context.Context, customerOrderID int64
 
 const getSpecificCustomerOrder = `-- name: GetSpecificCustomerOrder :one
 SELECT customer_order_id, created_at, usr_id FROM customer_order
-WHERE usr_id = $1
+WHERE customer_order_id = $1
 ORDER BY created_at
 `
 
-func (q *Queries) GetSpecificCustomerOrder(ctx context.Context, usrID sql.NullInt64) (CustomerOrder, error) {
-	row := q.db.QueryRowContext(ctx, getSpecificCustomerOrder, usrID)
+func (q *Queries) GetSpecificCustomerOrder(ctx context.Context, customerOrderID int64) (CustomerOrder, error) {
+	row := q.db.QueryRowContext(ctx, getSpecificCustomerOrder, customerOrderID)
 	var i CustomerOrder
 	err := row.Scan(&i.CustomerOrderID, &i.CreatedAt, &i.UsrID)
 	return i, err
 }
 
-const listCustomerOrders = `-- name: ListCustomerOrders :many
+const listAllCustomerOrders = `-- name: ListAllCustomerOrders :many
 SELECT customer_order_id, created_at, usr_id FROM customer_order
 ORDER BY usr_id, created_at
 LIMIT $1
 OFFSET $2
 `
 
-type ListCustomerOrdersParams struct {
+type ListAllCustomerOrdersParams struct {
 	Limit  int32 `json:"limit"`
 	Offset int32 `json:"offset"`
 }
 
-func (q *Queries) ListCustomerOrders(ctx context.Context, arg ListCustomerOrdersParams) ([]CustomerOrder, error) {
-	rows, err := q.db.QueryContext(ctx, listCustomerOrders, arg.Limit, arg.Offset)
+func (q *Queries) ListAllCustomerOrders(ctx context.Context, arg ListAllCustomerOrdersParams) ([]CustomerOrder, error) {
+	rows, err := q.db.QueryContext(ctx, listAllCustomerOrders, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}
@@ -84,8 +84,9 @@ func (q *Queries) ListCustomerOrders(ctx context.Context, arg ListCustomerOrders
 	return items, nil
 }
 
-const listOrderHistoryForSpecificUser = `-- name: ListOrderHistoryForSpecificUser :many
+const listCustomerOrdersForSpecificUser = `-- name: ListCustomerOrdersForSpecificUser :many
 SELECT
+    customer_order.usr_id,
     order_item.order_item_id,
     order_item.quantity,
     order_item.price_per_item,
@@ -109,13 +110,14 @@ LIMIT $2
 OFFSET $3
 `
 
-type ListOrderHistoryForSpecificUserParams struct {
+type ListCustomerOrdersForSpecificUserParams struct {
 	UsrID  sql.NullInt64 `json:"usr_id"`
 	Limit  int32         `json:"limit"`
 	Offset int32         `json:"offset"`
 }
 
-type ListOrderHistoryForSpecificUserRow struct {
+type ListCustomerOrdersForSpecificUserRow struct {
+	UsrID         sql.NullInt64  `json:"usr_id"`
 	OrderItemID   int64          `json:"order_item_id"`
 	Quantity      sql.NullInt32  `json:"quantity"`
 	PricePerItem  string         `json:"price_per_item"`
@@ -128,16 +130,17 @@ type ListOrderHistoryForSpecificUserRow struct {
 	Abbreviations sql.NullString `json:"abbreviations"`
 }
 
-func (q *Queries) ListOrderHistoryForSpecificUser(ctx context.Context, arg ListOrderHistoryForSpecificUserParams) ([]ListOrderHistoryForSpecificUserRow, error) {
-	rows, err := q.db.QueryContext(ctx, listOrderHistoryForSpecificUser, arg.UsrID, arg.Limit, arg.Offset)
+func (q *Queries) ListCustomerOrdersForSpecificUser(ctx context.Context, arg ListCustomerOrdersForSpecificUserParams) ([]ListCustomerOrdersForSpecificUserRow, error) {
+	rows, err := q.db.QueryContext(ctx, listCustomerOrdersForSpecificUser, arg.UsrID, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []ListOrderHistoryForSpecificUserRow
+	var items []ListCustomerOrdersForSpecificUserRow
 	for rows.Next() {
-		var i ListOrderHistoryForSpecificUserRow
+		var i ListCustomerOrdersForSpecificUserRow
 		if err := rows.Scan(
+			&i.UsrID,
 			&i.OrderItemID,
 			&i.Quantity,
 			&i.PricePerItem,
