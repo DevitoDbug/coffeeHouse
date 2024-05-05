@@ -97,7 +97,7 @@ func (q *Queries) ListOrderItems(ctx context.Context, arg ListOrderItemsParams) 
 	return items, nil
 }
 
-const listOrderItemsForSpecificOrder = `-- name: ListOrderItemsForSpecificOrder :many
+const listOrderItemsForSpecificCustomerOrder = `-- name: ListOrderItemsForSpecificCustomerOrder :many
 SELECT order_item_id, created_at, quantity, price_per_item, product_variant_id, customer_order_id FROM order_item
 WHERE customer_order_id = $1
 ORDER BY product_variant_id
@@ -105,14 +105,14 @@ LIMIT $2
 OFFSET $3
 `
 
-type ListOrderItemsForSpecificOrderParams struct {
+type ListOrderItemsForSpecificCustomerOrderParams struct {
 	CustomerOrderID sql.NullInt64 `json:"customer_order_id"`
 	Limit           int32         `json:"limit"`
 	Offset          int32         `json:"offset"`
 }
 
-func (q *Queries) ListOrderItemsForSpecificOrder(ctx context.Context, arg ListOrderItemsForSpecificOrderParams) ([]OrderItem, error) {
-	rows, err := q.db.QueryContext(ctx, listOrderItemsForSpecificOrder, arg.CustomerOrderID, arg.Limit, arg.Offset)
+func (q *Queries) ListOrderItemsForSpecificCustomerOrder(ctx context.Context, arg ListOrderItemsForSpecificCustomerOrderParams) ([]OrderItem, error) {
+	rows, err := q.db.QueryContext(ctx, listOrderItemsForSpecificCustomerOrder, arg.CustomerOrderID, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}

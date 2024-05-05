@@ -12,7 +12,7 @@ ORDER BY customer_order_id, product_variant_id
 LIMIT $1
 OFFSET $2;
 
--- name: ListOrderItemsForSpecificOrder :many
+-- name: ListOrderItemsForSpecificCustomerOrder :many
 SELECT * FROM order_item
 WHERE customer_order_id = $1
 ORDER BY product_variant_id
