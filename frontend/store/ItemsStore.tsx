@@ -1,2 +1,0 @@
-//Shop items
-//Favourite items
