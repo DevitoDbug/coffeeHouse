@@ -11,23 +11,42 @@ import (
 	"time"
 )
 
+const averageProductRatingForSpecificProduct = `-- name: AverageProductRatingForSpecificProduct :one
+SELECT AVG(rating_value) as average_value
+FROM rating
+WHERE pd_id = $1 AND deleted_at IS NULL
+`
+
+func (q *Queries) AverageProductRatingForSpecificProduct(ctx context.Context, pdID sql.NullInt64) (float64, error) {
+	row := q.db.QueryRowContext(ctx, averageProductRatingForSpecificProduct, pdID)
+	var average_value float64
+	err := row.Scan(&average_value)
+	return average_value, err
+}
+
 const createRating = `-- name: CreateRating :one
 INSERT INTO rating (
-    rating_value, pd_id, usr_id
+    liked,rating_value, pd_id, usr_id
 ) VALUES (
-             $1 , $2 , $3
+             $1 , $2 , $3 , $4
          )
 RETURNING rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id
 `
 
 type CreateRatingParams struct {
+	Liked       sql.NullBool   `json:"liked"`
 	RatingValue sql.NullString `json:"rating_value"`
 	PdID        sql.NullInt64  `json:"pd_id"`
 	UsrID       sql.NullInt64  `json:"usr_id"`
 }
 
 func (q *Queries) CreateRating(ctx context.Context, arg CreateRatingParams) (Rating, error) {
-	row := q.db.QueryRowContext(ctx, createRating, arg.RatingValue, arg.PdID, arg.UsrID)
+	row := q.db.QueryRowContext(ctx, createRating,
+		arg.Liked,
+		arg.RatingValue,
+		arg.PdID,
+		arg.UsrID,
+	)
 	var i Rating
 	err := row.Scan(
 		&i.RatingID,
@@ -43,25 +62,18 @@ func (q *Queries) CreateRating(ctx context.Context, arg CreateRatingParams) (Rat
 	return i, err
 }
 
-const deleteRating = `-- name: DeleteRating :exec
-DELETE FROM rating
-WHERE rating_id = $1
+const getRatingForSpecificProductForSpecificUser = `-- name: GetRatingForSpecificProductForSpecificUser :one
+SELECT rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id FROM rating
+where usr_id = $1 AND pd_id = $2
 `
 
-func (q *Queries) DeleteRating(ctx context.Context, ratingID int64) error {
-	_, err := q.db.ExecContext(ctx, deleteRating, ratingID)
-	return err
+type GetRatingForSpecificProductForSpecificUserParams struct {
+	UsrID sql.NullInt64 `json:"usr_id"`
+	PdID  sql.NullInt64 `json:"pd_id"`
 }
 
-const deleteRatingTemporarily = `-- name: DeleteRatingTemporarily :one
-UPDATE rating
-SET deleted_at = now()
-WHERE rating_id = $1 AND deleted_at IS NULL
-RETURNING  rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id
-`
-
-func (q *Queries) DeleteRatingTemporarily(ctx context.Context, ratingID int64) (Rating, error) {
-	row := q.db.QueryRowContext(ctx, deleteRatingTemporarily, ratingID)
+func (q *Queries) GetRatingForSpecificProductForSpecificUser(ctx context.Context, arg GetRatingForSpecificProductForSpecificUserParams) (Rating, error) {
+	row := q.db.QueryRowContext(ctx, getRatingForSpecificProductForSpecificUser, arg.UsrID, arg.PdID)
 	var i Rating
 	err := row.Scan(
 		&i.RatingID,
@@ -83,6 +95,7 @@ SELECT
     rating.comment,
     rating.rating_value,
     rating.updated_at,
+    rating.liked,
     product.pd_name,
     product.short_description,
     image. img_name,
@@ -94,15 +107,24 @@ FROM rating
 JOIN product ON rating.pd_id = product.pd_id
 JOIN image ON product.img_id = image.img_id
 JOIN category ON product.category_id = category.category_id
-WHERE liked = true AND usr_id = $1 AND deleted_at IS NULL
+WHERE rating.liked = true AND rating.usr_id = $1 AND rating.deleted_at IS NULL
 ORDER BY rating.updated_at DESC
+LIMIT $2
+OFFSET $3
 `
+
+type ListLikedProductsForSpecificUserParams struct {
+	UsrID  sql.NullInt64 `json:"usr_id"`
+	Limit  int32         `json:"limit"`
+	Offset int32         `json:"offset"`
+}
 
 type ListLikedProductsForSpecificUserRow struct {
 	RatingID         int64          `json:"rating_id"`
 	Comment          sql.NullString `json:"comment"`
 	RatingValue      sql.NullString `json:"rating_value"`
 	UpdatedAt        time.Time      `json:"updated_at"`
+	Liked            sql.NullBool   `json:"liked"`
 	PdName           string         `json:"pd_name"`
 	ShortDescription sql.NullString `json:"short_description"`
 	ImgName          sql.NullString `json:"img_name"`
@@ -112,8 +134,8 @@ type ListLikedProductsForSpecificUserRow struct {
 	UsrID            sql.NullInt64  `json:"usr_id"`
 }
 
-func (q *Queries) ListLikedProductsForSpecificUser(ctx context.Context, usrID sql.NullInt64) ([]ListLikedProductsForSpecificUserRow, error) {
-	rows, err := q.db.QueryContext(ctx, listLikedProductsForSpecificUser, usrID)
+func (q *Queries) ListLikedProductsForSpecificUser(ctx context.Context, arg ListLikedProductsForSpecificUserParams) ([]ListLikedProductsForSpecificUserRow, error) {
+	rows, err := q.db.QueryContext(ctx, listLikedProductsForSpecificUser, arg.UsrID, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}
@@ -126,58 +148,13 @@ func (q *Queries) ListLikedProductsForSpecificUser(ctx context.Context, usrID sq
 			&i.Comment,
 			&i.RatingValue,
 			&i.UpdatedAt,
+			&i.Liked,
 			&i.PdName,
 			&i.ShortDescription,
 			&i.ImgName,
 			&i.ImgUrl,
 			&i.AltText,
 			&i.CategoryName,
-			&i.UsrID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const listRating = `-- name: ListRating :many
-SELECT rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id FROM rating
-WHERE deleted_at IS NULL
-ORDER BY pd_id
-LIMIT $1
-OFFSET $2
-`
-
-type ListRatingParams struct {
-	Limit  int32 `json:"limit"`
-	Offset int32 `json:"offset"`
-}
-
-func (q *Queries) ListRating(ctx context.Context, arg ListRatingParams) ([]Rating, error) {
-	rows, err := q.db.QueryContext(ctx, listRating, arg.Limit, arg.Offset)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []Rating
-	for rows.Next() {
-		var i Rating
-		if err := rows.Scan(
-			&i.RatingID,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.DeletedAt,
-			&i.RatingValue,
-			&i.Liked,
-			&i.Comment,
-			&i.PdID,
 			&i.UsrID,
 		); err != nil {
 			return nil, err
@@ -239,52 +216,6 @@ func (q *Queries) ListUserLikeStatus(ctx context.Context, arg ListUserLikeStatus
 	return items, nil
 }
 
-const listUserNotLikedStatus = `-- name: ListUserNotLikedStatus :many
-SELECT rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id FROM rating
-WHERE liked = false AND deleted_at IS NULL
-ORDER BY pd_id
-LIMIT $1
-OFFSET $2
-`
-
-type ListUserNotLikedStatusParams struct {
-	Limit  int32 `json:"limit"`
-	Offset int32 `json:"offset"`
-}
-
-func (q *Queries) ListUserNotLikedStatus(ctx context.Context, arg ListUserNotLikedStatusParams) ([]Rating, error) {
-	rows, err := q.db.QueryContext(ctx, listUserNotLikedStatus, arg.Limit, arg.Offset)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []Rating
-	for rows.Next() {
-		var i Rating
-		if err := rows.Scan(
-			&i.RatingID,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.DeletedAt,
-			&i.RatingValue,
-			&i.Liked,
-			&i.Comment,
-			&i.PdID,
-			&i.UsrID,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
 const numberOfProductRating = `-- name: NumberOfProductRating :one
 SELECT COUNT(rating_value) as number_of_ratting
 FROM rating
@@ -298,134 +229,32 @@ func (q *Queries) NumberOfProductRating(ctx context.Context, pdID sql.NullInt64)
 	return number_of_ratting, err
 }
 
-const productRating = `-- name: ProductRating :many
-SELECT AVG(rating_value) as average_value
-FROM rating
-WHERE pd_id = $1 AND deleted_at IS NULL
-`
-
-func (q *Queries) ProductRating(ctx context.Context, pdID sql.NullInt64) ([]float64, error) {
-	rows, err := q.db.QueryContext(ctx, productRating, pdID)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []float64
-	for rows.Next() {
-		var average_value float64
-		if err := rows.Scan(&average_value); err != nil {
-			return nil, err
-		}
-		items = append(items, average_value)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const restoreRating = `-- name: RestoreRating :one
+const updateRating = `-- name: UpdateRating :one
 UPDATE rating
-SET deleted_at = NULL
-WHERE rating_id = $1 AND deleted_at IS NOT NULL
+SET rating_value = $1,
+    liked = $2,
+    comment = $3,
+    updated_at = now()
+WHERE usr_id = $4 AND pd_id= $5 AND deleted_at IS NULL
 RETURNING  rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id
 `
 
-func (q *Queries) RestoreRating(ctx context.Context, ratingID int64) (Rating, error) {
-	row := q.db.QueryRowContext(ctx, restoreRating, ratingID)
-	var i Rating
-	err := row.Scan(
-		&i.RatingID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.DeletedAt,
-		&i.RatingValue,
-		&i.Liked,
-		&i.Comment,
-		&i.PdID,
-		&i.UsrID,
-	)
-	return i, err
-}
-
-const updateComment = `-- name: UpdateComment :one
-UPDATE rating
-SET liked = $1, updated_at = now()
-WHERE usr_id = $2 AND pd_id= $3 AND deleted_at IS NULL
-RETURNING  rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id
-`
-
-type UpdateCommentParams struct {
-	Liked sql.NullBool  `json:"liked"`
-	UsrID sql.NullInt64 `json:"usr_id"`
-	PdID  sql.NullInt64 `json:"pd_id"`
-}
-
-func (q *Queries) UpdateComment(ctx context.Context, arg UpdateCommentParams) (Rating, error) {
-	row := q.db.QueryRowContext(ctx, updateComment, arg.Liked, arg.UsrID, arg.PdID)
-	var i Rating
-	err := row.Scan(
-		&i.RatingID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.DeletedAt,
-		&i.RatingValue,
-		&i.Liked,
-		&i.Comment,
-		&i.PdID,
-		&i.UsrID,
-	)
-	return i, err
-}
-
-const updateLiked = `-- name: UpdateLiked :one
-UPDATE rating
-SET liked = $1, updated_at = now()
-WHERE usr_id = $2 AND pd_id= $3 AND deleted_at IS NULL
-RETURNING  rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id
-`
-
-type UpdateLikedParams struct {
-	Liked sql.NullBool  `json:"liked"`
-	UsrID sql.NullInt64 `json:"usr_id"`
-	PdID  sql.NullInt64 `json:"pd_id"`
-}
-
-func (q *Queries) UpdateLiked(ctx context.Context, arg UpdateLikedParams) (Rating, error) {
-	row := q.db.QueryRowContext(ctx, updateLiked, arg.Liked, arg.UsrID, arg.PdID)
-	var i Rating
-	err := row.Scan(
-		&i.RatingID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.DeletedAt,
-		&i.RatingValue,
-		&i.Liked,
-		&i.Comment,
-		&i.PdID,
-		&i.UsrID,
-	)
-	return i, err
-}
-
-const updateRatingValue = `-- name: UpdateRatingValue :one
-UPDATE rating
-SET rating_value = $1, updated_at = now()
-WHERE usr_id = $2 AND pd_id= $3 AND deleted_at IS NULL
-RETURNING  rating_id, created_at, updated_at, deleted_at, rating_value, liked, comment, pd_id, usr_id
-`
-
-type UpdateRatingValueParams struct {
+type UpdateRatingParams struct {
 	RatingValue sql.NullString `json:"rating_value"`
+	Liked       sql.NullBool   `json:"liked"`
+	Comment     sql.NullString `json:"comment"`
 	UsrID       sql.NullInt64  `json:"usr_id"`
 	PdID        sql.NullInt64  `json:"pd_id"`
 }
 
-func (q *Queries) UpdateRatingValue(ctx context.Context, arg UpdateRatingValueParams) (Rating, error) {
-	row := q.db.QueryRowContext(ctx, updateRatingValue, arg.RatingValue, arg.UsrID, arg.PdID)
+func (q *Queries) UpdateRating(ctx context.Context, arg UpdateRatingParams) (Rating, error) {
+	row := q.db.QueryRowContext(ctx, updateRating,
+		arg.RatingValue,
+		arg.Liked,
+		arg.Comment,
+		arg.UsrID,
+		arg.PdID,
+	)
 	var i Rating
 	err := row.Scan(
 		&i.RatingID,

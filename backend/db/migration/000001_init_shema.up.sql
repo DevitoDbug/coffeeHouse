@@ -152,6 +152,8 @@ ALTER TABLE "rating" ADD FOREIGN KEY ("pd_id") REFERENCES "product" ("pd_id");
 
 ALTER TABLE "rating" ADD FOREIGN KEY ("usr_id") REFERENCES "user" ("usr_id");
 
+ALTER TABLE "rating"  ADD CONSTRAINT "unique_user_product_combination" UNIQUE ("usr_id","pd_id");
+
 ALTER TABLE "customer_order" ADD FOREIGN KEY ("usr_id") REFERENCES "user" ("usr_id");
 
 ALTER TABLE "order_item" ADD FOREIGN KEY ("product_variant_id") REFERENCES "product_variant" ("product_variant_id");

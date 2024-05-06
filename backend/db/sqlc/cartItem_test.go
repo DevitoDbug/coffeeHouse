@@ -141,7 +141,7 @@ func TestQueries_UpdateCartItemQuantity(t *testing.T) {
 	require.NotEmpty(t, updatedCartItem)
 
 	require.Equal(t, createdCartItem.CartItemID, updatedCartItem.CartItemID)
-	require.NotEqual(t, createdCartItem.Quantity, updatedCartItem.Quantity)
+	require.NotEqual(t, createdCartItem.Quantity, updatedCartItem.Quantity.Int32)
 	require.Equal(t, createdCartItem.CartID, updatedCartItem.CartID)
 	require.True(t, updatedCartItem.UpdatedAt.After(createdCartItem.UpdatedAt))
 }

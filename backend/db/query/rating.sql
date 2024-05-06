@@ -1,10 +1,14 @@
 -- name: CreateRating :one
 INSERT INTO rating (
-    rating_value, pd_id, usr_id
+    liked,rating_value, pd_id, usr_id
 ) VALUES (
-             $1 , $2 , $3
+             $1 , $2 , $3 , $4
          )
 RETURNING *;
+
+-- name: GetRatingForSpecificProductForSpecificUser :one
+SELECT * FROM rating
+where usr_id = $1 AND pd_id = $2;
 
 -- name: ListLikedProductsForSpecificUser :many
 SELECT
@@ -12,6 +16,7 @@ SELECT
     rating.comment,
     rating.rating_value,
     rating.updated_at,
+    rating.liked,
     product.pd_name,
     product.short_description,
     image. img_name,
@@ -23,8 +28,10 @@ FROM rating
 JOIN product ON rating.pd_id = product.pd_id
 JOIN image ON product.img_id = image.img_id
 JOIN category ON product.category_id = category.category_id
-WHERE liked = true AND usr_id = $1 AND deleted_at IS NULL
-ORDER BY rating.updated_at DESC;
+WHERE rating.liked = true AND rating.usr_id = $1 AND rating.deleted_at IS NULL
+ORDER BY rating.updated_at DESC
+LIMIT $2
+OFFSET $3;
 
 -- name: ListUserLikeStatus :many
 SELECT * FROM rating
@@ -33,21 +40,7 @@ ORDER BY pd_id
 LIMIT $1
 OFFSET $2;
 
--- name: ListUserNotLikedStatus :many
-SELECT * FROM rating
-WHERE liked = false AND deleted_at IS NULL
-ORDER BY pd_id
-LIMIT $1
-OFFSET $2;
-
--- name: ListRating :many
-SELECT * FROM rating
-WHERE deleted_at IS NULL
-ORDER BY pd_id
-LIMIT $1
-OFFSET $2;
-
--- name: ProductRating :many
+-- name: AverageProductRatingForSpecificProduct :one
 SELECT AVG(rating_value) as average_value
 FROM rating
 WHERE pd_id = $1 AND deleted_at IS NULL;
@@ -57,36 +50,11 @@ SELECT COUNT(rating_value) as number_of_ratting
 FROM rating
 WHERE pd_id = $1;
 
--- name: UpdateRatingValue :one
+-- name: UpdateRating :one
 UPDATE rating
-SET rating_value = $1, updated_at = now()
-WHERE usr_id = $2 AND pd_id= $3 AND deleted_at IS NULL
+SET rating_value = $1,
+    liked = $2,
+    comment = $3,
+    updated_at = now()
+WHERE usr_id = $4 AND pd_id= $5 AND deleted_at IS NULL
 RETURNING  *;
-
--- name: UpdateLiked :one
-UPDATE rating
-SET liked = $1, updated_at = now()
-WHERE usr_id = $2 AND pd_id= $3 AND deleted_at IS NULL
-RETURNING  *;
-
--- name: UpdateComment :one
-UPDATE rating
-SET liked = $1, updated_at = now()
-WHERE usr_id = $2 AND pd_id= $3 AND deleted_at IS NULL
-RETURNING  *;
-
--- name: DeleteRatingTemporarily :one
-UPDATE rating
-SET deleted_at = now()
-WHERE rating_id = $1 AND deleted_at IS NULL
-RETURNING  *;
-
--- name: RestoreRating :one
-UPDATE rating
-SET deleted_at = NULL
-WHERE rating_id = $1 AND deleted_at IS NOT NULL
-RETURNING  *;
-
--- name: DeleteRating :exec
-DELETE FROM rating
-WHERE rating_id = $1 ;

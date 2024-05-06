@@ -25,3 +25,7 @@ func RandomString(generatedStringSize int) string {
 func RandomUserName() string {
 	return RandomString(10)
 }
+
+func RandomBoolean() bool {
+	return rand.Intn(2) == 1
+}
