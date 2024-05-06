@@ -6,6 +6,10 @@ INSERT INTO order_item  (
          )
 RETURNING *;
 
+-- name: GetOrderItem :one
+SELECT * FROM order_item
+WHERE order_item_id = $1;
+
 -- name: ListOrderItems :many
 SELECT * FROM order_item
 ORDER BY customer_order_id, product_variant_id

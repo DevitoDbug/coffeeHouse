@@ -83,6 +83,19 @@ func TestQueries_CreateOrderItem(t *testing.T) {
 	createRandomOrderItem(t)
 }
 
+func TestQueries_GetOrderItem(t *testing.T) {
+	createdOrderItem := createRandomOrderItem(t)
+
+	fetchedOrderItem, err := testQueries.GetOrderItem(context.Background(), createdOrderItem.OrderItemID)
+	require.NoError(t, err)
+	require.NotEmpty(t, fetchedOrderItem)
+
+	require.Equal(t, createdOrderItem.OrderItemID, fetchedOrderItem.OrderItemID)
+	require.Equal(t, createdOrderItem.PricePerItem, fetchedOrderItem.PricePerItem)
+	require.Equal(t, createdOrderItem.CustomerOrderID, fetchedOrderItem.CustomerOrderID)
+	require.Equal(t, createdOrderItem.Quantity, fetchedOrderItem.Quantity)
+}
+
 func TestQueries_ListOrderItems(t *testing.T) {
 	for i := 0; i < 20; i++ {
 		createRandomOrderItem(t)
@@ -132,7 +145,7 @@ func TestQueries_DeleteOrderItem(t *testing.T) {
 	err1 := testQueries.DeleteOrderItem(context.Background(), createdOrderItem.OrderItemID)
 	require.NoError(t, err1)
 
-	fetchedOrderItems, err2 := testQueries.GetUser(context.Background(), createdOrderItem.OrderItemID)
+	fetchedOrderItems, err2 := testQueries.GetOrderItem(context.Background(), createdOrderItem.OrderItemID)
 	require.Error(t, err2)
 	require.EqualError(t, err2, sql.ErrNoRows.Error())
 	require.Empty(t, fetchedOrderItems)

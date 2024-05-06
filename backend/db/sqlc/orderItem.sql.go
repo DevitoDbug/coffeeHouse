@@ -55,6 +55,25 @@ func (q *Queries) DeleteOrderItem(ctx context.Context, orderItemID int64) error 
 	return err
 }
 
+const getOrderItem = `-- name: GetOrderItem :one
+SELECT order_item_id, created_at, quantity, price_per_item, product_variant_id, customer_order_id FROM order_item
+WHERE order_item_id = $1
+`
+
+func (q *Queries) GetOrderItem(ctx context.Context, orderItemID int64) (OrderItem, error) {
+	row := q.db.QueryRowContext(ctx, getOrderItem, orderItemID)
+	var i OrderItem
+	err := row.Scan(
+		&i.OrderItemID,
+		&i.CreatedAt,
+		&i.Quantity,
+		&i.PricePerItem,
+		&i.ProductVariantID,
+		&i.CustomerOrderID,
+	)
+	return i, err
+}
+
 const listOrderItems = `-- name: ListOrderItems :many
 SELECT order_item_id, created_at, quantity, price_per_item, product_variant_id, customer_order_id FROM order_item
 ORDER BY customer_order_id, product_variant_id
