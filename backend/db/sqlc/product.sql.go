@@ -140,7 +140,7 @@ func (q *Queries) ListProductForSpecificCategory(ctx context.Context, categoryID
 		return nil, err
 	}
 	defer rows.Close()
-	var items []ListProductForSpecificCategoryRow
+	items := []ListProductForSpecificCategoryRow{}
 	for rows.Next() {
 		var i ListProductForSpecificCategoryRow
 		if err := rows.Scan(
@@ -185,7 +185,7 @@ func (q *Queries) ListProducts(ctx context.Context, arg ListProductsParams) ([]P
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Product
+	items := []Product{}
 	for rows.Next() {
 		var i Product
 		if err := rows.Scan(

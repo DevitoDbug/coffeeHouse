@@ -107,7 +107,7 @@ func (q *Queries) ListAttribute(ctx context.Context, arg ListAttributeParams) ([
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Attribute
+	items := []Attribute{}
 	for rows.Next() {
 		var i Attribute
 		if err := rows.Scan(

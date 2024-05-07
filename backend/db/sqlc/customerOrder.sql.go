@@ -67,7 +67,7 @@ func (q *Queries) ListAllCustomerOrders(ctx context.Context, arg ListAllCustomer
 		return nil, err
 	}
 	defer rows.Close()
-	var items []CustomerOrder
+	items := []CustomerOrder{}
 	for rows.Next() {
 		var i CustomerOrder
 		if err := rows.Scan(&i.CustomerOrderID, &i.CreatedAt, &i.UsrID); err != nil {
@@ -136,7 +136,7 @@ func (q *Queries) ListCustomerOrdersForSpecificUser(ctx context.Context, arg Lis
 		return nil, err
 	}
 	defer rows.Close()
-	var items []ListCustomerOrdersForSpecificUserRow
+	items := []ListCustomerOrdersForSpecificUserRow{}
 	for rows.Next() {
 		var i ListCustomerOrdersForSpecificUserRow
 		if err := rows.Scan(

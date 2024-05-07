@@ -88,7 +88,7 @@ func (q *Queries) ListCartItemForSpecificCart(ctx context.Context, arg ListCartI
 		return nil, err
 	}
 	defer rows.Close()
-	var items []CartItem
+	items := []CartItem{}
 	for rows.Next() {
 		var i CartItem
 		if err := rows.Scan(

@@ -107,7 +107,7 @@ func (q *Queries) ListCartItemsForSpecificUserCart(ctx context.Context, usrID sq
 		return nil, err
 	}
 	defer rows.Close()
-	var items []ListCartItemsForSpecificUserCartRow
+	items := []ListCartItemsForSpecificUserCartRow{}
 	for rows.Next() {
 		var i ListCartItemsForSpecificUserCartRow
 		if err := rows.Scan(
@@ -154,7 +154,7 @@ func (q *Queries) ListCarts(ctx context.Context, arg ListCartsParams) ([]Cart, e
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Cart
+	items := []Cart{}
 	for rows.Next() {
 		var i Cart
 		if err := rows.Scan(

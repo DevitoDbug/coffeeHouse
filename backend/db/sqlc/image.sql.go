@@ -111,7 +111,7 @@ func (q *Queries) ListImage(ctx context.Context, arg ListImageParams) ([]Image, 
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Image
+	items := []Image{}
 	for rows.Next() {
 		var i Image
 		if err := rows.Scan(

@@ -140,7 +140,7 @@ func (q *Queries) ListLikedProductsForSpecificUser(ctx context.Context, arg List
 		return nil, err
 	}
 	defer rows.Close()
-	var items []ListLikedProductsForSpecificUserRow
+	items := []ListLikedProductsForSpecificUserRow{}
 	for rows.Next() {
 		var i ListLikedProductsForSpecificUserRow
 		if err := rows.Scan(
@@ -189,7 +189,7 @@ func (q *Queries) ListUserLikeStatus(ctx context.Context, arg ListUserLikeStatus
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Rating
+	items := []Rating{}
 	for rows.Next() {
 		var i Rating
 		if err := rows.Scan(

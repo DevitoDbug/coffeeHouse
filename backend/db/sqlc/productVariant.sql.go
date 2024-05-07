@@ -112,7 +112,7 @@ func (q *Queries) ListProductsVariant(ctx context.Context, arg ListProductsVaria
 		return nil, err
 	}
 	defer rows.Close()
-	var items []ProductVariant
+	items := []ProductVariant{}
 	for rows.Next() {
 		var i ProductVariant
 		if err := rows.Scan(
