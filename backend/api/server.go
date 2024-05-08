@@ -25,6 +25,9 @@ func NewServer(store *db.Store) *Server {
 	// Image routes
 	router.POST("image/", server.createImage)
 
+	// Product routes
+	router.POST("product/", server.createProduct)
+
 	server.router = router
 	return &server
 }

@@ -50,7 +50,7 @@ func (s *Server) createImage(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
-	
+
 	res := CreateImageResponse{
 		ImgID:     fetchedImage.ImgID,
 		CreatedAt: fetchedImage.CreatedAt,
