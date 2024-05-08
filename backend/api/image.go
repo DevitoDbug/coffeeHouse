@@ -1,7 +1,10 @@
 package api
 
 import (
+	db "coffeeHouse_API/db/sqlc"
+	"database/sql"
 	"github.com/gin-gonic/gin"
+	"net/http"
 	"time"
 )
 
@@ -21,5 +24,40 @@ type CreateImageResponse struct {
 }
 
 func (s *Server) createImage(ctx *gin.Context) {
+	var createImageRequest CreateImageRequest
+	if err := ctx.ShouldBind(&createImageRequest); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
 
+	arg := db.CreateImageParams{
+		ImgName: sql.NullString{
+			String: createImageRequest.ImgName,
+			Valid:  true,
+		},
+		AltText: sql.NullString{
+			String: createImageRequest.AltText,
+			Valid:  true,
+		},
+		ImgUrl: sql.NullString{
+			String: createImageRequest.ImgUrl,
+			Valid:  true,
+		},
+	}
+
+	fetchedImage, err := s.store.CreateImage(ctx, arg)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+	
+	res := CreateImageResponse{
+		ImgID:     fetchedImage.ImgID,
+		CreatedAt: fetchedImage.CreatedAt,
+		UpdatedAt: fetchedImage.UpdatedAt,
+		ImgName:   fetchedImage.ImgName.String,
+		ImgUrl:    fetchedImage.ImgUrl.String,
+		AltText:   fetchedImage.AltText.String,
+	}
+	ctx.JSON(http.StatusOK, res)
 }
