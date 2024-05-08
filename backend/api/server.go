@@ -28,6 +28,12 @@ func NewServer(store *db.Store) *Server {
 	// Product routes
 	router.POST("product/", server.createProduct)
 
+	// Product variant routes
+	router.POST("product/variant/", server.createProductVariant)
+
+	// Attribute routes
+	router.POST("product/variant/attribute/", server.createAttribute)
+
 	server.router = router
 	return &server
 }
