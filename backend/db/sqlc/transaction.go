@@ -26,20 +26,33 @@ type CreatedOrderForUser struct {
 
 var bulkOrderInsertQueryString = `INSERT INTO order_item (quantity, price_per_item, product_variant_id, customer_order_id) VALUES %s RETURNING *`
 
-// BulkOrderInsertForOneUser provides a way to insert several orders belonging to one user
-func (s *Store) BulkOrderInsertForOneUser(ctx context.Context, arg BulkOrderInsertForOneUserParams) (CreatedOrderForUser, error) {
+// BulkOrderInsertTx provides a way to insert several orders belonging to one user
+func (s *Store) BulkOrderInsertTx(ctx context.Context, arg BulkOrderInsertForOneUserParams) (CreatedOrderForUser, error) {
 	var createdOrderForUser CreatedOrderForUser
-	placeholders := make([]string, len(arg.OrderItems))
-	values := make([]interface{}, 0, len(arg.OrderItems)*4) // 4 placeholders per item
+
+	// start a transaction
+	tx, err := s.db.BeginTx(ctx, nil)
+	if err != nil {
+		return createdOrderForUser, err
+	}
+	defer func(tx *sql.Tx) {
+		err := tx.Rollback()
+		if err != nil {
+			log.Printf("Could not rollback the transaction")
+			return
+		}
+	}(tx)
 
 	// creating the order to the customerOrderTable
 	customerOrder, err := s.Queries.CreateCustomerOrder(ctx, arg.CustomerId)
 	if err != nil {
-		return CreatedOrderForUser{}, err
+		return createdOrderForUser, err
 	}
 
-	for i, item := range arg.OrderItems {
+	placeholders := make([]string, len(arg.OrderItems))
+	values := make([]interface{}, 0, len(arg.OrderItems)*4) // 4 placeholders per item
 
+	for i, item := range arg.OrderItems {
 		placeholders[i] = "(?, ?, ?, ?)"
 		values = append(values, item.Quantity.Int32)
 		values = append(values, item.PricePerItem)
@@ -52,7 +65,7 @@ func (s *Store) BulkOrderInsertForOneUser(ctx context.Context, arg BulkOrderInse
 	// Execute the query with prepared statement
 	rows, err4 := s.Queries.db.QueryContext(ctx, query, values...)
 	if err4 != nil {
-		return CreatedOrderForUser{}, err4
+		return createdOrderForUser, err4
 	}
 	defer func(rows *sql.Rows) {
 		err2 := rows.Close()
@@ -78,10 +91,13 @@ func (s *Store) BulkOrderInsertForOneUser(ctx context.Context, arg BulkOrderInse
 		items = append(items, i)
 	}
 
-	createdOrderForUser = CreatedOrderForUser{
-		CustomerId: customerOrder.UsrID,
-		OrderItems: items,
+	// Commit the transaction
+	if err := tx.Commit(); err != nil {
+		return createdOrderForUser, err
 	}
+
+	createdOrderForUser.CustomerId = customerOrder.UsrID
+	createdOrderForUser.OrderItems = items
 
 	return createdOrderForUser, nil
 }
